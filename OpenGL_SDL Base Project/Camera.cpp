@@ -25,7 +25,7 @@ Camera* Camera::GetInstance()
 	return instance;
 }
 
-void Camera::Update(float deltaTime, SDL_Event e, Vertex3D target)
+void Camera::Update(float deltaTime, SDL_Event e, Vector3D target)
 {
 	mLookatPos = target;
 	//Detect Input
@@ -92,22 +92,21 @@ void Camera::Update(float deltaTime, SDL_Event e, Vertex3D target)
 	mPosition.z = mLookatPos.z + distance * cos((mYaw)*(M_PI / 180)) * cos((mPitch)*(M_PI / 180));
 
 	//Get the forward vector from the camera position - look at position
-	mForward = mForward.MakeVector(mPosition, mLookatPos);
-	mForward = mForward.GetNormalised();
+	mForward = mLookatPos - mPosition;
+	mForward.Normalize();
 
 	//Get the orthonormal right vector
-	mRight = mRight.Cross(mForward, mUp);
-	mRight = mRight.GetNormalised();
+	mRight.Cross(mForward, mUp);
+	mRight.Normalize();
 
 	//Up vector : perpendicular to both forawrd and right, calculate using the cross product
-	mUp = mUp.Cross(mRight, mForward);
-	mUp = mUp.GetNormalised();
+	mUp.Cross(mRight, mForward);
+	mUp.Normalize();
 }
+
 
 void Camera::Render()
 {
 	glLoadIdentity();
 	gluLookAt(mPosition.x, mPosition.y, mPosition.z, mLookatPos.x, mLookatPos.y, mLookatPos.z, mUp.x, mUp.y, mUp.z);
 }
-
-

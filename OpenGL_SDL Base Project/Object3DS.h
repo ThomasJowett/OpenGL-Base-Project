@@ -29,7 +29,7 @@ public:
 	void SetTransform(Enum, float, float, float, float, int);
 	void SetTransform(Transformation *);
 
-	Vertex3D GetPosition();
+	Vector3D GetPosition();
 
 private:
 	void computeNormals(obj_type_ptr mesh);

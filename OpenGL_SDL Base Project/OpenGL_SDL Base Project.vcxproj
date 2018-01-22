@@ -85,6 +85,7 @@
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transformation.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3DSLoader.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transformation.cpp" />
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

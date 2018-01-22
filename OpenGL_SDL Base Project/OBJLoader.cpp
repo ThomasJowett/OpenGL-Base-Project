@@ -29,7 +29,7 @@ char LoadOBJ(obj_type_ptr p_object, char * p_filename)
 		//else : parse lineHeader
 
 		if (strcmp(lineHeader, "v") == 0) {
-			Vertex3D vertex;
+			Vector3D vertex;
 			fscanf(infile, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 			p_object->vertex[vertexIndices] = vertex;
 			vertexIndices++;
@@ -47,7 +47,7 @@ char LoadOBJ(obj_type_ptr p_object, char * p_filename)
 			fscanf(infile, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
 			//printf("%f %f %f\n", normal.x, normal.y, normal.z);
 			//system("pause");
-			p_object->normals[normalsIndices] = normal.GetNormalised();
+			p_object->normals[normalsIndices] = normal.GetNormalized();
 			normalsIndices++;
 		}
 		else if (strcmp(lineHeader, "f") == 0) {

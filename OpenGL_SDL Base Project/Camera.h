@@ -2,6 +2,7 @@
 #define _CAMERA_H
 
 #include "Commons.h"
+#include "Vector.h"
 #include <SDL.h>
 #include <math.h>
 #include "SceneNode.h"
@@ -12,15 +13,15 @@ public:
 	Camera();
 	~Camera();
 	static		Camera* GetInstance();
-	void		Update(float deltaTime, SDL_Event e, Vertex3D target);
+	void		Update(float deltaTime, SDL_Event e, Vector3D target);
 	void        Render();
 
 private:
-	Vertex3D mPosition = Vertex3D(1000, 0, 1000);
+	Vector3D mPosition = Vector3D(1000, 0, 1000);
 	Vector3D mForward = Vector3D();
 	Vector3D mUp = Vector3D();
 	Vector3D mRight = Vector3D();
-	Vertex3D mLookatPos = Vertex3D(0, 0, 0);
+	Vector3D mLookatPos = Vector3D(0, 0, 0);
 
 
 	//horizontal angle : toward -z

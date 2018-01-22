@@ -84,9 +84,9 @@ void Object3DS::SetTransform(Transformation * T)
 	TransNode = T;
 }
 
-Vertex3D Object3DS::GetPosition()
+Vector3D Object3DS::GetPosition()
 {
-	return Vertex3D(mPosition.x, mPosition.y, mPosition.z);
+	return mPosition;
 }
 
 void Object3DS::Update(float deltaTime, float rotation, Vector3D translation, Vector3D scale)
@@ -190,10 +190,10 @@ void Object3DS::computeNormals(obj_type_ptr mesh)
 		Triangle& face = mesh->triangle[i];
 
 		// compute face normal
-		Vertex3D p0 = mesh->vertex[int(face.a)];
-		Vertex3D p1 = mesh->vertex[int(face.b)];
-		Vertex3D p2 = mesh->vertex[int(face.c)];
-		Vector3D normal = normal.Cross(normal.MakeVector(p0, p1), normal.MakeVector(p0, p2));
-		mesh->normals[i] = normal.GetNormalised();
+		Vector3D p0 = mesh->vertex[int(face.a)];
+		Vector3D p1 = mesh->vertex[int(face.b)];
+		Vector3D p2 = mesh->vertex[int(face.c)];
+		Vector3D normal = normal.Cross((p0 - p1), (p0 - p2));
+		mesh->normals[i] = normal.GetNormalized();
 	}
 }

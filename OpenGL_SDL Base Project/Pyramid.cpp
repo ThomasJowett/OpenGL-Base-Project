@@ -32,7 +32,7 @@ bool Pyramid::Load(char * path, char * texturepath, int width, int height)
 
 	if (numVertices > 0)
 	{
-		indexedVertices = new Vertex3D[numVertices];
+		indexedVertices = new Vector3D[numVertices];
 		for (int i = 0; i < numVertices; i++)
 		{
 			inFile >> indexedVertices[i].x;
@@ -67,7 +67,7 @@ bool Pyramid::Load(char * path, char * texturepath, int width, int height)
 	inFile >> numVertices;
 	if (numVertices > 0)
 	{
-		normals = new Vertex3D[numVertices];
+		normals = new Vector3D[numVertices];
 		for (int i = 0; i < numVertices; i++)
 		{
 			inFile >> normals[i].x;

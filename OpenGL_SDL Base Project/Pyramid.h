@@ -10,7 +10,7 @@
 class Pyramid
 {
 private:
-	Vertex3D * indexedVertices,* normals;
+	Vector3D * indexedVertices,* normals;
 	TexCoord * texCoords;
 	
 	short * indices;
