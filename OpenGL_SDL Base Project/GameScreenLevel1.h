@@ -5,8 +5,7 @@
 #include "GameScreen.h"
 #include "Commons.h"
 #include <string>
-#include "Pyramid.h"
-#include "Object3DS.h"
+#include "GameObject.h"
 #include "Camera.h"
 #include "Transformation.h"
 
@@ -31,15 +30,15 @@ private:
 	//float rotation;
 
 	SceneNode* Root;
-	Object3DS* m_p3DSModel;
-	Object3DS* m_pOBJTracks;
-	Object3DS* m_pOBJCabin;
-	Object3DS* m_pOBJBoom;
-	Object3DS* m_pOBJStick;
-	Object3DS* m_pOBJBucket;
-	Object3DS* m_pOBJGround;
-	Object3DS* m_pOBJTreeTrunk;
-	Object3DS* m_pOBJTreeLeaves;
+	GameObject* m_p3DSModel;
+	GameObject* m_pOBJTracks;
+	GameObject* m_pOBJCabin;
+	GameObject* m_pOBJBoom;
+	GameObject* m_pOBJStick;
+	GameObject* m_pOBJBucket;
+	GameObject* m_pOBJGround;
+	GameObject* m_pOBJTreeTrunk;
+	GameObject* m_pOBJTreeLeaves;
 
 
 	Transformation * m_pTracksTrans;

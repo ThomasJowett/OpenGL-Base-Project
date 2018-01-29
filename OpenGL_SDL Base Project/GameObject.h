@@ -9,11 +9,11 @@
 using::std::string;
 class Texture;
 
-class Object3DS : public SceneNode
+class GameObject : public SceneNode
 {
 public:
-	Object3DS(Vector3D startPosition, string modelFileName, string mFileType);
-	~Object3DS() {}
+	GameObject(Vector3D startPosition, string modelFileName, string mFileType);
+	~GameObject() {}
 
 	void Update(float deltaTime, float rotation, Vector3D translation, Vector3D scale);
 	void Render();
@@ -30,6 +30,8 @@ public:
 	void SetTransform(Transformation *);
 
 	Vector3D GetPosition();
+
+	Transformation * GetTransform() const{ return TransNode; }
 
 private:
 	void computeNormals(obj_type_ptr mesh);

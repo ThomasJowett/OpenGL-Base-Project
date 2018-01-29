@@ -37,30 +37,30 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
 
 	//Load models and textures
-	m_p3DSModel = new Object3DS(Vector3D(0.0f, 50.0f, 0.0f), "Car_Backfire.3DS","3DS");
+	m_p3DSModel = new GameObject(Vector3D(0.0f, 50.0f, 0.0f), "Car_Backfire.3DS","3DS");
 
-	m_pOBJTracks = new Object3DS(Vector3D(0.0f, 0.0f, 0.0f), "Tracks.obj", "OBJ");
+	m_pOBJTracks = new GameObject(Vector3D(0.0f, 0.0f, 0.0f), "Tracks.obj", "OBJ");
 	m_pOBJTracks->LoadTexture("Tracks_Diffuse.raw", 1024, 1024);
 
-	m_pOBJCabin = new Object3DS(Vector3D(0.0f, 0.0f, 0.0f), "Cabin.obj", "OBJ");
+	m_pOBJCabin = new GameObject(Vector3D(0.0f, 0.0f, 0.0f), "Cabin.obj", "OBJ");
 	m_pOBJCabin->LoadTexture("Cabin_Diffuse.raw", 1024, 1024);
 
-	m_pOBJBoom = new Object3DS(Vector3D(0.0f, 0.0f, 60.0f), "Boom.obj", "OBJ");
+	m_pOBJBoom = new GameObject(Vector3D(0.0f, 0.0f, 60.0f), "Boom.obj", "OBJ");
 	m_pOBJBoom->LoadTexture("Boom_Diffuse.raw", 1024, 1024);
 
-	m_pOBJStick = new Object3DS(Vector3D(0.0f, 0.0f, 0.0f), "Stick.obj", "OBJ");
+	m_pOBJStick = new GameObject(Vector3D(0.0f, 0.0f, 0.0f), "Stick.obj", "OBJ");
 	m_pOBJStick->LoadTexture("Stick_Diffuse.raw", 1024, 1024);
 	
-	m_pOBJBucket = new Object3DS(Vector3D(0.0f, 0.0f, 0.0f), "Bucket.obj", "OBJ");
+	m_pOBJBucket = new GameObject(Vector3D(0.0f, 0.0f, 0.0f), "Bucket.obj", "OBJ");
 	m_pOBJBucket->LoadTexture("Bucket_Diffuse.raw", 1024, 1024);
 
-	m_pOBJGround = new Object3DS(Vector3D(0.0f, 0.0f, 0.0f), "Ground.obj", "OBJ");
+	m_pOBJGround = new GameObject(Vector3D(0.0f, 0.0f, 0.0f), "Ground.obj", "OBJ");
 	m_pOBJGround->LoadTexture("Grass_Diffuse.raw", 1024, 1024);
 
-	m_pOBJTreeTrunk = new Object3DS(Vector3D(0.0f, 0.0f, 0.0f), "TreeTrunk.obj", "OBJ");
+	m_pOBJTreeTrunk = new GameObject(Vector3D(0.0f, 0.0f, 0.0f), "TreeTrunk.obj", "OBJ");
 	m_pOBJTreeTrunk->LoadTexture("Bark_Diffuse.raw", 1024, 1024);
 
-	m_pOBJTreeLeaves = new Object3DS(Vector3D(0.0f, 0.0f, 0.0f), "TreeLeaves.obj", "OBJ");
+	m_pOBJTreeLeaves = new GameObject(Vector3D(0.0f, 0.0f, 0.0f), "TreeLeaves.obj", "OBJ");
 	m_pOBJTreeLeaves->LoadTexture("Leaves_Diffuse.raw", 1024, 1024);
 
 	//Initialise Transformations

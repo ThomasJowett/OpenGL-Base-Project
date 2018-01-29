@@ -35,20 +35,6 @@ GameScreenManager* gameScreenManager;
 
 int main(int argc, char* args[])
 {
-	/*
-	Vector3D Vec3;
-	cout << "input an x y and z value\n";
-	cin >> Vec3.x;
-	cin >> Vec3.y;
-	cin >> Vec3.z;
-	cout << "your vector is: [" << Vec3.x << "," << Vec3.y << "," << Vec3.z << "]\n";
-	cout << "The magintude of this vector is: " << Vec3.GetMagnitude() << endl;
-	Vector3D Vec3Norm = Vec3.GetNormalised();
-	cout << "The unit vector is: [" << Vec3Norm.x << "," << Vec3Norm.y << "," << Vec3Norm.z << "]\n";
-	*/
-
-
-
 
 	//Initialise SDL.
 	if(InitSDL())

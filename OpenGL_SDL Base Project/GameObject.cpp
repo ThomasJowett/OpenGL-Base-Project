@@ -1,10 +1,10 @@
-#include "Object3DS.h"
+#include "GameObject.h"
 #include "../gl/glut.h"
 #include "3DSLoader.h"
 #include "OBJLoader.h"
 #include "SDL.h"
 
-Object3DS::Object3DS(Vector3D startPosition, string modelFileName, string mFileType)
+GameObject::GameObject(Vector3D startPosition, string modelFileName, string mFileType)
 {
 	//Start Position.
 	mPosition = startPosition;
@@ -20,7 +20,7 @@ Object3DS::Object3DS(Vector3D startPosition, string modelFileName, string mFileT
 	TransNode = NULL;
 }
 
-void Object3DS::LoadModel()
+void GameObject::LoadModel()
 {
 	if (fileName != NULL)
 	{
@@ -43,7 +43,7 @@ void Object3DS::LoadModel()
 	}
 }
 
-void Object3DS::LoadTexture(char* texturepath, int width, int height)
+void GameObject::LoadTexture(char* texturepath, int width, int height)
 {
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -52,7 +52,7 @@ void Object3DS::LoadTexture(char* texturepath, int width, int height)
 	object.id_texture = texture->GetID();
 }
 
-void Object3DS::SetTransform(Enum pName, float * v, int Order)
+void GameObject::SetTransform(Enum pName, float * v, int Order)
 {
 	if (TransNode == NULL)
 		TransNode = new Transformation;
@@ -60,7 +60,7 @@ void Object3DS::SetTransform(Enum pName, float * v, int Order)
 	TransNode->SetValuev(pName, v, Order);
 }
 
-void Object3DS::SetTransform(Enum pName, float x, float y, float z, int Order)
+void GameObject::SetTransform(Enum pName, float x, float y, float z, int Order)
 {
 	if (TransNode == NULL)
 		TransNode = new Transformation;
@@ -68,7 +68,7 @@ void Object3DS::SetTransform(Enum pName, float x, float y, float z, int Order)
 	TransNode->SetValue(pName, x, y, z, Order);
 }
 
-void Object3DS::SetTransform(Enum pName, float a, float x, float y, float z, int Order)
+void GameObject::SetTransform(Enum pName, float a, float x, float y, float z, int Order)
 {
 	if (TransNode == NULL)
 		TransNode = new Transformation;
@@ -76,7 +76,7 @@ void Object3DS::SetTransform(Enum pName, float a, float x, float y, float z, int
 	TransNode->SetValue(pName, a, x, y, z, Order);
 }
 
-void Object3DS::SetTransform(Transformation * T)
+void GameObject::SetTransform(Transformation * T)
 {
 	if (TransNode != NULL)
 		delete TransNode;
@@ -84,12 +84,12 @@ void Object3DS::SetTransform(Transformation * T)
 	TransNode = T;
 }
 
-Vector3D Object3DS::GetPosition()
+Vector3D GameObject::GetPosition()
 {
 	return mPosition;
 }
 
-void Object3DS::Update(float deltaTime, float rotation, Vector3D translation, Vector3D scale)
+void GameObject::Update(float deltaTime, float rotation, Vector3D translation, Vector3D scale)
 {
 	mScale = scale;
 
@@ -98,7 +98,7 @@ void Object3DS::Update(float deltaTime, float rotation, Vector3D translation, Ve
 	mRotation = mRotation + rotation;
 }
 
-void Object3DS::Render()
+void GameObject::Render()
 {
 	//glScalef(mScale.x, mScale.y, mScale.z);
 	glTranslatef(mPosition.x, mPosition.y, mPosition.z);
@@ -179,7 +179,7 @@ void Object3DS::Render()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Object3DS::computeNormals(obj_type_ptr mesh)
+void GameObject::computeNormals(obj_type_ptr mesh)
 {
 	// face normals
 	const int normalCount = mesh->triangles_qty;

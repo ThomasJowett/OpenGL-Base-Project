@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include "SceneNode.h"
+#include "Vector.h"
 
 class Transformation : public SceneNode
 {
@@ -14,6 +15,10 @@ public:
 	void Render();
 
 private:
+	Vector3D mPosition;
+	Vector3D mRotation;
+	Vector3D mScale;
+
 	int OpNum;
 	int TransformOrder[10];
 	float Transform[10][4];
