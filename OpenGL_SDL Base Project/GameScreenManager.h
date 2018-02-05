@@ -18,9 +18,10 @@ public:
 
 	void ChangeScreen(SCREENS newScreen);
 
+	static GameScreenManager * GetInstance();
+
 private:
 	GameScreen* mCurrentScreen;
-
 };
 
 

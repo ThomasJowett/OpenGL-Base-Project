@@ -1,17 +1,28 @@
-﻿  GameScreenLevel1.cpp
+﻿  Transformation.cpp
+  SceneNode.cpp
+  GameScreenLevel1.cpp
 c:\users\j005627b\documents\semester2\opengl_sdl base project\camera.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(179): warning C4018: '<': signed/unsigned mismatch
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(238): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(240): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(242): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(244): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(246): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(248): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(250): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(252): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(177): warning C4018: '<': signed/unsigned mismatch
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(223): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(225): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(227): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(229): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(231): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(233): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(235): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(237): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+  Camera.cpp
+c:\users\j005627b\documents\semester2\opengl_sdl base project\camera.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\j005627b\documents\semester2\opengl_sdl base project\camera.cpp(32): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
   Generating Code...
-  Skipping... (no relevant changes detected)
-  Object3DS.cpp
+  Compiling...
   GameScreenManager.cpp
+c:\users\j005627b\documents\semester2\opengl_sdl base project\camera.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+  GameObject.cpp
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gameobject.cpp(14): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gameobject.cpp(15): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+  Generating Code...
   OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.exe
   OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.pdb (Full PDB)

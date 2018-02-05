@@ -101,7 +101,7 @@ void GameObject::Update(float deltaTime, float rotation, Vector3D translation, V
 void GameObject::Render()
 {
 	//glScalef(mScale.x, mScale.y, mScale.z);
-	glTranslatef(mPosition.x, mPosition.y, mPosition.z);
+	//glTranslatef(mPosition.x, mPosition.y, mPosition.z);
 	//glRotatef(mRotation, 1, 1, 1);
 	if (TransNode)
 		TransNode->Render();
@@ -114,7 +114,6 @@ void GameObject::Render()
 	{
 		//-----------------FIRST VERTEX ----------------//
 		// Texture coordinates of the first vertex 
-		//glTexCoord2f( object.texCoord[object.texCoordIndices[l_index].a].u, object.texCoord[object.texCoordIndices[l_index].a].v);
 		
 		// Coordinates of the first vertex
 		

@@ -2,6 +2,7 @@
 #define _GAMESCREEN_H
 
 #include <SDL.h>
+#include "GameScreenManager.h"
 
 class GameScreen
 {

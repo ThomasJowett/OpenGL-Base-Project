@@ -40,7 +40,7 @@ int main(int argc, char* args[])
 	if(InitSDL())
 	{
 		//Set up the game screen manager - Start with Level1
-		gameScreenManager = new GameScreenManager(SCREEN_LEVEL1);
+		gameScreenManager = new GameScreenManager(SCREEN_MENU);
 		
 		//Start the music.
 		//LoadMusic("Music/bubble-bobble.mp3");
@@ -57,6 +57,8 @@ int main(int argc, char* args[])
 		{
 			Render();
 			quit = Update();
+
+			
 		}	
 	}
 
@@ -197,6 +199,9 @@ bool Update()
 
 	//Get the events.
 	SDL_PollEvent(&e);
+
+	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
+		return true;
 
 	//Handle any events.
 	switch(e.type)

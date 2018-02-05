@@ -15,9 +15,6 @@ using namespace::std;
 
 GameScreenLevel1::GameScreenLevel1() : GameScreen()
 {
-	//pyramid = new Pyramid();
-	//rotation = 0.0f;
-
 	srand(time(NULL));
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -157,6 +154,7 @@ void GameScreenLevel1::SetMaterial() {
 
 GameScreenLevel1::~GameScreenLevel1()
 {	
+	if (Root)  delete Root;
 }
 //--------------------------------------------------------------------------------------------------
 void DrawTextured2DSquare()
@@ -187,25 +185,12 @@ void GameScreenLevel1::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
-	/*gluLookAt(0.0f, 0.0f, 10.0f,
-		0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f);*/
 		
 	Camera::GetInstance()->Render();
 	SetLight();
 	SetMaterial();
-	/*
-	//Render a Pyramid
-	glPushMatrix();
-	glRotatef(rotation, 1, 1, 1);
-	glScalef(5.0f, 5.0f, 5.0f);
-	pyramid->Draw();
-	glPopMatrix();
-	*/
 
 	m_pOBJGround->Render();
-
-	//glutSolidSphere(40,100,100);
 
 	Root->Traverse();
 	

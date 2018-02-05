@@ -1,11 +1,15 @@
 #include "GameScreenManager.h"
 #include "GameScreen.h"
 #include "GameScreenLevel1.h"
+#include "GameScreenMenu.h"
+
+static GameScreenManager* instance = 0;
 
 //--------------------------------------------------------------------------------------------------
 
 GameScreenManager::GameScreenManager(SCREENS startScreen)
 {
+	instance = this;
 	mCurrentScreen = NULL;
 
 	//Ensure the first screen is set up.
@@ -45,6 +49,7 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 	}
 
 	GameScreenLevel1* tempScreen1;
+	GameScreenMenu* tempMenuScreen;
 
 	//Initialise the new screen.
 	switch(newScreen)
@@ -53,9 +58,14 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 		break;
 
 		case SCREEN_MENU:
+			std::cout << "Menu Loaded/n";
+			tempMenuScreen = new GameScreenMenu();
+			mCurrentScreen = (GameScreen*)tempMenuScreen;
+			tempMenuScreen = NULL;
 		break;
 
 		case SCREEN_LEVEL1:
+			std::cout << "Level 1 Loaded/n";
 			tempScreen1 = new GameScreenLevel1();
 			mCurrentScreen = (GameScreen*)tempScreen1;
 			tempScreen1 = NULL;
@@ -70,6 +80,17 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 		default:
 		break;
 	}
+}
+
+//--------------------------------------------------------------------------------------------------
+
+GameScreenManager * GameScreenManager::GetInstance()
+{
+	if (instance == 0)
+	{
+		instance = new GameScreenManager(SCREEN_MENU);
+	}
+	return instance;
 }
 
 //--------------------------------------------------------------------------------------------------
