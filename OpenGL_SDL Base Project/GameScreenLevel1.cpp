@@ -8,6 +8,7 @@
 #include "Commons.h"
 #include "Texture2D.h"
 #include "Camera.h"
+#include "Collision.h"
 
 using namespace::std;
 
@@ -117,6 +118,10 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	mBoomRotation = 0.0f;
 	mStickRotation = 0.0f;
 	mBucketRotation = 0.0f;
+
+	for (int i = 0; i < 20; i++) {
+		mTeapots.push_back(new Teapot());
+	}
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -137,14 +142,7 @@ void GameScreenLevel1::SetLight() {
 	glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
 }
 
-void GameScreenLevel1::SetMaterial() {
-	Material material = {
-		{ 0.20f, 0.2f, 0.2f, 1.0f },
-		{ 0.40f, 0.40f, 0.4f, 1.0f },
-		{ 0.8f, 0.8f, 0.8f, 1.0f },
-		50.0f
-	};
-
+void GameScreenLevel1::SetMaterial(Material material) {
 	glMaterialfv(GL_FRONT, GL_AMBIENT, material.ambient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, material.diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, material.specular);
@@ -188,11 +186,36 @@ void GameScreenLevel1::Render()
 		
 	Camera::GetInstance()->Render();
 	SetLight();
-	SetMaterial();
+	SetMaterial(Material{
+		{ 0.2f, 0.2f, 0.2f, 1.0f },
+		{ 0.40f, 0.40f, 0.4f, 1.0f },
+		{ 0.8f, 0.8f, 0.8f, 1.0f },
+		50.0f
+	});
 
 	m_pOBJGround->Render();
 
 	Root->Traverse();
+
+	for (auto Teapot : mTeapots)
+	{
+		
+		if (Teapot->GetBoundingSphere()->GetCollided())
+		{
+			SetMaterial(Material{
+				{ 1.0f, 0.2f, 0.2f, 1.0f },
+				{ 0.40f, 0.40f, 0.4f, 1.0f },
+				{ 0.8f, 0.8f, 0.8f, 1.0f },
+				50.0f });
+		}
+		else
+			SetMaterial(Material{
+				{ 0.2f, 0.2f, 0.2f, 1.0f },
+				{ 0.40f, 0.40f, 0.4f, 1.0f },
+				{ 0.8f, 0.8f, 0.8f, 1.0f },
+				50.0f });
+		Teapot->Render();
+	}
 	
 	//Render text
 	glColor3f(0.0, 1.0, 0.0);
@@ -273,6 +296,18 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	m_pBucketTrans->SetValue(ROTATION, mBucketRotation, 1, 0, 0, 0);
 	m_pBucketTrans->SetValue(TRANSLATION, -8, -280, -60, 1);
 
+	for (auto Teapot : mTeapots)
+	{
+		Teapot->Update();
+	}
+
+	// check for collisions
+	for (int i = 0; i < mTeapots.size() - 1; i++) {
+		for (int j = i + 1; j < mTeapots.size(); j++) {
+			Collision::SphereSphereCollision(mTeapots[i]->GetBoundingSphere(), mTeapots[j]->GetBoundingSphere());
+			
+		}
+	}
 
 	//Display FPS
 	mFrameCount++;
@@ -284,8 +319,5 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 		mFrameCount = 0;
 		mInitialTime = mFinalTime;
 	}
-
-	mCurrentTime += deltaTime;
-	//rotation += 1.0f;
 }
 //--------------------------------------------------------------------------------------------------

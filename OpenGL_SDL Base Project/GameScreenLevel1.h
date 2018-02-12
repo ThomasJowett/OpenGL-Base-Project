@@ -8,6 +8,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "Transformation.h"
+#include "Teapot.h"
 
 class GameScreenLevel1 : GameScreen
 {
@@ -20,15 +21,12 @@ public:
 	void		Render();
 	void		Update(float deltaTime, SDL_Event e);
 	void		SetLight();
-	void		SetMaterial();
+	void		SetMaterial(Material material);
 	void		OutputLine(float x, float y, string text);
 
 //--------------------------------------------------------------------------------------------------
 private:
-	float mCurrentTime;
-	//Pyramid * pyramid;
-	//float rotation;
-
+	std::vector<Teapot*>mTeapots;
 	SceneNode* Root;
 	GameObject* m_p3DSModel;
 	GameObject* m_pOBJTracks;
