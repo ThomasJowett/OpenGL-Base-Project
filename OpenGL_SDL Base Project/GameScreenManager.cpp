@@ -48,8 +48,8 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 		delete mCurrentScreen;
 	}
 
-	GameScreenLevel1* tempScreen1;
 	GameScreenMenu* tempMenuScreen;
+	GameScreenLevel1* tempScreen1;
 
 	//Initialise the new screen.
 	switch(newScreen)
@@ -58,14 +58,14 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 		break;
 
 		case SCREEN_MENU:
-			std::cout << "Menu Loaded/n";
+			std::cout << "Menu Loaded\n";
 			tempMenuScreen = new GameScreenMenu();
 			mCurrentScreen = (GameScreen*)tempMenuScreen;
 			tempMenuScreen = NULL;
 		break;
 
 		case SCREEN_LEVEL1:
-			std::cout << "Level 1 Loaded/n";
+			std::cout << "Level 1 Loaded\n";
 			tempScreen1 = new GameScreenLevel1();
 			mCurrentScreen = (GameScreen*)tempScreen1;
 			tempScreen1 = NULL;

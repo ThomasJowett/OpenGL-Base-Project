@@ -55,10 +55,8 @@ int main(int argc, char* args[])
 		//Game Loop.
 		while(!quit)
 		{
-			Render();
 			quit = Update();
-
-			
+			Render();
 		}	
 	}
 

@@ -6,7 +6,11 @@ using namespace::std;
 
 Texture2D::Texture2D()
 {
-	//_ID++;
+}
+
+Texture2D::Texture2D(char * path, int width, int height)
+{
+	Load(path, width, height);
 }
 
 
@@ -39,11 +43,8 @@ bool Texture2D::Load(char* path, int width, int height)
 
 	cout << path << " : loaded.\n";
 
-	//glGenTextures(1, &textureID);
-
 	glGenTextures(1, &_ID); //Get the next texture ID
 	glBindTexture(GL_TEXTURE_2D, _ID); //Bind the texture to the ID.
-	//glBindTexture(GL_TEXTURE_2D, textures[_ID]);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTextureData);
 
 	delete[] tempTextureData; // Clear up the data - we don't need it anymore

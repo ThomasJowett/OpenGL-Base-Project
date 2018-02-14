@@ -19,8 +19,9 @@ size_t getFilesize(const char* filename) {
 	return st.st_size;
 }
 
-char Load3DS(obj_type_ptr p_object, char *p_filename)
+MeshData Load3DS(char *p_filename)
 {
+	MeshData mesh;
 	int i; //Index variable
 	FILE *infile; //File pointer
 
@@ -34,7 +35,7 @@ char Load3DS(obj_type_ptr p_object, char *p_filename)
 	if ((infile = fopen(p_filename, "rb")) == NULL)
 	{
 		printf("Impossible to open the file \n", p_filename);
-		return 0; //Open file
+		return mesh; //Open file
 	}
 
 	while (ftell(infile) < getFilesize(p_filename)) //Loop to scan the whole file
@@ -68,7 +69,7 @@ char Load3DS(obj_type_ptr p_object, char *p_filename)
 			do
 			{
 				fread(&name, 1, 1, infile);
-				p_object->name[i] = name;
+				mesh.name[i] = name;
 				std::cout << name;
 				i++;
 			} while (name != '\0' && i < 20);
@@ -89,17 +90,17 @@ char Load3DS(obj_type_ptr p_object, char *p_filename)
 			//-------------------------------------
 		case 0x4110:
 			fread(&size, sizeof(unsigned short), 1, infile);
-			p_object->vertices_qty = size;
-			std::cout << "Number of vertices: " << p_object->vertices_qty << std::endl;
+			mesh.vertices_qty = size;
+			std::cout << "Number of vertices: " << mesh.vertices_qty << std::endl;
 
 			for (i = 0; i < size; i++)
 			{
-				fread(&p_object->vertex[i].x, sizeof(float), 1, infile);
-				//std::cout << "vertex[" << i << "].x = " << p_object->vertex[i].x << std::endl;
-				fread(&p_object->vertex[i].y, sizeof(float), 1, infile);
-				//std::cout << "vertex[" << i << "].y = " << p_object->vertex[i].y << std::endl;
-				fread(&p_object->vertex[i].z, sizeof(float), 1, infile);
-				//std::cout << "vertex[" << i << "].z = " << p_object->vertex[i].z << std::endl;
+				fread(&mesh.vertex[i].x, sizeof(float), 1, infile);
+				//std::cout << "vertex[" << i << "].x = " << mesh.vertex[i].x << std::endl;
+				fread(&mesh.vertex[i].y, sizeof(float), 1, infile);
+				//std::cout << "vertex[" << i << "].y = " << mesh.vertex[i].y << std::endl;
+				fread(&mesh.vertex[i].z, sizeof(float), 1, infile);
+				//std::cout << "vertex[" << i << "].z = " << mesh.vertex[i].z << std::endl;
 			}
 			break;
 			//---------------TRI_FACEL1 ----------------
@@ -111,18 +112,18 @@ char Load3DS(obj_type_ptr p_object, char *p_filename)
 			//-------------------------------------
 		case 0x4120:
 			fread(&size, sizeof(unsigned short), 1, infile);
-			p_object->triangles_qty = size;
+			mesh.triangles_qty = size;
 
 			for (i = 0; i < size; i++)
 			{
 				fread(&s_temp, sizeof(unsigned short), 1, infile);
-				p_object->triangle[i].a = s_temp;
+				mesh.triangle[i].a = s_temp;
 
 				fread(&s_temp, sizeof(unsigned short), 1, infile);
-				p_object->triangle[i].b = s_temp;
+				mesh.triangle[i].b = s_temp;
 
 				fread(&s_temp, sizeof(unsigned short), 1, infile);
-				p_object->triangle[i].c = s_temp;
+				mesh.triangle[i].c = s_temp;
 
 				fread(&faceFlag, sizeof(unsigned short), 1, infile);
 			}
@@ -137,9 +138,9 @@ char Load3DS(obj_type_ptr p_object, char *p_filename)
 			fread(&size, sizeof(unsigned short), 1, infile);
 			for (i = 0; i < size; i++)
 			{
-				fread(&p_object->texCoord[i].u, sizeof(float), 1, infile);
+				fread(&mesh.texCoord[i].u, sizeof(float), 1, infile);
 
-				fread(&p_object->texCoord[i].v, sizeof(float), 1, infile);
+				fread(&mesh.texCoord[i].v, sizeof(float), 1, infile);
 			}
 			break;
 			//-----------Skip unknown chunks ------------
@@ -151,6 +152,20 @@ char Load3DS(obj_type_ptr p_object, char *p_filename)
 			fseek(infile, chunkLength - 6, SEEK_CUR);
 		}
 	}
-	fclose(infile); //Close the file
-	return(1);
+	fclose(infile);//Close the file
+
+	for (int i = 0; i<mesh.triangles_qty; ++i)
+	{
+		Triangle& face = mesh.triangle[i];
+
+		// compute face normal
+		Vector3D p0 = mesh.vertex[int(face.a)];
+		Vector3D p1 = mesh.vertex[int(face.b)];
+		Vector3D p2 = mesh.vertex[int(face.c)];
+		Vector3D normal = normal.Cross((p0 - p1), (p0 - p2));
+		mesh.normals[i] = normal.GetNormalized();
+	}
+
+	mesh.fileHasNormals = false;
+	return(mesh);
 }

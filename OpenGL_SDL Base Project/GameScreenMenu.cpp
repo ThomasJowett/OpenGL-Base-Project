@@ -1,6 +1,6 @@
 #include "GameScreenMenu.h"
 
-GameScreenMenu::GameScreenMenu()
+GameScreenMenu::GameScreenMenu() : GameScreen()
 {
 	srand(time(NULL));
 
@@ -23,6 +23,7 @@ GameScreenMenu::GameScreenMenu()
 
 GameScreenMenu::~GameScreenMenu()
 {
+	std::cout << "MenuDestructor\n";
 }
 
 void GameScreenMenu::Render()
@@ -40,7 +41,7 @@ void GameScreenMenu::Render()
 	glPushMatrix();
 	glLoadIdentity();
 	gluOrtho2D(0, 100, 0, 100);
-	OutputLine(5, 90, "Main Menu");
+	OutputLine(50, 50, "Main Menu");
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
@@ -57,6 +58,6 @@ void GameScreenMenu::OutputLine(float x, float y, std::string text)
 {
 	glRasterPos2f(x, y); //where to start drawing
 	for (int i = 0; i < text.size(); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, text[i]);
+		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[i]);
 	}
 }

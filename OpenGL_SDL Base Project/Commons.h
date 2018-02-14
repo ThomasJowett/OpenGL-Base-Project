@@ -6,8 +6,8 @@
 #include "Vector.h"
 
 //3DS Max Object type details.
-#define MAX_VERTICES 80000
-#define MAX_POLYGONS 80000
+#define MAX_VERTICES 800
+#define MAX_POLYGONS 800
 
 enum SCREENS
 {
@@ -28,7 +28,7 @@ struct Material {
 	float ambient[4];
 	float diffuse[4];
 	float specular[4];
-	float shininess;
+	float specularPower;
 };
 
 struct TexCoord {
@@ -36,29 +36,6 @@ struct TexCoord {
 	float v;
 };
 
-/*
-struct Vertex3D
-{
-	float x;
-	float y;
-	float z;
-
-	Vertex3D(double initialX, double initialY, double initialZ)
-	{
-		x = initialX;
-		y = initialY;
-		z = initialZ;
-	}
-
-	Vertex3D()
-	{
-		x = 0.0f;
-		y = 0.0f;
-		z = 0.0f;
-	}
-
-};
-*/
 struct Rect2D
 {
 	float x;
@@ -84,8 +61,7 @@ struct Triangle {
 };
 
 //The obect type
-
-typedef struct
+struct MeshData
 {
 	char name[20];
 	int vertices_qty;
@@ -97,5 +73,5 @@ typedef struct
 	Triangle texCoordIndices[MAX_POLYGONS];
 	Vector3D normals[MAX_VERTICES];
 	Triangle normalsIndices[MAX_POLYGONS];
-	int id_texture;
-}	obj_type, *obj_type_ptr;
+	bool fileHasNormals;
+};

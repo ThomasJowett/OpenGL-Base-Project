@@ -1,14 +1,18 @@
 #ifndef _GAMESCREENLEVEL1_H
 #define _GAMESCREENLEVEL1_H
-
-#include <SDL.h>
 #include "GameScreen.h"
-#include "Commons.h"
+
+#include <time.h>
+#include <windows.h>
+#include <GL\gl.h>
+#include <GL\glu.h>
+#include "../gl/glut.h"
+#include <SDL.h>
 #include <string>
 #include "GameObject.h"
 #include "Camera.h"
-#include "Transformation.h"
-#include "Teapot.h"
+#include "Constants.h"
+#include "OBJLoader.h"
 
 class GameScreenLevel1 : GameScreen
 {
@@ -22,33 +26,14 @@ public:
 	void		Update(float deltaTime, SDL_Event e);
 	void		SetLight();
 	void		SetMaterial(Material material);
-	void		OutputLine(float x, float y, string text);
+	void		OutputLine(float x, float y, std::string text);
 
 //--------------------------------------------------------------------------------------------------
 private:
-	std::vector<Teapot*>mTeapots;
+	std::vector<GameObject*>mGameObjects;
 	SceneNode* Root;
-	GameObject* m_p3DSModel;
-	GameObject* m_pOBJTracks;
-	GameObject* m_pOBJCabin;
-	GameObject* m_pOBJBoom;
-	GameObject* m_pOBJStick;
-	GameObject* m_pOBJBucket;
-	GameObject* m_pOBJGround;
-	GameObject* m_pOBJTreeTrunk;
-	GameObject* m_pOBJTreeLeaves;
 
-
-	Transformation * m_pTracksTrans;
-	Transformation * m_pCabinTrans;
-	Transformation * m_pBoomTrans;
-	Transformation * m_pStickTrans;
-	Transformation * m_pBucketTrans;
-	Transformation * m_pTreeTrans;
-	Transformation * m_pTreeLeavesTrans;
-
-	float mCabinRotation, mBoomRotation, mStickRotation, mBucketRotation, mMoveSpeed = 1.0f;
-
+	//FPS
 	int mInitialTime, mFinalTime, mFrameCount;
 	std::string FPS;
 };

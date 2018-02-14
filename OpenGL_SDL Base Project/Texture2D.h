@@ -8,22 +8,16 @@
 class Texture2D
 {
 private:
-	//const GLsizei num_textures = 50;
 	GLuint _ID;
-	//GLuint *textures = new GLuint[num_textures];//Texture ID's array
 	int _width, _height;
 
 public:
-
-	
-
 	Texture2D();
+	Texture2D(char* path, int width, int height);
 	~Texture2D();
 
 	bool Load(char* path, int width, int height);
-
 	GLuint GetID() const { return _ID; }
-	//GLuint GetID() const { return textures[_ID]; }
 	int GetWidth() const { return _width; }
 	int GetHeight() const { return _height; }
 };

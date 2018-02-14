@@ -3,8 +3,10 @@
 #include "Commons.h"
 #include <string>
 #include "Texture2D.h"
-#include "Transformation.h"
+#include "Transform.h"
+#include "Appearance.h"
 #include "SceneNode.h"
+#include "Collision.h"
 
 using::std::string;
 class Texture;
@@ -12,42 +14,31 @@ class Texture;
 class GameObject : public SceneNode
 {
 public:
-	GameObject(Vector3D startPosition, string modelFileName, string mFileType);
+	GameObject(Transform* transform, Appearance* appearance);
 	~GameObject() {}
 
-	void Update(float deltaTime, float rotation, Vector3D translation, Vector3D scale);
+	void Update(float deltaTime);
 	void Render();
 
-	//Load the 3DS file
-	void LoadModel();
+	void SetTransform(Transform * transform) { mTransform = transform; }
+	Transform * GetTransform() const { return mTransform; }
 
-	//Load texture for this model.
-	void LoadTexture(char* texturepath, int width, int height);
+	void SetAppearance(Appearance * appearance) { mAppearance = appearance; }
+	Appearance * GetAppearance() const { return mAppearance; }
 
-	void SetTransform(Enum, float*, int);
-	void SetTransform(Enum, float, float, float, int);
-	void SetTransform(Enum, float, float, float, float, int);
-	void SetTransform(Transformation *);
-
-	Vector3D GetPosition();
-
-	Transformation * GetTransform() const{ return TransNode; }
+	void SetBoundingSphere(Sphere * sphere) { mBoundingSphere = sphere; }
+	Sphere * GetBoundingSphere() const { return mBoundingSphere; }
 
 private:
-	void computeNormals(obj_type_ptr mesh);
-	
-	Vector3D mScale;
-	Vector3D mPosition;
-	float mRotation;
+	Transform * mTransform;
+	Appearance * mAppearance;
 
-	Transformation * TransNode;
+	Sphere * mBoundingSphere;
 
 	char fileName[20];
 	char fileType[3];
 	char textureName[20];
-	bool fileHasNormals;
 
-	obj_type object;
 };
 
 

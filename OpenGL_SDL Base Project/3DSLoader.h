@@ -3,6 +3,7 @@
 
 #include "Commons.h"
 
-extern char Load3DS(obj_type_ptr ogg, char *filename);
+
+extern MeshData Load3DS(char *filename);
 
 #endif // !_3DSLOADER_H

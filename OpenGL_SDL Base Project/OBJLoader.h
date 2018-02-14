@@ -3,6 +3,11 @@
 
 #include "Commons.h"
 
-extern char LoadOBJ(obj_type_ptr ogg, char *filename);
+class OBJLoader
+{
+public:
+	static MeshData LoadOBJ(char *filename);
+};
+//extern MeshData LoadOBJ(char *filename);
 
 #endif

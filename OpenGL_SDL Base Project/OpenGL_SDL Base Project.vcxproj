@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3DSLoader.h" />
+    <ClInclude Include="Appearance.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Commons.h" />
@@ -86,11 +87,12 @@
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Teapot.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Transformation.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3DSLoader.cpp" />
+    <ClCompile Include="Appearance.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GameScreenLevel1.cpp" />
@@ -102,7 +104,7 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Teapot.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="Transformation.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>

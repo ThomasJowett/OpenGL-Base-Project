@@ -1,21 +1,27 @@
 #include "OBJLoader.h"
-#include "Commons.h"
 #include <sys\stat.h>
-#include <string>
-
+/*
 long FileLenghth(int f)
 {
+	
 	struct stat buf;
 	fstat(f, &buf);
 	return(buf.st_size);
+	
+	long t = 1;
+		return t;
+	
 }
-
-char LoadOBJ(obj_type_ptr p_object, char * p_filename)
+*/
+MeshData OBJLoader :: LoadOBJ(char * p_filename)
 {
+	
+	MeshData mesh; 
+	
 	FILE * infile = fopen(p_filename, "rb");
 	if (infile == NULL) {
 		printf("Impossible to open the file %s\n", p_filename);
-		return false;
+		return mesh;
 	}
 	
 	unsigned int vertexIndices = 0, normalsIndices = 0, uvIndices = 0, facesIndices = 0;
@@ -31,7 +37,7 @@ char LoadOBJ(obj_type_ptr p_object, char * p_filename)
 		if (strcmp(lineHeader, "v") == 0) {
 			Vector3D vertex;
 			fscanf(infile, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-			p_object->vertex[vertexIndices] = vertex;
+			mesh.vertex[vertexIndices] = vertex;
 			vertexIndices++;
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
@@ -39,7 +45,7 @@ char LoadOBJ(obj_type_ptr p_object, char * p_filename)
 			fscanf(infile, "%f %f\n", &UV.u, &UV.v);
 			//printf("%f %f \n", UV.u, UV.v);
 			//system("pause");
-			p_object->texCoord[uvIndices] = UV;
+			mesh.texCoord[uvIndices] = UV;
 			uvIndices++;
 		}
 		else if (strcmp(lineHeader, "vn") == 0) {
@@ -47,7 +53,7 @@ char LoadOBJ(obj_type_ptr p_object, char * p_filename)
 			fscanf(infile, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
 			//printf("%f %f %f\n", normal.x, normal.y, normal.z);
 			//system("pause");
-			p_object->normals[normalsIndices] = normal.GetNormalized();
+			mesh.normals[normalsIndices] = normal.GetNormalized();
 			normalsIndices++;
 		}
 		else if (strcmp(lineHeader, "f") == 0) {
@@ -59,7 +65,7 @@ char LoadOBJ(obj_type_ptr p_object, char * p_filename)
 				printf("%i\n",matches);
 				printf("File can't be read by this parser\n");
 				system("pause");
-				return false;
+				return mesh;
 			}
 			vertexIndex.a--;
 			vertexIndex.b--;
@@ -73,20 +79,22 @@ char LoadOBJ(obj_type_ptr p_object, char * p_filename)
 			normalIndex.b--;
 			normalIndex.c--;
 
-			p_object->triangle[facesIndices] = vertexIndex;
+			mesh.triangle[facesIndices] = vertexIndex;
 			
-			p_object->texCoordIndices[facesIndices] = uvIndex;
+			mesh.texCoordIndices[facesIndices] = uvIndex;
 
-			p_object->normalsIndices[facesIndices] = normalIndex;
+			mesh.normalsIndices[facesIndices] = normalIndex;
 
 			facesIndices ++;
 		}
 		else if (strcmp(lineHeader, "g") == 0) {
-			fscanf(infile, "%s", &p_object->name);
+			fscanf(infile, "%s", &mesh.name);
 		}
 	}
-	p_object->vertices_qty = vertexIndices;
-	p_object->triangles_qty = facesIndices;
+	mesh.vertices_qty = vertexIndices;
+	mesh.triangles_qty = facesIndices;
+	mesh.fileHasNormals = true;
 	fclose(infile);
-	return true;
+	
+	return mesh;
 }
