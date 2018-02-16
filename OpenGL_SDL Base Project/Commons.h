@@ -66,12 +66,10 @@ struct MeshData
 	char name[20];
 	int vertices_qty;
 	int triangles_qty;
-	std::vector<Vector3D> Vertices;
-	Vector3D vertex[MAX_VERTICES];
-	Triangle triangle[MAX_POLYGONS];
-	TexCoord texCoord[MAX_VERTICES];
-	Triangle texCoordIndices[MAX_POLYGONS];
-	Vector3D normals[MAX_VERTICES];
-	Triangle normalsIndices[MAX_POLYGONS];
-	bool fileHasNormals;
+	std::vector<Vector3D> vertices;
+	std::vector<Triangle> triangles;
+	std::vector<TexCoord>texCoords;
+	std::vector<Triangle>texCoordIndices;
+	std::vector<Vector3D> normals;
+	std::vector<Triangle>normalsIndices;
 };

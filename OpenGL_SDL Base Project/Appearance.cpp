@@ -40,51 +40,44 @@ void Appearance::Render()
 	{
 		//-----------------FIRST VERTEX ----------------//
 
-		if (mGeometry.fileHasNormals)
-		{
-			glTexCoord2f(mGeometry.texCoord[mGeometry.texCoordIndices[l_index].a].u, mGeometry.texCoord[mGeometry.texCoordIndices[l_index].a].v);
-			glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].a].x, mGeometry.normals[mGeometry.normalsIndices[l_index].a].y, mGeometry.normals[mGeometry.normalsIndices[l_index].a].z);
-		}
-		else
-		{
-			glTexCoord2f(mGeometry.texCoord[mGeometry.triangle[l_index].a].u, mGeometry.texCoord[mGeometry.triangle[l_index].a].v);
-			glNormal3f(mGeometry.normals[l_index].x, mGeometry.normals[l_index].y, mGeometry.normals[l_index].z);
-		}
-		glVertex3f(mGeometry.vertex[mGeometry.triangle[l_index].a].x,
-			mGeometry.vertex[mGeometry.triangle[l_index].a].y,
-			mGeometry.vertex[mGeometry.triangle[l_index].a].z);
+		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].a].u,
+			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].a].v);
+
+		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].a].x,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].a].y,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].a].z);
+
+		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].a].x,
+			mGeometry.vertices[mGeometry.triangles[l_index].a].y,
+			mGeometry.vertices[mGeometry.triangles[l_index].a].z);
 		//std::cout << "Vertex.a read";//Uncomment to see if the vertexs are being read
 
 		//-----------------SECOND VERTEX -----------------//
 
-		if (mGeometry.fileHasNormals)
-		{
-			glTexCoord2f(mGeometry.texCoord[mGeometry.texCoordIndices[l_index].b].u, mGeometry.texCoord[mGeometry.texCoordIndices[l_index].b].v);
-			glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].b].x, mGeometry.normals[mGeometry.normalsIndices[l_index].b].y, mGeometry.normals[mGeometry.normalsIndices[l_index].b].z);
-		}
-		else
-		{
-			glTexCoord2f(mGeometry.texCoord[mGeometry.triangle[l_index].b].u, mGeometry.texCoord[mGeometry.triangle[l_index].b].v);
-			glNormal3f(mGeometry.normals[l_index].x, mGeometry.normals[l_index].y, mGeometry.normals[l_index].z);
-		}
-		glVertex3f(mGeometry.vertex[mGeometry.triangle[l_index].b].x,
-			mGeometry.vertex[mGeometry.triangle[l_index].b].y,
-			mGeometry.vertex[mGeometry.triangle[l_index].b].z);
+
+		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].b].u,
+			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].b].v);
+
+		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].b].x,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].b].y,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].b].z);
+
+		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].b].x,
+			mGeometry.vertices[mGeometry.triangles[l_index].b].y,
+			mGeometry.vertices[mGeometry.triangles[l_index].b].z);
+
 		//-----------------THIRD VERTEX -----------------//
 
-		if (mGeometry.fileHasNormals)
-		{
-			glTexCoord2f(mGeometry.texCoord[mGeometry.texCoordIndices[l_index].c].u, mGeometry.texCoord[mGeometry.texCoordIndices[l_index].c].v);
-			glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].c].x, mGeometry.normals[mGeometry.normalsIndices[l_index].c].y, mGeometry.normals[mGeometry.normalsIndices[l_index].c].z);
-		}
-		else
-		{
-			glTexCoord2f(mGeometry.texCoord[mGeometry.triangle[l_index].c].u, mGeometry.texCoord[mGeometry.triangle[l_index].c].v);
-			glNormal3f(mGeometry.normals[l_index].x, mGeometry.normals[l_index].y, mGeometry.normals[l_index].z);
-		}
-		glVertex3f(mGeometry.vertex[mGeometry.triangle[l_index].c].x,
-			mGeometry.vertex[mGeometry.triangle[l_index].c].y,
-			mGeometry.vertex[mGeometry.triangle[l_index].c].z);
+		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].c].u, 
+			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].c].v);
+
+		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].c].x,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].c].y,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].c].z);
+
+		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].c].x,
+			mGeometry.vertices[mGeometry.triangles[l_index].c].y,
+			mGeometry.vertices[mGeometry.triangles[l_index].c].z);
 	}
 	glEnd();
 

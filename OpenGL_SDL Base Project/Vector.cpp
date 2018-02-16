@@ -1,10 +1,10 @@
 #include "Vector.h"
 
-Vector3D::Vector3D(float initialX, float initialY, float initialZ)
+Vector3D::Vector3D(float x, float y, float z)
 {
-	x = initialX;
-	y = initialY;
-	z = initialZ;
+	this->x = x;
+	this->y = y;
+	this->z = z;
 }
 
 Vector3D::Vector3D()
@@ -39,11 +39,11 @@ void Vector3D::Normalize()
 
 Vector3D Vector3D::Cross(Vector3D v1, Vector3D v2)
 {
-
-	x = (v1.y*v2.z) - (v1.z*v2.y);
-	y = -((v1.x*v2.z) - (v1.z*v2.x));
-	z = (v1.x*v2.y) - (v1.y*v2.x);
-	return *this;
+	Vector3D cross;
+	cross.x = (v1.y*v2.z) - (v1.z*v2.y);
+	cross.y = -((v1.x*v2.z) - (v1.z*v2.x));
+	cross.z = (v1.x*v2.y) - (v1.y*v2.x);
+	return cross;
 }
 
 float Vector3D::Dot(Vector3D v1, Vector3D v2)

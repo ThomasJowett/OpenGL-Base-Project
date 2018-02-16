@@ -84,6 +84,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScreenMenu.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Teapot.h" />
     <ClInclude Include="Texture2D.h" />
@@ -100,6 +101,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScreenMenu.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Teapot.cpp" />

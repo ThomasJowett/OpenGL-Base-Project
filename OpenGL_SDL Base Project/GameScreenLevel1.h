@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "Constants.h"
 #include "OBJLoader.h"
+#include "3DSLoader.h"
 
 class GameScreenLevel1 : GameScreen
 {

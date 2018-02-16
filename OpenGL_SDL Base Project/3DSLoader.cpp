@@ -22,10 +22,15 @@ size_t getFilesize(const char* filename) {
 MeshData Load3DS(char *p_filename)
 {
 	MeshData mesh;
+
+	Vector3D vertex;
+	TexCoord UV;
+	Vector3D normal;
+
 	int i; //Index variable
 	FILE *infile; //File pointer
 
-	unsigned short chunkId, s_temp; //Chunk identifier unsigned
+	unsigned short chunkId, s_tempA, s_tempB, s_tempC; //Chunk identifier unsigned
 	unsigned int chunkLength; //Chunk length
 	unsigned char name; // Char variable
 	unsigned short size; //Number of elements in each chunk
@@ -95,12 +100,11 @@ MeshData Load3DS(char *p_filename)
 
 			for (i = 0; i < size; i++)
 			{
-				fread(&mesh.vertex[i].x, sizeof(float), 1, infile);
-				//std::cout << "vertex[" << i << "].x = " << mesh.vertex[i].x << std::endl;
-				fread(&mesh.vertex[i].y, sizeof(float), 1, infile);
-				//std::cout << "vertex[" << i << "].y = " << mesh.vertex[i].y << std::endl;
-				fread(&mesh.vertex[i].z, sizeof(float), 1, infile);
-				//std::cout << "vertex[" << i << "].z = " << mesh.vertex[i].z << std::endl;
+				fread(&vertex.x, sizeof(float), 1, infile);
+				fread(&vertex.y, sizeof(float), 1, infile);
+				fread(&vertex.z, sizeof(float), 1, infile);
+
+				mesh.vertices.push_back(vertex);
 			}
 			break;
 			//---------------TRI_FACEL1 ----------------
@@ -116,15 +120,17 @@ MeshData Load3DS(char *p_filename)
 
 			for (i = 0; i < size; i++)
 			{
-				fread(&s_temp, sizeof(unsigned short), 1, infile);
-				mesh.triangle[i].a = s_temp;
+				Triangle vertexIndex;
+				fread(&s_tempA, sizeof(unsigned short), 1, infile);
+				
+				fread(&s_tempB, sizeof(unsigned short), 1, infile);
+				
+				fread(&s_tempC, sizeof(unsigned short), 1, infile);
+				
+				vertexIndex = { s_tempA, s_tempB, s_tempC };
 
-				fread(&s_temp, sizeof(unsigned short), 1, infile);
-				mesh.triangle[i].b = s_temp;
-
-				fread(&s_temp, sizeof(unsigned short), 1, infile);
-				mesh.triangle[i].c = s_temp;
-
+				mesh.texCoordIndices.push_back(vertexIndex);
+				mesh.triangles.push_back(vertexIndex);
 				fread(&faceFlag, sizeof(unsigned short), 1, infile);
 			}
 			break;
@@ -138,9 +144,9 @@ MeshData Load3DS(char *p_filename)
 			fread(&size, sizeof(unsigned short), 1, infile);
 			for (i = 0; i < size; i++)
 			{
-				fread(&mesh.texCoord[i].u, sizeof(float), 1, infile);
-
-				fread(&mesh.texCoord[i].v, sizeof(float), 1, infile);
+				fread(&UV.u, sizeof(float), 1, infile);
+				fread(&UV.v, sizeof(float), 1, infile);
+				mesh.texCoords.push_back(UV);
 			}
 			break;
 			//-----------Skip unknown chunks ------------
@@ -156,16 +162,20 @@ MeshData Load3DS(char *p_filename)
 
 	for (int i = 0; i<mesh.triangles_qty; ++i)
 	{
-		Triangle& face = mesh.triangle[i];
+		Triangle& face = mesh.triangles[i];
+		Triangle normalIndex;
+		normalIndex.a = i;
+		normalIndex.b = i;
+		normalIndex.c = i;
 
 		// compute face normal
-		Vector3D p0 = mesh.vertex[int(face.a)];
-		Vector3D p1 = mesh.vertex[int(face.b)];
-		Vector3D p2 = mesh.vertex[int(face.c)];
+		Vector3D p0 = mesh.vertices[int(face.a)];
+		Vector3D p1 = mesh.vertices[int(face.b)];
+		Vector3D p2 = mesh.vertices[int(face.c)];
 		Vector3D normal = normal.Cross((p0 - p1), (p0 - p2));
-		mesh.normals[i] = normal.GetNormalized();
-	}
 
-	mesh.fileHasNormals = false;
+		mesh.normals.push_back(normal.GetNormalized());
+		mesh.normalsIndices.push_back(normalIndex);
+	}
 	return(mesh);
 }

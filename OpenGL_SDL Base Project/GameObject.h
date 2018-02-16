@@ -5,6 +5,7 @@
 #include "Texture2D.h"
 #include "Transform.h"
 #include "Appearance.h"
+#include "ParticleModel.h"
 #include "SceneNode.h"
 #include "Collision.h"
 
@@ -14,7 +15,7 @@ class Texture;
 class GameObject : public SceneNode
 {
 public:
-	GameObject(Transform* transform, Appearance* appearance, float boundingRadius);
+	GameObject(Transform* transform, Appearance* appearance, ParticleModel * particle, float boundingRadius);
 	~GameObject() {}
 
 	void Update(float deltaTime);
@@ -29,9 +30,13 @@ public:
 	void SetBoundingSphere(Sphere * sphere) { mBoundingSphere = sphere; }
 	Sphere * GetBoundingSphere() const { return mBoundingSphere; }
 
+	void SetParticleModel(ParticleModel * particleModel) { mParticleModel = particleModel; }
+	ParticleModel * GetParticleModel() const { return mParticleModel; }
+
 private:
 	Transform * mTransform;
 	Appearance * mAppearance;
+	ParticleModel * mParticleModel;
 
 	Sphere * mBoundingSphere;
 

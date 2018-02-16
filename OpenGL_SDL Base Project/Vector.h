@@ -17,9 +17,10 @@ public:
 	float GetSqrMagnitude();
 	Vector3D GetNormalized();
 	void Normalize();
-	Vector3D Cross(Vector3D v1, Vector3D v2);
-	float Dot(Vector3D v1, Vector3D v2);
-	Vector3D Reflect(Vector3D vector, Vector3D normal);
+
+	static Vector3D Cross(Vector3D v1, Vector3D v2);
+	static float Dot(Vector3D v1, Vector3D v2);
+	static Vector3D Reflect(Vector3D vector, Vector3D normal);
 
 	//Operators
 	Vector3D operator*(float scaler);

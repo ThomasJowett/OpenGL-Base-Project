@@ -15,8 +15,11 @@ long FileLenghth(int f)
 */
 MeshData OBJLoader :: LoadOBJ(char * p_filename)
 {
-	
 	MeshData mesh; 
+
+	Vector3D vertex;
+	TexCoord UV;
+	Vector3D normal;
 	
 	FILE * infile = fopen(p_filename, "rb");
 	if (infile == NULL) {
@@ -35,25 +38,19 @@ MeshData OBJLoader :: LoadOBJ(char * p_filename)
 		//else : parse lineHeader
 
 		if (strcmp(lineHeader, "v") == 0) {
-			Vector3D vertex;
 			fscanf(infile, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-			mesh.vertex[vertexIndices] = vertex;
+			mesh.vertices.push_back(vertex);
 			vertexIndices++;
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
-			TexCoord UV;
 			fscanf(infile, "%f %f\n", &UV.u, &UV.v);
-			//printf("%f %f \n", UV.u, UV.v);
-			//system("pause");
-			mesh.texCoord[uvIndices] = UV;
+			mesh.texCoords.push_back(UV);
+			//mesh.texCoord[uvIndices] = UV;
 			uvIndices++;
 		}
 		else if (strcmp(lineHeader, "vn") == 0) {
-			Vector3D normal;
 			fscanf(infile, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
-			//printf("%f %f %f\n", normal.x, normal.y, normal.z);
-			//system("pause");
-			mesh.normals[normalsIndices] = normal.GetNormalized();
+			mesh.normals.push_back(normal.GetNormalized());
 			normalsIndices++;
 		}
 		else if (strcmp(lineHeader, "f") == 0) {
@@ -79,11 +76,11 @@ MeshData OBJLoader :: LoadOBJ(char * p_filename)
 			normalIndex.b--;
 			normalIndex.c--;
 
-			mesh.triangle[facesIndices] = vertexIndex;
+			mesh.triangles.push_back(vertexIndex);
 			
-			mesh.texCoordIndices[facesIndices] = uvIndex;
+			mesh.texCoordIndices.push_back(uvIndex);
 
-			mesh.normalsIndices[facesIndices] = normalIndex;
+			mesh.normalsIndices.push_back(normalIndex);
 
 			facesIndices ++;
 		}
@@ -93,7 +90,6 @@ MeshData OBJLoader :: LoadOBJ(char * p_filename)
 	}
 	mesh.vertices_qty = vertexIndices;
 	mesh.triangles_qty = facesIndices;
-	mesh.fileHasNormals = true;
 	fclose(infile);
 	
 	return mesh;
