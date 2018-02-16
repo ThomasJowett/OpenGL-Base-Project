@@ -25,18 +25,13 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
 
-	//Load models and textures
+	//Load Models
 	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
+	MeshData floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
 
-	//std::cout << test;
-	
-	//MeshData floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
-
-	Texture2D * texture = new Texture2D("Dodgeball_Diffuse.raw", 512, 512);
-	GLuint dodgeBallTextureID = texture->GetID();
-
-	//texture = new Texture2D("LogoDodgeball.raw.raw", 512, 512);
-	//GLuint courtTextureID = texture->GetID();
+	//Load Textures
+	GLuint dodgeBallTextureID = Texture2D::LoadTexture2D("Dodgeball_Diffuse.raw", 512, 512);
+	GLuint courtTextureID = Texture2D::LoadTexture2D("Court_Diffuse.raw", 1200, 1200);
 
 	
 	Material dodgeballMaterial = {	
@@ -53,30 +48,39 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 		20.0f
 	};
 
-	Appearance * appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
-	//Appearance * appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
-	Transform * transform = new Transform();
-
+	Appearance * appearance;
+	Transform * transform;
 	Vector3D position;
+	GameObject * gameObject;
 
-	GameObject * gameObject = new GameObject(transform,appearance);
-	for (int i = 0; i < 5; i++)
+	appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
+	transform = new Transform({ 0.0f,0.0f,0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
+
+	gameObject = new GameObject(transform, appearance, 0.0f);
+	mGameObjects.push_back(gameObject);
+
+	for (int i = 0; i < 20; i++)
 	{
-		position = { 1000 * (float)rand() / (RAND_MAX)-5,  1000 * (float)rand() / (RAND_MAX)-5, 1000 * (float)rand() / (RAND_MAX)-5 };
+		position.x = 1000 * (float)rand() / (RAND_MAX)-5;
+		position.y = 1000 * (float)rand() / (RAND_MAX)-5;
+		position.z = 1000 * (float)rand() / (RAND_MAX)-5;
 		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
 		transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 
-		gameObject = new GameObject(transform, appearance);
+		gameObject = new GameObject(transform, appearance, 20.0f);
 
 		mGameObjects.push_back(gameObject);
 	}
-	
-	//Set the Relationships
-
 
 	//Initialise Root Node
 	Root = new SceneNode;
 
+	//Set the Relationships
+	for (auto gameObject : mGameObjects)
+	{
+		Root->AddChild(gameObject);
+	}
+	
 
 	//FPS Counter
 	mInitialTime = time(NULL);
@@ -91,11 +95,6 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 	//Enable the Texture2D
 	glEnable(GL_TEXTURE_2D);
-
-	//Set some parameters so it renders correctly
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -164,26 +163,6 @@ void GameScreenLevel1::Render()
 
 	Root->Traverse();
 	
-	for (auto GameObject : mGameObjects)
-	{
-		/*
-		if (GameObject->GetBoundingSphere()->GetCollided())
-		{
-			GameObject->GetAppearance->SetMaterial({
-				{ 1.0f, 0.2f, 0.2f, 1.0f },
-				{ 0.40f, 0.40f, 0.4f, 1.0f },
-				{ 0.8f, 0.8f, 0.8f, 1.0f },
-				50.0f });
-		}
-		else
-			GameObject->GetAppearance->SetMaterial({
-				{ 0.2f, 0.2f, 0.2f, 1.0f },
-				{ 0.40f, 0.40f, 0.4f, 1.0f },
-				{ 0.8f, 0.8f, 0.8f, 1.0f },
-				50.0f });*/
-		GameObject->Render();
-	}
-	
 	//Render text
 	glColor3f(0.0, 1.0, 0.0);
 	glMatrixMode(GL_MODELVIEW);
@@ -195,11 +174,8 @@ void GameScreenLevel1::Render()
 	gluOrtho2D(0, 100, 0, 100);
 	OutputLine(5, 95, FPS);
 	OutputLine(5, 90, "Click and drag to orbit Camera");
-	OutputLine(5, 85, "A & D Rotate Cabin");
-	OutputLine(5, 80, "W & S Rotate Stick");
-	OutputLine(5, 75, "Q & E Rotate Boom");
-	OutputLine(5, 70, "R & F Rotate Bucket");
-	OutputLine(5, 65, "Scroll mouse wheel to zoom in");
+	OutputLine(5, 85, "WASD to move");
+	OutputLine(5, 80, "Scroll mouse wheel to zoom in");
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
@@ -207,10 +183,13 @@ void GameScreenLevel1::Render()
 //--------------------------------------------------------------------------------------------------
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
-	Camera::GetInstance()->Update(deltaTime, e, Vector3D{ 0.0f, 100.0f, 0.0f });
+	Camera::GetInstance()->Update(deltaTime, e, mGameObjects[1]->GetTransform()->GetPosition());
 
 	//Detect Input
-	if ((GetAsyncKeyState('A') & 0x80 != 0)) {}
+	if ((GetAsyncKeyState('A') & 0x80 != 0)) 
+	{
+		mGameObjects[1]->GetTransform()->SetPosition({ mGameObjects[1]->GetTransform()->GetPosition().x + deltaTime * 100.0f,mGameObjects[1]->GetTransform()->GetPosition().y,mGameObjects[1]->GetTransform()->GetPosition().z});
+	}
 	if ((GetAsyncKeyState('D') & 0x80 != 0)) {}
 	if ((GetAsyncKeyState('W') & 0x80 != 0)) {}
 	if ((GetAsyncKeyState('S') & 0x80 != 0)) {}
@@ -230,7 +209,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	// check for collisions
 	for (int i = 0; i < mGameObjects.size() - 1; i++) {
 		for (int j = i + 1; j < mGameObjects.size(); j++) {
-			//Collision::SphereSphereCollision(mGameObjects[i]->GetBoundingSphere(), mGameObjects[j]->GetBoundingSphere());
+			Collision::SphereSphereCollision(mGameObjects[i]->GetBoundingSphere(), mGameObjects[j]->GetBoundingSphere());
 			
 		}
 	}

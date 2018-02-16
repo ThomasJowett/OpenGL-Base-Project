@@ -2,17 +2,18 @@
 #define TRANSFORM_H
 
 #include <Windows.h>
-#include "SceneNode.h"
+//#include "SceneNode.h"
 #include "Vector.h"
+#include <gl/GL.h>
 
-class Transform: public SceneNode
+class Transform
 {
 public:
 	Transform();
 	Transform(Vector3D position, Vector3D rotation, Vector3D scale);
-	void SetValuev(Enum pName, float *, int order);
-	void SetValue(Enum pName, float x, float y, float z, int order);
-	void SetValue(Enum pName, float a, float x, float y, float z, int order);
+	//void SetValuev(Enum pName, float *, int order);
+	//void SetValue(Enum pName, float x, float y, float z, int order);
+	//void SetValue(Enum pName, float a, float x, float y, float z, int order);
 
 	void SetPosition(float x, float y, float z) { mPosition = Vector3D{ x,y,z }; }
 	void SetPosition(Vector3D position) { mPosition = position; }

@@ -29,11 +29,12 @@ void Camera::Update(float deltaTime, SDL_Event e, Vector3D target)
 {
 	mLookatPos = target;
 	//Detect Input
-	if ((GetAsyncKeyState(VK_LBUTTON) & 0x80 != 0))
+	
+	if ((GetAsyncKeyState(VK_LSHIFT) & 0x80 != 0))
 	{
 		mMouseButtonDown = true;
 	}
-	else if (e.type == SDL_MOUSEBUTTONUP)
+	else
 	{
 		mMouseButtonDown = false;
 	}

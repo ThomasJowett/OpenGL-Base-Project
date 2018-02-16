@@ -21,7 +21,7 @@ Transform::Transform(Vector3D position, Vector3D rotation, Vector3D scale) : mPo
 	for (i = 0; i < 10; i++)
 		TransformOrder[i] = -1;
 }
-
+/*
 void Transform::SetValuev(Enum pName, float * value, int order)
 {
 	int i;
@@ -63,9 +63,10 @@ void Transform::SetValue(Enum pName, float a, float x, float y, float z, int ord
 
 	SetValuev(pName, temp, order);
 }
-
+*/
 void Transform::UpdateWorldMatrix()
 {
+	/*
 	int i;
 
 	for (i = OpNum - 1; i >= 0; i--)
@@ -73,16 +74,25 @@ void Transform::UpdateWorldMatrix()
 		switch (TransformOrder[i])
 		{
 		case TRANSLATION:
-			glTranslatef(transform[i][0], transform[i][1], transform[i][2]);
+			
+			//glTranslatef(transform[i][0], transform[i][1], transform[i][2]);
 			break;
 		case ROTATION:
-			glRotatef(transform[i][0], transform[i][1], transform[i][2], transform[i][3]);
+			
+			//glRotatef(transform[i][0], transform[i][1], transform[i][2], transform[i][3]);
 			break;
 		case SCALE:
-			glScalef(transform[i][0], transform[i][1], transform[i][2]);
+			
+			//glScalef(transform[i][0], transform[i][1], transform[i][2]);
 			break;
 		default:
 			break;
 		}
 	}
+	*/
+	glTranslatef(mPosition.x, mPosition.y, mPosition.z);
+	glRotatef(mRotation.x, 1.0f, 0.0f, 0.0f);
+	glRotatef(mRotation.y, 0.0f, 1.0f, 0.0f);
+	glRotatef(mRotation.z, 0.0f, 0.0f, 1.0f);
+	glScalef(mScale.x, mScale.y, mScale.z);
 }

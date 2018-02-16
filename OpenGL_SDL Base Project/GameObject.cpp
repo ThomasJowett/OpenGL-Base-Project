@@ -4,8 +4,9 @@
 #include "OBJLoader.h"
 #include "SDL.h"
 
-GameObject::GameObject(Transform * transform, Appearance * appearance) : mTransform(transform), mAppearance(appearance)
+GameObject::GameObject(Transform * transform, Appearance * appearance, float boundingRadius) : mTransform(transform), mAppearance(appearance)
 {
+	mBoundingSphere = new Sphere(mTransform->GetPosition(), boundingRadius);
 }
 
 void GameObject::Update(float deltaTime)

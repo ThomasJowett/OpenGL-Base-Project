@@ -10,22 +10,21 @@ Texture2D::Texture2D()
 
 Texture2D::Texture2D(char * path, int width, int height)
 {
-	Load(path, width, height);
 }
 
 
 Texture2D::~Texture2D()
 {
-	glDeleteTextures(1, &_ID);
 }
 
-bool Texture2D::Load(char* path, int width, int height)
+GLuint Texture2D::LoadTexture2D(char* path, int width, int height)
 {
+	GLuint ID;
 	char* tempTextureData;
 	int fileSize;
 	ifstream inFile;
-	_width = width;
-	_height = height;
+	//_width = width;
+	//_height = height;
 	inFile.open(path, ios::binary);
 
 	if (!inFile.good())
@@ -43,10 +42,15 @@ bool Texture2D::Load(char* path, int width, int height)
 
 	cout << path << " : loaded.\n";
 
-	glGenTextures(1, &_ID); //Get the next texture ID
-	glBindTexture(GL_TEXTURE_2D, _ID); //Bind the texture to the ID.
+	glGenTextures(1, &ID); //Get the next texture ID
+	glBindTexture(GL_TEXTURE_2D, ID); //Bind the texture to the ID.
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTextureData);
 
 	delete[] tempTextureData; // Clear up the data - we don't need it anymore
-	return true;
+
+	//Set some parameters so it renders correctly
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	return ID;
 }

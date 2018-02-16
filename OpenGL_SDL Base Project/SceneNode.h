@@ -6,6 +6,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <gl/GL.h>
+#include "Transform.h"
 
 enum Enum
 {
@@ -16,8 +17,8 @@ class SceneNode {
 public:
 	SceneNode();
 	virtual ~SceneNode();
-	virtual void Render();
 	void AddChild(SceneNode *);
+	virtual void Render() {}
 	void Traverse();
 
 protected:

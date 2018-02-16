@@ -14,7 +14,7 @@ class Texture;
 class GameObject : public SceneNode
 {
 public:
-	GameObject(Transform* transform, Appearance* appearance);
+	GameObject(Transform* transform, Appearance* appearance, float boundingRadius);
 	~GameObject() {}
 
 	void Update(float deltaTime);
@@ -38,7 +38,6 @@ private:
 	char fileName[20];
 	char fileType[3];
 	char textureName[20];
-
 };
 
 

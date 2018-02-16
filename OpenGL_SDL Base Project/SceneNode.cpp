@@ -17,10 +17,6 @@ SceneNode::~SceneNode()
 	pRightSibling = NULL;
 }
 
-void SceneNode::Render()
-{
-}
-
 void SceneNode::AddChild(SceneNode *node)
 {
 	if (pLeftChild == NULL)
