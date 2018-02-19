@@ -89,6 +89,7 @@ GameScreenManager * GameScreenManager::GetInstance()
 	if (instance == 0)
 	{
 		instance = new GameScreenManager(SCREEN_MENU);
+		
 	}
 	return instance;
 }

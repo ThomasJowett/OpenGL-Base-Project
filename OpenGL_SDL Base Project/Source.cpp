@@ -29,8 +29,6 @@ SDL_Surface*  gSurface   = NULL;
 Mix_Music*	  gMusic	 = NULL;
 Uint32		  gOldTime;
 
-GameScreenManager* gameScreenManager;
-
 //-----------------------------------------------------------------------------------------------------
 
 int main(int argc, char* args[])
@@ -40,7 +38,8 @@ int main(int argc, char* args[])
 	if(InitSDL())
 	{
 		//Set up the game screen manager - Start with Level1
-		gameScreenManager = new GameScreenManager(SCREEN_MENU);
+
+		GameScreenManager::GetInstance();
 		
 		//Start the music.
 		//LoadMusic("Music/bubble-bobble.mp3");
@@ -155,8 +154,7 @@ void LoadMusic(string path)
 void CloseSDL()
 {
 	//Destroy the game screen manager.
-	delete gameScreenManager;
-	gameScreenManager = NULL;
+	delete GameScreenManager::GetInstance();
 
 	//Destroy the window.
 	//SDL_DestroyRenderer(gRenderer);
@@ -179,7 +177,7 @@ void CloseSDL()
 
 void Render()
 {
-	gameScreenManager->Render();
+	GameScreenManager::GetInstance()->Render();
 
 	//Update the screen.
 	SDL_GL_SwapWindow(gWindow);
@@ -210,7 +208,7 @@ bool Update()
 		break;
 
 		default:
-			gameScreenManager->Update((float)(newTime-gOldTime)/1000.0f, e);
+			GameScreenManager::GetInstance()->Update((float)(newTime-gOldTime)/1000.0f, e);
 		break;
 	}
 

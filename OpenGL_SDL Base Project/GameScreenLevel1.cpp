@@ -26,8 +26,8 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
 
 	//Load Models
-	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
-	MeshData floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
+	MeshData* dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
+	MeshData* floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
 	//MeshData dodgeballGeometry = Load3DS("Car_Backfire.3DS");
 
 	//Load Textures

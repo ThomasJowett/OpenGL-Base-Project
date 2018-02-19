@@ -10,9 +10,7 @@ class GameScreen;
 class GameScreenManager
 {
 public:
-	GameScreenManager(SCREENS startScreen);
 	~GameScreenManager();
-
 	void Render();
 	void Update(float deltaTime, SDL_Event e);
 
@@ -21,6 +19,8 @@ public:
 	static GameScreenManager * GetInstance();
 
 private:
+	GameScreenManager(SCREENS startScreen);
+	
 	GameScreen* mCurrentScreen;
 };
 

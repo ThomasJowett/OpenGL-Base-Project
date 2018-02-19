@@ -25,8 +25,6 @@ void ParticleModel::Update(float deltaTime)
 		AddForce(GravitationalForce());
 
 		Vector3D acceleration = mNetForce / mMass;
-		if (acceleration == Vector3D{0.0f, 0.0f, 0.0f})
-			acceleration = { 0.0f,1.0f,0.0f };
 
 		mVelocity = mVelocity + (acceleration * deltaTime);
 

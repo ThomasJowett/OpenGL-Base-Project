@@ -64,7 +64,7 @@ Vector3D Vector3D::operator*(float scaler)
 
 Vector3D Vector3D::operator/(float scaler)
 {
-	return Vector3D();
+	return Vector3D(x / scaler, y / scaler, z / scaler);
 }
 
 Vector3D Vector3D::operator+(const Vector3D & other)
