@@ -6,14 +6,15 @@
 #include "Vector.h"
 
 //3DS Max Object type details.
-#define MAX_VERTICES 800
-#define MAX_POLYGONS 800
+#define MAX_VERTICES 8000
+#define MAX_POLYGONS 8000
 
 enum SCREENS
 {
 	SCREEN_INTRO = 0,
 	SCREEN_MENU,
 	SCREEN_LEVEL1,
+	SCREEN_LEVEL2,
 	SCREEN_GAMEOVER,
 	SCREEN_HIGHSCORES
 };
@@ -66,10 +67,10 @@ struct MeshData
 	char name[20];
 	int vertices_qty;
 	int triangles_qty;
-	std::vector<Vector3D> vertices;
-	std::vector<Triangle> triangles;
-	std::vector<TexCoord>texCoords;
-	std::vector<Triangle>texCoordIndices;
-	std::vector<Vector3D> normals;
-	std::vector<Triangle>normalsIndices;
+	Vector3D vertices[MAX_VERTICES];
+	Triangle triangles[MAX_POLYGONS];
+	TexCoord texCoords[MAX_VERTICES];
+	Triangle texCoordIndices[MAX_POLYGONS];
+	Vector3D normals[MAX_VERTICES];
+	Triangle normalsIndices[MAX_POLYGONS];
 };

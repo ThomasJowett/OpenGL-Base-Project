@@ -64,9 +64,6 @@
     <ClInclude Include="Collision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Teapot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Appearance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -112,9 +109,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameScreenMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Teapot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Appearance.cpp">

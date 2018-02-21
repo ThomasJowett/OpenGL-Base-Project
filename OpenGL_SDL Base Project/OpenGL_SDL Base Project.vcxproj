@@ -86,7 +86,6 @@
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="SceneNode.h" />
-    <ClInclude Include="Teapot.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector.h" />
@@ -104,7 +103,6 @@
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Teapot.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Vector.cpp" />

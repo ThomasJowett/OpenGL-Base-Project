@@ -1,18 +1,15 @@
-﻿  GameScreenManager.cpp
-  GameScreenLevel1.cpp
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(153): warning C4018: '<': signed/unsigned mismatch
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(205): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(209): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(210): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(211): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(212): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(213): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(214): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(215): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(227): warning C4018: '<': signed/unsigned mismatch
-c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenlevel1.cpp(228): warning C4018: '<': signed/unsigned mismatch
-  GameObject.cpp
-  Appearance.cpp
-  Generating Code...
-  OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.exe
-  OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.pdb (Full PDB)
+﻿  GameScreenLevel1.cpp
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(154): warning C4018: '<': signed/unsigned mismatch
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(195): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(199): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(200): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(201): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(202): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(203): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(204): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(205): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(220): warning C4018: '<': signed/unsigned mismatch
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(221): warning C4018: '<': signed/unsigned mismatch
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(239): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.exe
+  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.pdb (Full PDB)

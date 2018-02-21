@@ -24,10 +24,11 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
-
+	
 	//Load Models
-	MeshData* dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
 	MeshData* floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
+	MeshData* dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
+	
 	//MeshData dodgeballGeometry = Load3DS("Car_Backfire.3DS");
 
 	//Load Textures
@@ -62,14 +63,14 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	gameObject = new GameObject(transform, appearance, particle, 0.0f);
 	mGameObjects.push_back(gameObject);
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		position.x = 1000 * (float)rand() / (RAND_MAX)-5;
 		position.y = 1000 * (float)rand() / (RAND_MAX)-5;
 		position.z = 1000 * (float)rand() / (RAND_MAX)-5;
 		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
 		transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
-		particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform);
+		particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX)-5, { 0.0f, 0.0f, 0.0f }, transform);
 
 		gameObject = new GameObject(transform, appearance, particle, 20.0f);
 
@@ -161,26 +162,17 @@ void GameScreenLevel1::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
+	glEnable(GL_LIGHTING);
 		
 	Camera::GetInstance()->Render();
 	SetLight();
 
 	Root->Traverse();
 
-	Material material = {
-		{ 0.1f, 0.1f, 0.1f, 1.0f },
-		{ 0.0f, 1.0f, 0.0f, 1.0f },
-		{ 0.0f, 0.0f, 0.0f, 0.0f },
-		0.0f
-	};
-
-	glMaterialfv(GL_FRONT, GL_AMBIENT, material.ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, material.diffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, material.specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, material.specularPower);
+	glDisable(GL_LIGHTING);
 
 	//Render text
-	glColor3f(0.0, 1.0, 0.0);
+	glColor3f(0.3, 0.4, 0.1);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
@@ -199,8 +191,6 @@ void GameScreenLevel1::Render()
 //--------------------------------------------------------------------------------------------------
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
-	
-
 	//Detect Input
 	if ((GetAsyncKeyState('A') & 0x80 != 0)) 
 	{
@@ -214,24 +204,27 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	if ((GetAsyncKeyState('R') & 0x80 != 0)) {}
 	if ((GetAsyncKeyState('F') & 0x80 != 0)) {}
 
-
 	//Update the Transforms
 	
 	for (auto GameObject : mGameObjects)
 	{
 		GameObject->Update(deltaTime);
+		if (GameObject->GetTransform()->GetPosition().y < 0.0f)
+		{
+			GameObject->GetTransform()->SetPosition(GameObject->GetTransform()->GetPosition().x, 0.0f, GameObject->GetTransform()->GetPosition().z);
+			GameObject->GetParticleModel()->SetVelocity(Vector3D::Reflect(GameObject->GetParticleModel()->GetVelocity(), { 0.0f, -1.0f, 0.0f }));
+		}
 	}
-	std::cout << mGameObjects[1]->GetParticleModel()->GetNetForce().y << endl;
 
 	// check for collisions
 	for (int i = 0; i < mGameObjects.size() - 1; i++) {
 		for (int j = i + 1; j < mGameObjects.size(); j++) {
 			Collision::SphereSphereCollision(mGameObjects[i]->GetBoundingSphere(), mGameObjects[j]->GetBoundingSphere());
-			
 		}
 	}
 
-	Camera::GetInstance()->Update(deltaTime, e, mGameObjects[1]->GetTransform()->GetPosition());
+
+	Camera::GetInstance()->Update(deltaTime, e, mGameObjects[0]->GetTransform()->GetPosition());
 	
 	//Update FPS
 	mFrameCount++;
@@ -242,5 +235,8 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 		mFrameCount = 0;
 		mInitialTime = mFinalTime;
 	}
+	
+	if ((GetAsyncKeyState(VK_RETURN) & 0x80 != 0))
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
 }
 //--------------------------------------------------------------------------------------------------

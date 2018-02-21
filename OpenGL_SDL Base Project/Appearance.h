@@ -8,9 +8,7 @@ class Appearance
 {
 public:
 	Appearance();
-	Appearance(MeshData* geometry, Material material, GLuint textureID) /*: mGeometry(geometry), mMaterial(material), mTextureID(textureID)*/ {
-		mGeometry = geometry; mMaterial = material; mTextureID = textureID;
-	}
+	Appearance(MeshData* geometry, Material material, GLuint textureID) : mGeometry(geometry), mMaterial(material), mTextureID(textureID) {}
 	~Appearance() {}
 
 	Material GetMaterial() const { return mMaterial; }

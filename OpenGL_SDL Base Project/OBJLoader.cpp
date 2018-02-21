@@ -1,18 +1,5 @@
 #include "OBJLoader.h"
-#include <sys\stat.h>
-/*
-long FileLenghth(int f)
-{
-	
-	struct stat buf;
-	fstat(f, &buf);
-	return(buf.st_size);
-	
-	long t = 1;
-		return t;
-	
-}
-*/
+
 MeshData* OBJLoader :: LoadOBJ(char * p_filename)
 {
 	MeshData mesh;
@@ -39,25 +26,26 @@ MeshData* OBJLoader :: LoadOBJ(char * p_filename)
 
 		if (strcmp(lineHeader, "v") == 0) {
 			fscanf(infile, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-			mesh.vertices.push_back(vertex);
+			//mesh.vertices.pushback(vertexIndices);
+			mesh.vertices[vertexIndices] = vertex;
 			vertexIndices++;
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
 			fscanf(infile, "%f %f\n", &UV.u, &UV.v);
-			mesh.texCoords.push_back(UV);
-			//mesh.texCoord[uvIndices] = UV;
+			//mesh.texCoords.push_back(UV);
+			mesh.texCoords[uvIndices] = UV;
 			uvIndices++;
 		}
 		else if (strcmp(lineHeader, "vn") == 0) {
 			fscanf(infile, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
-			mesh.normals.push_back(normal.GetNormalized());
+			//mesh.normals.push_back(normal.GetNormalized());
+			mesh.normals[normalsIndices] = normal.GetNormalized();
 			normalsIndices++;
 		}
 		else if (strcmp(lineHeader, "f") == 0) {
 			Triangle vertexIndex, uvIndex, normalIndex;
 			char backslash;
 			int matches = fscanf(infile, "%d %c %d %c %d %d %c %d %c %d %d %c %d %c %d\n", &vertexIndex.a, &backslash, &uvIndex.a, &backslash, &normalIndex.a, &vertexIndex.b, &backslash, &uvIndex.b, &backslash, &normalIndex.b, &vertexIndex.c, &backslash, &uvIndex.c, &backslash, &normalIndex.c);
-			//printf("%d %d %d %d %d %d %d %d %d\n",vertexIndex.a, uvIndex.a, normalIndex.a, vertexIndex.b, uvIndex.b, normalIndex.b, vertexIndex.c, uvIndex.c, normalIndex.c);
 			if (matches != 15) {
 				printf("%i\n",matches);
 				printf("File can't be read by this parser\n");
@@ -76,11 +64,17 @@ MeshData* OBJLoader :: LoadOBJ(char * p_filename)
 			normalIndex.b--;
 			normalIndex.c--;
 
-			mesh.triangles.push_back(vertexIndex);
+			//mesh.triangles.push_back(vertexIndex);
 			
-			mesh.texCoordIndices.push_back(uvIndex);
+			//mesh.texCoordIndices.push_back(uvIndex);
 
-			mesh.normalsIndices.push_back(normalIndex);
+			//mesh.normalsIndices.push_back(normalIndex);
+
+			mesh.triangles[facesIndices] = vertexIndex;
+
+			mesh.texCoordIndices[facesIndices] = uvIndex;
+
+			mesh.normalsIndices[facesIndices] = normalIndex;
 
 			facesIndices ++;
 		}

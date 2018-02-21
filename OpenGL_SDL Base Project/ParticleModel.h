@@ -15,6 +15,7 @@ public:
 	void Update(float deltaTime);
 
 	Vector3D GetVelocity() const { return mVelocity; }
+	void SetVelocity(Vector3D velocity) { mVelocity = velocity; }
 	Vector3D GetNetForce() const { return mNetForce; }
 
 private:
@@ -27,7 +28,6 @@ private:
 
 	Vector3D DragForce();
 	Vector3D GravitationalForce();
-
 };
 #endif //!_PARTICLEMODEL_H
 
