@@ -1,6 +1,6 @@
 #include "OBJLoader.h"
 
-MeshData* OBJLoader :: LoadOBJ(char * p_filename)
+MeshData OBJLoader :: LoadOBJ(char * p_filename)
 {
 	MeshData mesh;
 
@@ -11,7 +11,7 @@ MeshData* OBJLoader :: LoadOBJ(char * p_filename)
 	FILE * infile = fopen(p_filename, "rb");
 	if (infile == NULL) {
 		printf("Impossible to open the file %s\n", p_filename);
-		return &mesh;
+		return mesh;
 	}
 	
 	unsigned int vertexIndices = 0, normalsIndices = 0, uvIndices = 0, facesIndices = 0;
@@ -50,7 +50,7 @@ MeshData* OBJLoader :: LoadOBJ(char * p_filename)
 				printf("%i\n",matches);
 				printf("File can't be read by this parser\n");
 				system("pause");
-				return &mesh;
+				return mesh;
 			}
 			vertexIndex.a--;
 			vertexIndex.b--;
@@ -86,5 +86,5 @@ MeshData* OBJLoader :: LoadOBJ(char * p_filename)
 	mesh.triangles_qty = facesIndices;
 	fclose(infile);
 	
-	return &mesh;
+	return mesh;
 }

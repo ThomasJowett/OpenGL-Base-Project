@@ -36,48 +36,47 @@ void Appearance::Render()
 
 
 	glBegin(GL_TRIANGLES); //glBegin and glEnd delimit the vertices that feine a primitive (triangles)
-	for (int l_index = 0; l_index < mGeometry->triangles_qty; l_index++)
+	for (int l_index = 0; l_index < mGeometry.triangles_qty; l_index++)
 	{
 		//-----------------FIRST VERTEX ----------------//
 
-		glTexCoord2f(mGeometry->texCoords[mGeometry->texCoordIndices[l_index].a].u,
-			mGeometry->texCoords[mGeometry->texCoordIndices[l_index].a].v);
+		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].a].u,
+			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].a].v);
 
-		glNormal3f(mGeometry->normals[mGeometry->normalsIndices[l_index].a].x,
-			mGeometry->normals[mGeometry->normalsIndices[l_index].a].y,
-			mGeometry->normals[mGeometry->normalsIndices[l_index].a].z);
+		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].a].x,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].a].y,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].a].z);
 
-		glVertex3f(mGeometry->vertices[mGeometry->triangles[l_index].a].x,
-			mGeometry->vertices[mGeometry->triangles[l_index].a].y,
-			mGeometry->vertices[mGeometry->triangles[l_index].a].z);
-		//std::cout << "Vertex.a read";//Uncomment to see if the vertexs are being read
+		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].a].x,
+			mGeometry.vertices[mGeometry.triangles[l_index].a].y,
+			mGeometry.vertices[mGeometry.triangles[l_index].a].z);
 
 		//-----------------SECOND VERTEX -----------------//
 
 
-		glTexCoord2f(mGeometry->texCoords[mGeometry->texCoordIndices[l_index].b].u,
-			mGeometry->texCoords[mGeometry->texCoordIndices[l_index].b].v);
+		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].b].u,
+			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].b].v);
 
-		glNormal3f(mGeometry->normals[mGeometry->normalsIndices[l_index].b].x,
-			mGeometry->normals[mGeometry->normalsIndices[l_index].b].y,
-			mGeometry->normals[mGeometry->normalsIndices[l_index].b].z);
+		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].b].x,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].b].y,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].b].z);
 
-		glVertex3f(mGeometry->vertices[mGeometry->triangles[l_index].b].x,
-			mGeometry->vertices[mGeometry->triangles[l_index].b].y,
-			mGeometry->vertices[mGeometry->triangles[l_index].b].z);
+		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].b].x,
+			mGeometry.vertices[mGeometry.triangles[l_index].b].y,
+			mGeometry.vertices[mGeometry.triangles[l_index].b].z);
 
 		//-----------------THIRD VERTEX -----------------//
 
-		glTexCoord2f(mGeometry->texCoords[mGeometry->texCoordIndices[l_index].c].u, 
-			mGeometry->texCoords[mGeometry->texCoordIndices[l_index].c].v);
+		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].c].u, 
+			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].c].v);
 
-		glNormal3f(mGeometry->normals[mGeometry->normalsIndices[l_index].c].x,
-			mGeometry->normals[mGeometry->normalsIndices[l_index].c].y,
-			mGeometry->normals[mGeometry->normalsIndices[l_index].c].z);
+		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].c].x,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].c].y,
+			mGeometry.normals[mGeometry.normalsIndices[l_index].c].z);
 
-		glVertex3f(mGeometry->vertices[mGeometry->triangles[l_index].c].x,
-			mGeometry->vertices[mGeometry->triangles[l_index].c].y,
-			mGeometry->vertices[mGeometry->triangles[l_index].c].z);
+		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].c].x,
+			mGeometry.vertices[mGeometry.triangles[l_index].c].y,
+			mGeometry.vertices[mGeometry.triangles[l_index].c].z);
 	}
 	glEnd();
 

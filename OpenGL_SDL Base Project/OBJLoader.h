@@ -6,7 +6,7 @@
 class OBJLoader
 {
 public:
-	static MeshData* LoadOBJ(char *filename);
+	static MeshData LoadOBJ(char *filename);
 };
 //extern MeshData LoadOBJ(char *filename);
 

@@ -26,8 +26,8 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
 	
 	//Load Models
-	MeshData* floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
-	MeshData* dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
+	MeshData floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
+	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
 	
 	//MeshData dodgeballGeometry = Load3DS("Car_Backfire.3DS");
 
@@ -65,12 +65,12 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 	for (int i = 0; i < 50; i++)
 	{
-		position.x = 1000 * (float)rand() / (RAND_MAX)-5;
-		position.y = 1000 * (float)rand() / (RAND_MAX)-5;
-		position.z = 1000 * (float)rand() / (RAND_MAX)-5;
+		position.x = 800 * (float)rand() / (RAND_MAX) -400;
+		position.y = 800 * (float)rand() / (RAND_MAX);
+		position.z = 1600 * (float)rand() / (RAND_MAX) -800;
 		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
 		transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
-		particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX)-5, { 0.0f, 0.0f, 0.0f }, transform);
+		particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX), { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform);
 
 		gameObject = new GameObject(transform, appearance, particle, 20.0f);
 
