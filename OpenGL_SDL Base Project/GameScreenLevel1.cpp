@@ -50,17 +50,15 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 		20.0f
 	};
 
-	Appearance * appearance;
 	Transform * transform;
 	ParticleModel * particle;
 	Vector3D position;
 	GameObject * gameObject;
 
-	appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
+	Appearance * appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
 	transform = new Transform({ 0.0f,0.0f,0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
-	particle = new ParticleModel(0.0f, position, transform);
 
-	gameObject = new GameObject(transform, appearance, particle, 0.0f);
+	gameObject = new GameObject(transform, appearance, nullptr);
 	mGameObjects.push_back(gameObject);
 
 	for (int i = 0; i < 50; i++)
@@ -70,9 +68,9 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 		position.z = 1600 * (float)rand() / (RAND_MAX) -800;
 		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
 		transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
-		particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX), { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform);
+		particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX), { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform, 20.0f);
 
-		gameObject = new GameObject(transform, appearance, particle, 20.0f);
+		gameObject = new GameObject(transform, appearance, particle);
 
 		mGameObjects.push_back(gameObject);
 	}
@@ -217,12 +215,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	}
 
 	// check for collisions
-	for (int i = 0; i < mGameObjects.size() - 1; i++) {
-		for (int j = i + 1; j < mGameObjects.size(); j++) {
-			Collision::SphereSphereCollision(mGameObjects[i]->GetBoundingSphere(), mGameObjects[j]->GetBoundingSphere());
-		}
-	}
-
+	Collision::DetectCollisions(mGameObjects);
 
 	Camera::GetInstance()->Update(deltaTime, e, mGameObjects[0]->GetTransform()->GetPosition());
 	

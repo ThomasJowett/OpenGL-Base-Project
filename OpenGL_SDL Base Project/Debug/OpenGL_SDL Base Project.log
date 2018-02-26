@@ -1,54 +1,15 @@
-﻿  3DSLoader.cpp
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\3dsloader.cpp(46): warning C4018: '<': signed/unsigned mismatch
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\3dsloader.cpp(40): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\3dsloader.cpp(42): warning C4474: 'printf' : too many arguments passed for format string
-  f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\3dsloader.cpp(42): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-  Generating Code...
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\3dsloader.cpp(43): warning C4700: uninitialized local variable 'mesh' used
-  Compiling...
+﻿  Skipping... (no relevant changes detected)
   Texture2D.cpp
   Source.cpp
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\source.cpp(199): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
   SceneNode.cpp
   OBJLoader.cpp
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\objloader.cpp(11): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\objloader.cpp(22): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1193): note: see declaration of 'fscanf'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\objloader.cpp(28): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1193): note: see declaration of 'fscanf'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\objloader.cpp(34): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1193): note: see declaration of 'fscanf'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\objloader.cpp(40): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1193): note: see declaration of 'fscanf'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\objloader.cpp(48): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1193): note: see declaration of 'fscanf'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\objloader.cpp(82): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(1193): note: see declaration of 'fscanf'
   GameScreenMenu.cpp
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenmenu.cpp(54): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenmenu.cpp(61): warning C4018: '<': signed/unsigned mismatch
   GameScreenManager.cpp
   GameScreenLevel1.cpp
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(154): warning C4018: '<': signed/unsigned mismatch
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(195): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(199): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(200): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(201): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(202): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(203): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(204): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(205): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(220): warning C4018: '<': signed/unsigned mismatch
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(221): warning C4018: '<': signed/unsigned mismatch
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(239): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
   GameScreen.cpp
   GameObject.cpp
   Camera.cpp
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\camera.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\camera.cpp(33): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
   Appearance.cpp
-  Generating Code...
-  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.exe
-  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.pdb (Full PDB)
+  3DSLoader.cpp
+  OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.exe
+  OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.pdb (Full PDB)

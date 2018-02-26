@@ -74,3 +74,4 @@ struct MeshData
 	Vector3D normals[MAX_VERTICES];
 	Triangle normalsIndices[MAX_POLYGONS];
 };
+

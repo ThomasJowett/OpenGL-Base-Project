@@ -1,11 +1,13 @@
 #include "ParticleModel.h"
 
-ParticleModel::ParticleModel(float mass, Vector3D velocity, Transform * transform): mMass(mass), mVelocity(velocity), mTransform(transform)
+ParticleModel::ParticleModel(float mass, Vector3D velocity, Transform * transform, float radius): mMass(mass), mVelocity(velocity), mTransform(transform)
 {
 	if (mass <= 0)
 		mSimulatePhysics = false;
 
 	mDragCoefficient = 1.05;
+
+	mBoundingSphere = new Sphere(mTransform, radius);
 }
 
 ParticleModel::~ParticleModel()

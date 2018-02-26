@@ -2,6 +2,14 @@
 
 Appearance::Appearance()
 {
+	mMaterial = {
+		{ 0.4f, 0.2f, 0.2f, 1.0f },
+		{ 0.2f, 0.2f, 0.2f, 1.0f },
+		{ 0.5f, 0.5f, 0.5f, 1.0f },
+		20.0f
+	};
+
+	mTextureID = 0;
 }
 
 void Appearance::SetMaterial(float diffuse[4], float ambient[4], float specular[4], float specularPower)

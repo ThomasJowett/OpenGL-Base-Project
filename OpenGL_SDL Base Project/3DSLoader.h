@@ -4,6 +4,6 @@
 #include "Commons.h"
 
 
-extern MeshData* Load3DS(char *filename);
+extern MeshData Load3DS(char *filename);
 
 #endif // !_3DSLOADER_H
