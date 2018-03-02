@@ -10,6 +10,8 @@
 #include "Constants.h"
 #include <time.h>
 #include <string>
+#include "Texture2D.h"
+#include "TextRender.h"
 
 class GameScreenMenu : GameScreen
 {
@@ -20,5 +22,9 @@ public:
 	void		Render();
 	void		Update(float deltaTime, SDL_Event e);
 	void		OutputLine(float x, float y, std::string text);
+	void		DrawTextured2DSquare();
+private:
+	GLuint splashscreenTextureID;
+	TextRender* mControlsText;
 };
 #endif _GAMESCREENMENU_H

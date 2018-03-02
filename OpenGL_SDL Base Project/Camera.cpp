@@ -5,24 +5,13 @@
 static Camera* instance = 0;
 static float moveSpeed = 100.0f;
 static float lookSpeed = 0.5f;
-static float distance = 1000.0f;
 
-Camera::Camera()
+Camera::Camera(Vector3D target, float yaw, float pitch, float distance) : mLookatPos(target), mYaw(yaw), mPitch(pitch), mDistance(distance)
 {
 }
 
 Camera::~Camera()
 {
-}
-
-Camera* Camera::GetInstance()
-{
-	if (instance == 0)
-	{
-		instance = new Camera();
-	}
-
-	return instance;
 }
 
 void Camera::Update(float deltaTime, SDL_Event e, Vector3D target)
@@ -56,18 +45,18 @@ void Camera::Update(float deltaTime, SDL_Event e, Vector3D target)
 
 	if (e.wheel.y == 1)
 	{
-		distance -= moveSpeed;
+		mDistance -= moveSpeed;
 	}
 	else if (e.wheel.y == -1)
 	{
-		distance += moveSpeed;
+		mDistance += moveSpeed;
 	}
 
 	//Clamp Values
-	if (distance < 50.0f)
-		distance = 50.0f;
-	if (distance > 50000.0f)
-		distance = 50000.0f;
+	if (mDistance < 50.0f)
+		mDistance = 50.0f;
+	if (mDistance > 50000.0f)
+		mDistance = 50000.0f;
 	if (mYaw > 360 || mYaw < -360)
 		mYaw = 0;
 	if (mPitch > 90)
@@ -88,9 +77,9 @@ void Camera::Update(float deltaTime, SDL_Event e, Vector3D target)
 	mUp = { 0.0f, 1.0f, 0.0f };
 
 	//Calculate the Camera Position
-	mPosition.x = mLookatPos.x + distance * -sin(mYaw*(M_PI / 180)) * cos((mPitch)*(M_PI / 180));
-	mPosition.y = mLookatPos.y + distance * -sin((mPitch)*(M_PI / 180));
-	mPosition.z = mLookatPos.z + distance * cos((mYaw)*(M_PI / 180)) * cos((mPitch)*(M_PI / 180));
+	mPosition.x = mLookatPos.x + mDistance * -sin(mYaw*(M_PI / 180)) * cos((mPitch)*(M_PI / 180));
+	mPosition.y = mLookatPos.y + mDistance * -sin((mPitch)*(M_PI / 180));
+	mPosition.z = mLookatPos.z + mDistance * cos((mYaw)*(M_PI / 180)) * cos((mPitch)*(M_PI / 180));
 
 	//Get the forward vector from the camera position - look at position
 	mForward = mLookatPos - mPosition;

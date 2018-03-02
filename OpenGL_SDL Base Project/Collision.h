@@ -25,18 +25,9 @@ public:
 		return false;
 	}
 	
-	static std::vector<Contact*> DetectCollisions(std::vector<GameObject*>gameObjects)
-	{
-		std::vector<Contact*>contacts;
-		for (int i = 0; i < gameObjects.size() - 1; i++) 
-		{
-			for (int j = i + 1; j < gameObjects.size(); j++)
-			{
-				Collision::SphereSphereCollision(gameObjects[i]->GetParticleModel()->GetBoundingSphere(), gameObjects[j]->GetParticleModel()->GetBoundingSphere());
-			}
-		}
-		return contacts;
-	}
+	static std::vector<Contact*> DetectCollisions(std::vector<GameObject*>gameObjects);
+
+	static void ResolveCollisions(std::vector<Contact*>contacts);
 };
 
 #endif // !_COLLISION_H

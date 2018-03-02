@@ -19,6 +19,9 @@ public:
 	void SetVelocity(Vector3D velocity) { mVelocity = velocity; }
 	Vector3D GetNetForce() const { return mNetForce; }
 
+	float GetMass() const { return mMass; }
+	void SetMass(float mass) { mMass = mass; }
+
 	Sphere* GetBoundingSphere() const { return mBoundingSphere; }
 
 private:

@@ -4,6 +4,8 @@ GameScreenMenu::GameScreenMenu() : GameScreen()
 {
 	srand(time(NULL));
 
+	glEnable(GL_DEPTH_TEST);
+
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -13,52 +15,71 @@ GameScreenMenu::GameScreenMenu() : GameScreen()
 
 	glMatrixMode(GL_MODELVIEW);
 
-	glEnable(GL_CULL_FACE);								//Stop calculation of inside faces
+	glDisable(GL_CULL_FACE);								//Stop calculation of inside faces
 	glEnable(GL_DEPTH_TEST);							//Hidden surface removal
 	glShadeModel(GL_SMOOTH);
 
+	//glPolygonMode(GL_FRONT, GL_FILL);
+
+
 	//clear background colour.
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	splashscreenTextureID = Texture2D::LoadTexture2D("LogoDodgeball.raw", 2048, 2048);
+
+	mControlsText = new TextRender("Fonts/Tabasco.ttf", 16);
 }
 
 GameScreenMenu::~GameScreenMenu()
 {
-	std::cout << "MenuDestructor\n";
 }
 
 void GameScreenMenu::Render()
 {
-	//std::cout << "Rendering in Menu\n";
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
+	
+	gluLookAt(0.0f, 0.0f, 10.0f,
+		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f);
 
-	glDisable(GL_LIGHTING);
-	glColor3f(0.0, 1.0, 0.0);
-	glMatrixMode(GL_MODELVIEW);
+	glColor3f(1.0, 1.0, 1.0);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, splashscreenTextureID);
 	glPushMatrix();
-	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(0, 100, 0, 100);
-	OutputLine(50, 50, "Main Menu");
+	glTranslatef(0.0f, 0.0f, 0.0f);
+	glRotatef(180.0f, 1, 0, 0);
+	glScalef(20.0f, 20.0f, 2.0f);
+	DrawTextured2DSquare();
 	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+
+	mControlsText->DisplayText("WASD to move", SDL_Colour{ 40,10,125 }, 1500, 900);
+	mControlsText->DisplayText("R to restart", SDL_Colour{ 62,0,125 }, 1500, 880);
+	mControlsText->DisplayText("Get to the far side of the court", SDL_Colour{ 62,0,125 }, 1500, 860);
+	mControlsText->DisplayText("You can only be hit by three balls or less", SDL_Colour{ 62,0,125 }, 1500, 840);
 }
 
 void GameScreenMenu::Update(float deltaTime, SDL_Event e)
 {
-	//std::cout << "Updating in Menu\n";
 	if ((GetAsyncKeyState(VK_RETURN) & 0x80 != 0))
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
 }
 
-void GameScreenMenu::OutputLine(float x, float y, std::string text)
+void GameScreenMenu::DrawTextured2DSquare()
 {
-	glRasterPos2f(x, y); //where to start drawing
-	for (int i = 0; i < text.size(); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, text[i]);
-	}
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0f, 0.0f);
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(-0.5f, -0.5f, 0.0f);
+	glTexCoord2f(1.0f, 0.0f);
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(0.5f, -0.5f, 0.0f);
+	glTexCoord2f(1.0f, 1.0f);
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(0.5f, 0.5f, 0.0f);
+	glTexCoord2f(0.0f, 1.0f);
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(-0.5f, 0.5f, 0.0f);
+	glEnd();
 }

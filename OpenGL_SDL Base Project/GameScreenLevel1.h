@@ -14,6 +14,10 @@
 #include "Constants.h"
 #include "OBJLoader.h"
 #include "3DSLoader.h"
+#include "Texture2D.h"
+#include "Collision.h"
+#include "TextRender.h"
+#include "SoundEffects.h"
 
 class GameScreenLevel1 : GameScreen
 {
@@ -27,16 +31,22 @@ public:
 	void		Update(float deltaTime, SDL_Event e);
 	void		SetLight();
 	void		SetMaterial(Material material);
-	void		OutputLine(float x, float y, std::string text);
-
 //--------------------------------------------------------------------------------------------------
 private:
 	std::vector<GameObject*>mGameObjects;
 	SceneNode* Root;
+	Camera* mCamera;
+
+	float mTimer = 0.0f;
+	char mTime[64] = { " " };
 
 	//FPS
 	int mInitialTime, mFinalTime, mFrameCount;
-	std::string FPS;
+	char FPS[64] = {" "};
+
+	TextRender* mText;
+	
+	SoundEffects* mVictorySound;
 };
 
 

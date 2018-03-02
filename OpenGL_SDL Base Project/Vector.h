@@ -33,3 +33,14 @@ public:
 	bool operator!=(const Vector3D& other);
 	Vector3D operator=(const Vector3D& other);
 };
+
+class Vector2D
+{
+public:
+	float x;
+	float y;
+
+	Vector2D();
+	Vector2D(float x, float y);
+	~Vector2D() {};
+};

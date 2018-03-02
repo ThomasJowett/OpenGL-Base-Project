@@ -22,6 +22,8 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glEnable(GL_DEPTH_TEST);							//Hidden surface removal
 	glShadeModel(GL_SMOOTH);
 
+	mCamera = new Camera({ 0,0,0 }, 90.0f, -30.0f, 1300.0f);
+
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
 	
@@ -61,6 +63,13 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	gameObject = new GameObject(transform, appearance, nullptr);
 	mGameObjects.push_back(gameObject);
 
+	appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
+	transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
+	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform, 20.0f);
+	gameObject = new GameObject(transform, appearance, particle);
+
+	mGameObjects.push_back(gameObject);
+
 	for (int i = 0; i < 50; i++)
 	{
 		position.x = 800 * (float)rand() / (RAND_MAX) -400;
@@ -98,6 +107,10 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 	//Enable the Texture2D
 	glEnable(GL_TEXTURE_2D);
+
+	mText = new TextRender("Fonts/Calibri.ttf", 20);
+
+	mVictorySound = new SoundEffects("SFX/victory.wav");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -132,27 +145,7 @@ GameScreenLevel1::~GameScreenLevel1()
 }
 
 //--------------------------------------------------------------------------------------------------
-void DrawTextured2DSquare()
-{
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(-0.5f, -0.5f, 0.0f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(0.5f, -0.5f, 0.0f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(0.5f, 0.5f, 0.0f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(-0.5f, 0.5f, 0.0f);
-	glEnd();
-}
 
-void GameScreenLevel1::OutputLine(float x, float y, std::string text)
-{
-	glRasterPos2f(x, y); //where to start drawing
-	for (int i = 0; i < text.size(); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, text[i]);
-	}
-}
 
 void GameScreenLevel1::Render()
 {
@@ -162,7 +155,7 @@ void GameScreenLevel1::Render()
 	glLoadIdentity();
 	glEnable(GL_LIGHTING);
 		
-	Camera::GetInstance()->Render();
+	mCamera->Render();
 	SetLight();
 
 	Root->Traverse();
@@ -170,44 +163,28 @@ void GameScreenLevel1::Render()
 	glDisable(GL_LIGHTING);
 
 	//Render text
-	glColor3f(0.3, 0.4, 0.1);
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(0, 100, 0, 100);
-	OutputLine(5, 95, FPS);
-	OutputLine(5, 90, "Click and drag to orbit Camera");
-	OutputLine(5, 85, "WASD to move");
-	OutputLine(5, 80, "Scroll mouse wheel to zoom in");
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	mText->DisplayText(mTime, SDL_Colour{ 1,1,1 }, 1632, 972);
+	mText->DisplayText(FPS, SDL_Colour{ 1,1,1 }, 96, 1026);
 }
 //--------------------------------------------------------------------------------------------------
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
 	//Detect Input
-	if ((GetAsyncKeyState('A') & 0x80 != 0)) 
-	{
-		mGameObjects[1]->GetParticleModel()->AddForce({ 0.0f, 1.0f, 0.0f });
-	}
-	if ((GetAsyncKeyState('D') & 0x80 != 0)) {}
-	if ((GetAsyncKeyState('W') & 0x80 != 0)) {}
-	if ((GetAsyncKeyState('S') & 0x80 != 0)) {}
+	if ((GetAsyncKeyState('A') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ 0.0f, 0.0f, -100.0f });}
+	if ((GetAsyncKeyState('D') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ 0.0f, 0.0f, 100.0f });}
+	if ((GetAsyncKeyState('W') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ 100.0f, 0.0f, 0.0f }); }
+	if ((GetAsyncKeyState('S') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ -100.0f, 0.0f, 0.0f }); }
 	if ((GetAsyncKeyState('Q') & 0x80 != 0)) {}
 	if ((GetAsyncKeyState('E') & 0x80 != 0)) {}
 	if ((GetAsyncKeyState('R') & 0x80 != 0)) {}
-	if ((GetAsyncKeyState('F') & 0x80 != 0)) {}
+	if ((GetAsyncKeyState('F') & 0x80 != 0)) { mVictorySound->Play(-1, 0); }
 
 	//Update the Transforms
 	
 	for (auto GameObject : mGameObjects)
 	{
 		GameObject->Update(deltaTime);
-		if (GameObject->GetTransform()->GetPosition().y < 0.0f)
+		if (GameObject->GetTransform()->GetPosition().y < 0.0f && GameObject->GetParticleModel() != nullptr)
 		{
 			GameObject->GetTransform()->SetPosition(GameObject->GetTransform()->GetPosition().x, 0.0f, GameObject->GetTransform()->GetPosition().z);
 			GameObject->GetParticleModel()->SetVelocity(Vector3D::Reflect(GameObject->GetParticleModel()->GetVelocity(), { 0.0f, -1.0f, 0.0f }));
@@ -215,19 +192,23 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	}
 
 	// check for collisions
-	Collision::DetectCollisions(mGameObjects);
+	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
-	Camera::GetInstance()->Update(deltaTime, e, mGameObjects[0]->GetTransform()->GetPosition());
+	mCamera->Update(deltaTime, e, mGameObjects[0]->GetTransform()->GetPosition());
 	
 	//Update FPS
 	mFrameCount++;
 	mFinalTime = time(NULL);
 	if (mFinalTime - mInitialTime >= 1)
 	{
-		FPS = "FPS: " + std::to_string(mFrameCount / (mFinalTime - mInitialTime));
+		sprintf(FPS, "FPS: %i", mFrameCount / (mFinalTime - mInitialTime));
 		mFrameCount = 0;
 		mInitialTime = mFinalTime;
 	}
+
+	//update timer
+	mTimer += deltaTime;
+	sprintf(mTime, "Time: %fs", mTimer);
 	
 	if ((GetAsyncKeyState(VK_RETURN) & 0x80 != 0))
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);

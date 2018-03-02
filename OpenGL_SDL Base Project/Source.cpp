@@ -42,10 +42,10 @@ int main(int argc, char* args[])
 		GameScreenManager::GetInstance();
 		
 		//Start the music.
-		//LoadMusic("Music/bubble-bobble.mp3");
+		LoadMusic("HolFix - Stephen Page.mp3");
 		if(Mix_PlayingMusic() == 0)
 		{
-			Mix_PlayMusic(gMusic, -1);
+			//Mix_PlayMusic(gMusic, -1);
 		}
 
 		bool quit = false;
@@ -89,12 +89,12 @@ bool InitSDL()
 		//Did the window get created?
 		if(gWindow != NULL)
 		{
-/*			//Initialise the Mixer.
+			//Initialise the Mixer.
 			if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0)
 			{
 				cout << "Mixer could not initialise. Error: " << Mix_GetError();
 				return false;
-			}*/
+			}
 		}
 		else
 		{
@@ -157,8 +157,6 @@ void CloseSDL()
 	delete GameScreenManager::GetInstance();
 
 	//Destroy the window.
-	//SDL_DestroyRenderer(gRenderer);
-	//gRenderer = NULL;
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
 	SDL_GL_DeleteContext(gGLContext);

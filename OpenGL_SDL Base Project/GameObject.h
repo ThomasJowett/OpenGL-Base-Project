@@ -2,7 +2,7 @@
 #define _OBJECT3DS_H_
 #include "Commons.h"
 #include <string>
-#include "Texture2D.h"
+
 #include "Transform.h"
 #include "Appearance.h"
 #include "ParticleModel.h"
