@@ -18,6 +18,8 @@
 #include "Collision.h"
 #include "TextRender.h"
 #include "SoundEffects.h"
+#include "Character.h"
+#include "PlayerController.h"
 
 class GameScreenLevel1 : GameScreen
 {
@@ -36,6 +38,7 @@ private:
 	std::vector<GameObject*>mGameObjects;
 	SceneNode* Root;
 	Camera* mCamera;
+	PlayerController* mPlayerController;
 
 	float mTimer = 0.0f;
 	char mTime[64] = { " " };

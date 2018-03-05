@@ -66,7 +66,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
 	transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform, 20.0f);
-	gameObject = new GameObject(transform, appearance, particle);
+	gameObject = new Character(transform, appearance, particle);
 
 	mGameObjects.push_back(gameObject);
 
@@ -110,7 +110,9 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 	mText = new TextRender("Fonts/Calibri.ttf", 20);
 
-	mVictorySound = new SoundEffects("SFX/victory.wav");
+	mVictorySound = new SoundEffects("SFX/Scream.wav");
+
+	mPlayerController = new PlayerController((Character*)mGameObjects[1]);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -170,14 +172,7 @@ void GameScreenLevel1::Render()
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
 	//Detect Input
-	if ((GetAsyncKeyState('A') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ 0.0f, 0.0f, -100.0f });}
-	if ((GetAsyncKeyState('D') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ 0.0f, 0.0f, 100.0f });}
-	if ((GetAsyncKeyState('W') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ 100.0f, 0.0f, 0.0f }); }
-	if ((GetAsyncKeyState('S') & 0x80 != 0)) { mGameObjects[1]->GetParticleModel()->AddForce({ -100.0f, 0.0f, 0.0f }); }
-	if ((GetAsyncKeyState('Q') & 0x80 != 0)) {}
-	if ((GetAsyncKeyState('E') & 0x80 != 0)) {}
-	if ((GetAsyncKeyState('R') & 0x80 != 0)) {}
-	if ((GetAsyncKeyState('F') & 0x80 != 0)) { mVictorySound->Play(-1, 0); }
+	mPlayerController->Update(deltaTime);
 
 	//Update the Transforms
 	

@@ -17,7 +17,7 @@ public:
 	GameObject(Transform* transform, Appearance* appearance, ParticleModel * particle);
 	~GameObject() {}
 
-	void Update(float deltaTime);
+	virtual void Update(float deltaTime);
 	void Render();
 
 	void SetTransform(Transform * transform) { mTransform = transform; }
@@ -29,11 +29,12 @@ public:
 	void SetParticleModel(ParticleModel * particleModel) { mParticleModel = particleModel; }
 	ParticleModel * GetParticleModel() const { return mParticleModel; }
 
-private:
+protected:
 	Transform * mTransform;
 	Appearance * mAppearance;
 	ParticleModel * mParticleModel;
 
+private:
 	char fileName[20];
 	char fileType[3];
 	char textureName[20];
