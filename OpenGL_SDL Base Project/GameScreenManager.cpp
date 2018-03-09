@@ -33,7 +33,7 @@ void GameScreenManager::Render()
 
 //--------------------------------------------------------------------------------------------------
 
-void GameScreenManager::Update(float deltaTime, SDL_Event e)
+void GameScreenManager::Update(float deltaTime, std::vector<SDL_Event> e)
 {
 	mCurrentScreen->Update(deltaTime, e);
 }

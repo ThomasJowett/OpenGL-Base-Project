@@ -12,7 +12,7 @@ class Camera : public SceneNode
 public:
 	Camera(Vector3D target, float yaw, float pitch, float distance);
 	~Camera();
-	void		Update(float deltaTime, SDL_Event e, Vector3D target);
+	void		Update(float deltaTime, Vector3D target);
 	void        Render();
 
 private:

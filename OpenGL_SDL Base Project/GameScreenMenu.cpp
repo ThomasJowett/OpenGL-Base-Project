@@ -60,7 +60,7 @@ void GameScreenMenu::Render()
 	mControlsText->DisplayText("You can only be hit by three balls or less", SDL_Colour{ 62,0,125 }, 1500, 840);
 }
 
-void GameScreenMenu::Update(float deltaTime, SDL_Event e)
+void GameScreenMenu::Update(float deltaTime, std::vector<SDL_Event> e)
 {
 	if ((GetAsyncKeyState(VK_RETURN) & 0x80 != 0))
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);

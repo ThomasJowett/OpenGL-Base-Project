@@ -28,7 +28,7 @@ SDL_GLContext gGLContext = NULL;
 SDL_Surface*  gSurface   = NULL;
 Mix_Music*	  gMusic	 = NULL;
 Uint32		  gOldTime;
-
+SDL_Joystick* gGameController = NULL;
 //-----------------------------------------------------------------------------------------------------
 
 int main(int argc, char* args[])
@@ -70,7 +70,7 @@ int main(int argc, char* args[])
 bool InitSDL()
 {	
 	//Setup SDL.
-	if(SDL_Init(SDL_INIT_VIDEO) < 0)
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		cout << "SDL did not initialise. Error: " << SDL_GetError();
 		return false;
@@ -101,6 +101,21 @@ bool InitSDL()
 			//Nope.
 			cout << "Window was not created. Error: " << SDL_GetError();
 			return false;
+		}
+
+		//check for number of joysticks
+		if (SDL_NumJoysticks() < 1)
+		{
+			cout << "Warning: No joysticks connected!\n";
+		}
+		else
+		{
+			//load joysticks
+			gGameController = SDL_JoystickOpen(0);
+			if (gGameController == NULL)
+			{
+				cout << "Warning: Unable to open game controller! SDL Error: " << SDL_GetError();
+			}
 		}
 	}
 
@@ -156,6 +171,10 @@ void CloseSDL()
 	//Destroy the game screen manager.
 	delete GameScreenManager::GetInstance();
 
+	//Close game controller
+	SDL_JoystickClose(gGameController);
+	gGameController = NULL;
+
 	//Destroy the window.
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
@@ -191,8 +210,13 @@ bool Update()
 	//Event Handler.
 	SDL_Event e;
 
+	vector<SDL_Event>events;
+
 	//Get the events.
-	SDL_PollEvent(&e);
+	while (SDL_PollEvent(&e) != 0)
+	{
+		events.push_back(e);
+	}
 
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 		return true;
@@ -206,7 +230,7 @@ bool Update()
 		break;
 
 		default:
-			GameScreenManager::GetInstance()->Update((float)(newTime-gOldTime)/1000.0f, e);
+			GameScreenManager::GetInstance()->Update((float)(newTime-gOldTime)/1000.0f, events);
 		break;
 	}
 

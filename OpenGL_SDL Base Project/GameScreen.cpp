@@ -20,7 +20,7 @@ void GameScreen::Render()
 
 //--------------------------------------------------------------------------------------------------
 
-void GameScreen::Update(float deltaTime, SDL_Event e)
+void GameScreen::Update(float deltaTime, std::vector<SDL_Event> e)
 {
 }
 //--------------------------------------------------------------------------------------------------

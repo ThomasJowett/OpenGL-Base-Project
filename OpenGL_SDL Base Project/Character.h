@@ -8,12 +8,17 @@ class Character : public GameObject , public iInput
 {
 public:
 	Character(Transform* transform, Appearance* appearance, ParticleModel * particle);
-	void MoveRight(float deltaTime) override;
-	void MoveLeft(float deltaTime) override;
-	void MoveForward(float deltaTime) override;
-	void MoveBackward(float deltaTime) override;
+	void MoveRight(float deltaTime, float scale) override;
+	void MoveForward(float deltaTime, float scale) override;
+
+	void Yaw(float deltaTime, float scale);
+	void Pitch(float deltaTime, float scale);
+	void Roll(float deltaTime, float scale);
 private:
 	float mMovementSpeed;
+	Vector3D mForward;
+	Vector3D mRight;
+	Vector3D mUp;
 };
 #endif // !_CHARACTER_H
 

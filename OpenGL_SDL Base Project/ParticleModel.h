@@ -23,6 +23,8 @@ public:
 	void SetMass(float mass) { mMass = mass; }
 
 	Sphere* GetBoundingSphere() const { return mBoundingSphere; }
+	
+	void SetDragCoefficient(float drag) { mDragCoefficient = drag; }
 
 private:
 	Transform * mTransform;

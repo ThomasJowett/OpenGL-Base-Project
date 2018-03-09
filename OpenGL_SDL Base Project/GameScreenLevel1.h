@@ -29,10 +29,9 @@ public:
 	~GameScreenLevel1();
 
 	bool		SetUpLevel();
-	void		Render();
-	void		Update(float deltaTime, SDL_Event e);
+	void		Render() override;
+	void		Update(float deltaTime, std::vector<SDL_Event> e) override;
 	void		SetLight();
-	void		SetMaterial(Material material);
 //--------------------------------------------------------------------------------------------------
 private:
 	std::vector<GameObject*>mGameObjects;

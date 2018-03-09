@@ -14,11 +14,12 @@ Camera::~Camera()
 {
 }
 
-void Camera::Update(float deltaTime, SDL_Event e, Vector3D target)
+void Camera::Update(float deltaTime, Vector3D target)
 {
 	mLookatPos = target;
 	//Detect Input
 	
+	/*
 	if ((GetAsyncKeyState(VK_LSHIFT) & 0x80 != 0))
 	{
 		mMouseButtonDown = true;
@@ -51,7 +52,7 @@ void Camera::Update(float deltaTime, SDL_Event e, Vector3D target)
 	{
 		mDistance += moveSpeed;
 	}
-
+	*/
 	//Clamp Values
 	if (mDistance < 50.0f)
 		mDistance = 50.0f;

@@ -19,9 +19,8 @@ public:
 	GameScreenMenu();
 	~GameScreenMenu();
 
-	void		Render();
-	void		Update(float deltaTime, SDL_Event e);
-	void		OutputLine(float x, float y, std::string text);
+	void		Render() override;
+	void		Update(float deltaTime, std::vector<SDL_Event> e) override;
 	void		DrawTextured2DSquare();
 private:
 	GLuint splashscreenTextureID;

@@ -112,7 +112,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 	mVictorySound = new SoundEffects("SFX/Scream.wav");
 
-	mPlayerController = new PlayerController((Character*)mGameObjects[1]);
+	mPlayerController = new PlayerController((Character*)mGameObjects[1], 0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -132,14 +132,6 @@ void GameScreenLevel1::SetLight() {
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light.specular);
 	glLightfv(GL_LIGHT0, GL_POSITION, light_pos);
 }
-
-void GameScreenLevel1::SetMaterial(Material material) {
-	glMaterialfv(GL_FRONT, GL_AMBIENT, material.ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, material.diffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, material.specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, material.specularPower);
-}
-
 
 GameScreenLevel1::~GameScreenLevel1()
 {	
@@ -169,10 +161,10 @@ void GameScreenLevel1::Render()
 	mText->DisplayText(FPS, SDL_Colour{ 1,1,1 }, 96, 1026);
 }
 //--------------------------------------------------------------------------------------------------
-void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
+void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 {
 	//Detect Input
-	mPlayerController->Update(deltaTime);
+	mPlayerController->Update(deltaTime, e);
 
 	//Update the Transforms
 	
@@ -189,7 +181,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
-	mCamera->Update(deltaTime, e, mGameObjects[0]->GetTransform()->GetPosition());
+	mCamera->Update(deltaTime, mGameObjects[0]->GetTransform()->GetPosition());
 	
 	//Update FPS
 	mFrameCount++;

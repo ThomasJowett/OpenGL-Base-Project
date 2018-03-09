@@ -11,7 +11,7 @@ public:
 	~GameScreen();
 
 	virtual void Render();
-	virtual void Update(float deltaTime, SDL_Event e);
+	virtual void Update(float deltaTime, std::vector<SDL_Event> e);
 
 
 };
