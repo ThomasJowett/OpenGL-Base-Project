@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3DSLoader.h" />
+    <ClInclude Include="AIStateMachine.h" />
     <ClInclude Include="Appearance.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="SoundEffects.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="TextRender.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
@@ -99,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="3DSLoader.cpp" />
+    <ClCompile Include="AIStateMachine.cpp" />
     <ClCompile Include="Appearance.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />

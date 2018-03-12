@@ -13,13 +13,11 @@ Character::Character(Transform* transform, Appearance* appearance, ParticleModel
 void Character::MoveRight(float deltaTime, float scale)
 {
 	mParticleModel->AddForce(mForward * scale  * mMovementSpeed);
-	//mTransform->SetPosition(mTransform->GetPosition().x + mMovementSpeed *deltaTime, mTransform->GetPosition().y, mTransform->GetPosition().z);
 }
 
 void Character::MoveForward(float deltaTime, float scale)
 {
 	mParticleModel->AddForce(mRight * scale  * mMovementSpeed);
-	//mTransform->SetPosition(mTransform->GetPosition().x , mTransform->GetPosition().y, mTransform->GetPosition().z + mMovementSpeed*deltaTime);
 }
 
 void Character::Yaw(float deltaTime, float scale)
