@@ -58,25 +58,25 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	GameObject * gameObject;
 
 	Appearance * appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
-	transform = new Transform({ 0.0f,0.0f,0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
+	transform = new Transform({ 0.0f,0.0f,0.0f }, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 
 	gameObject = new GameObject(transform, appearance, nullptr);
 	mGameObjects.push_back(gameObject);
 
 	appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
-	transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
+	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform, 20.0f);
 	gameObject = new Character(transform, appearance, particle);
 
 	mGameObjects.push_back(gameObject);
 
-	for (int i = 0; i < 2505; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		position.x = 800 * (float)rand() / (RAND_MAX) -400;
 		position.y = 800 * (float)rand() / (RAND_MAX);
 		position.z = 1600 * (float)rand() / (RAND_MAX) -800;
 		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
-		transform = new Transform(position, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
+		transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 		//particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX), { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform, 20.0f);
 
 		particle = new ParticleModel(10, { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform, 20.0f);

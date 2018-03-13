@@ -91,6 +91,7 @@
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="SoundEffects.h" />
     <ClInclude Include="State.h" />

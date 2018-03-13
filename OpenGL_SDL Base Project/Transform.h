@@ -4,21 +4,22 @@
 #include <Windows.h>
 //#include "SceneNode.h"
 #include "Vector.h"
+#include "Quaternion.h"
 #include <gl/GL.h>
 
 class Transform
 {
 public:
 	Transform();
-	Transform(Vector3D position, Vector3D rotation, Vector3D scale);
+	Transform(Vector3D position, Quaternion rotation, Vector3D scale);
 
 	void SetPosition(float x, float y, float z) { mPosition = Vector3D{ x,y,z }; }
 	void SetPosition(Vector3D position) { mPosition = position; }
 	Vector3D GetPosition() const { return mPosition; }
 
-	void SetRotation(float pitch, float roll, float yaw) { mRotation = Vector3D{ pitch , roll, yaw }; }
-	void SetRotation(Vector3D rotation) { mRotation = rotation; }
-	Vector3D GetRotation() const { return mRotation; }
+	//void SetRotation(float pitch, float roll, float yaw) { mRotation = Vector3D{ pitch , roll, yaw }; }
+	void SetRotation(Quaternion rotation) { mRotation = rotation; }
+	Quaternion GetRotation() const { return mRotation; }
 
 	void SetScale(float x, float y, float z) { mScale = Vector3D{ x,y,z }; }
 	void SetScale(Vector3D scale) { mScale = scale; }
@@ -28,7 +29,7 @@ public:
 
 private:
 	Vector3D mPosition;
-	Vector3D mRotation;
+	Quaternion mRotation;
 	Vector3D mScale;
 	int OpNum;
 	int TransformOrder[10];

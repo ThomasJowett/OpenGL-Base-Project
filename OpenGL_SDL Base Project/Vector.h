@@ -10,7 +10,7 @@ public:
 	float z;
 
 	Vector3D();
-	Vector3D(float initialX, float initialY, float initialZ);
+	Vector3D(float x, float y, float z);
 	~Vector3D() {};
 
 	float GetMagnitude();
