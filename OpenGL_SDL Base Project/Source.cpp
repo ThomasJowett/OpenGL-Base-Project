@@ -42,7 +42,7 @@ int main(int argc, char* args[])
 		GameScreenManager::GetInstance();
 		
 		//Start the music.
-		LoadMusic("HolFix - Stephen Page.mp3");
+		LoadMusic("Music/HolFix - Stephen Page.mp3");
 		if(Mix_PlayingMusic() == 0)
 		{
 			//Mix_PlayMusic(gMusic, -1);
@@ -218,21 +218,15 @@ bool Update()
 		events.push_back(e);
 	}
 
-	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
-		return true;
+	GameScreenManager::GetInstance()->Update((float)(newTime - gOldTime) / 1000.0f, events);
 
-	//Handle any events.
-	switch(e.type)
+	//Handle quiting.
+	for (auto e : events)
 	{
-		//Click the 'X' to quit.
-		case SDL_QUIT:
+		if (e.type == SDL_QUIT)
 			return true;
-		break;
-
-		default:
-			GameScreenManager::GetInstance()->Update((float)(newTime-gOldTime)/1000.0f, events);
-		break;
 	}
+	
 
 	//Set the current time to be the old time.
 	gOldTime = newTime;

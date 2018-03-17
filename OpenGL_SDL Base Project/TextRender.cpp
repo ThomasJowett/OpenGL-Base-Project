@@ -1,7 +1,5 @@
 #include "TextRender.h"
 
-
-
 TextRender::TextRender(std::string path, int pointSize)
 {
 	if (TTF_Init() != 0)
@@ -26,7 +24,7 @@ void TextRender::LoadFont(std::string path, int pointSize)
 	}
 }
 
-void TextRender::DisplayText(const char* text, SDL_Colour text_colour, int x, int y)
+void TextRender::DisplayText(const char* text, SDL_Colour text_colour, int x, int y, ALIGNMENT alignment)
 {
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -57,14 +55,40 @@ void TextRender::DisplayText(const char* text, SDL_Colour text_colour, int x, in
 
 	//gluBuild2DMipmaps(GL_TEXTURE_2D, 4, surface->w, surface->h, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
-	glBegin(GL_QUADS);
+
+	switch (alignment)
 	{
-		glTexCoord2f(0, 1); glVertex2f(x, y);
-		glTexCoord2f(1, 1); glVertex2f(x + surface->w, y);
-		glTexCoord2f(1, 0); glVertex2f(x + surface->w, y + surface->h);
-		glTexCoord2f(0, 0); glVertex2f(x, y + surface->h);
+	case CENTER:
+		glBegin(GL_QUADS);
+		{
+			glTexCoord2f(0, 1); glVertex2f(x-(surface->w/2), y);
+			glTexCoord2f(1, 1); glVertex2f(x + (surface->w/2), y);
+			glTexCoord2f(1, 0); glVertex2f(x + (surface->w/2), y + surface->h);
+			glTexCoord2f(0, 0); glVertex2f(x - (surface->w / 2), y + surface->h);
+		}
+		glEnd();
+		break;
+	case RIGHT:
+		glBegin(GL_QUADS);
+		{
+			glTexCoord2f(0, 1); glVertex2f(x, y);
+			glTexCoord2f(1, 1); glVertex2f(x + surface->w, y);
+			glTexCoord2f(1, 0); glVertex2f(x + surface->w, y + surface->h);
+			glTexCoord2f(0, 0); glVertex2f(x, y + surface->h);
+		}
+		glEnd();
+		break;
+	case LEFT:
+		glBegin(GL_QUADS);
+		{
+			glTexCoord2f(0, 1); glVertex2f(x - surface->w, y);
+			glTexCoord2f(1, 1); glVertex2f(x , y);
+			glTexCoord2f(1, 0); glVertex2f(x, y + surface->h);
+			glTexCoord2f(0, 0); glVertex2f(x - surface->w, y + surface->h);
+		}
+		glEnd();
+		break;
 	}
-	glEnd();
 
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);

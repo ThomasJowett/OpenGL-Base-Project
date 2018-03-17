@@ -88,6 +88,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScreenMenu.h" />
     <ClInclude Include="iInput.h" />
+    <ClInclude Include="ImageRender.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="PlayerController.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="GameScreenManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScreenMenu.cpp" />
+    <ClCompile Include="ImageRender.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="PlayerController.cpp" />

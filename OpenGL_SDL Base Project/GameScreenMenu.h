@@ -2,6 +2,7 @@
 #define _GAMESCREENMENU_H
 
 #include <SDL.h>
+#include <vector>
 #include "GameScreen.h"
 #include <windows.h>
 #include <GL\gl.h>
@@ -12,6 +13,7 @@
 #include <string>
 #include "Texture2D.h"
 #include "TextRender.h"
+#include "ImageRender.h"
 
 class GameScreenMenu : GameScreen
 {
@@ -20,10 +22,24 @@ public:
 	~GameScreenMenu();
 
 	void		Render() override;
-	void		Update(float deltaTime, std::vector<SDL_Event> e) override;
-	void		DrawTextured2DSquare();
+	void		Update(float deltaTime, std::vector<SDL_Event> events) override;
 private:
 	GLuint splashscreenTextureID;
-	TextRender* mControlsText;
+	TextRender* mInstructionsText;
+	TextRender* mMenuText;
+	void MoveHighlightDown();
+	void MoveHighlightUp();
+	void Quit();
+
+	bool mHasMovedDown;
+	bool mHasMovedUp;
+
+	Vector2D mHighlightLocation;
+	int mCurrentButton;
+protected:
+	void HandleInput(std::vector<SDL_Event > events);
+	std::vector<std::string> mMenuItems;
+	std::vector<std::string> mInstructions;
+	std::vector<ImageRender*>mImages;
 };
 #endif _GAMESCREENMENU_H

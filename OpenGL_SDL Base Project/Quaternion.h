@@ -12,6 +12,7 @@ public:
 
 	Quaternion() : r(1), i(0), j(0), k(0) {}
 	Quaternion(const float r, const float i, const float j, const float k) : r(r), i(i), j(j), k(k) {}
+	Quaternion(const Quaternion& q) : r(q.r), i(q.i), j(q.j), k(q.k) {}
 	~Quaternion() {};
 
 	void normalise()

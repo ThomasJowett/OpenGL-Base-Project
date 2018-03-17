@@ -9,7 +9,12 @@
 #include <GL\gl.h>
 #include <GL\glu.h>
 #include "Constants.h"
-
+enum ALIGNMENT
+{
+	CENTER = 0,
+	RIGHT,
+	LEFT
+};
 class TextRender
 {
 public:
@@ -17,7 +22,7 @@ public:
 	~TextRender();
 
 	void LoadFont(std::string path, int pointSize);
-	void DisplayText(const char* text, SDL_Colour text_colour, int x, int y);
+	void DisplayText(const char* text, SDL_Colour text_colour, int x, int y, ALIGNMENT alignment);
 
 private:
 	TTF_Font * mFont;

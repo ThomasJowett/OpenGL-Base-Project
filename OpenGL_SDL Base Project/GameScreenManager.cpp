@@ -50,6 +50,7 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 
 	GameScreenMenu* tempMenuScreen;
 	GameScreenLevel1* tempScreen1;
+	//GameScreenLevel2* tempScreen2;
 
 	//Initialise the new screen.
 	switch(newScreen)
@@ -70,6 +71,12 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 			mCurrentScreen = (GameScreen*)tempScreen1;
 			tempScreen1 = NULL;
 		break;
+
+		case SCREEN_LEVEL2:
+			std::cout << "Level 1 Loaded\n";
+			tempScreen1 = new GameScreenLevel1();
+			mCurrentScreen = (GameScreen*)tempScreen1;
+			tempScreen1 = NULL;
 		
 		case SCREEN_GAMEOVER:
 		break;

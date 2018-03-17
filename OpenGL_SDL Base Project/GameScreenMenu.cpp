@@ -25,9 +25,31 @@ GameScreenMenu::GameScreenMenu() : GameScreen()
 	//clear background colour.
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-	splashscreenTextureID = Texture2D::LoadTexture2D("LogoDodgeball.raw", 2048, 2048);
+	ImageRender* image = new ImageRender("Images/Button_Hovered.PNG");
+	mImages.push_back(image);
 
-	mControlsText = new TextRender("Fonts/Tabasco.ttf", 16);
+	image = new ImageRender("Images/Button_Normal.PNG");
+	mImages.push_back(image);
+
+	image = new ImageRender("Images/DodgeballLogo.PNG");
+	mImages.push_back(image);
+
+	//splashscreenTextureID = Texture2D::LoadTexture2D("LogoDodgeball.raw", 2048, 2048);
+
+	mInstructionsText = new TextRender("Fonts/Tabasco.ttf", 16);
+	mMenuText = new TextRender("Fonts/Dimbo Regular.ttf", 50);
+
+	mMenuItems.push_back("Level 1");
+	mMenuItems.push_back("Level 2");
+	mMenuItems.push_back("Quit");
+
+	mInstructions.push_back("WASD to move");
+	mInstructions.push_back("R to restart");
+	mInstructions.push_back("Get to the far side of the court");
+	mInstructions.push_back("You can only be hit by three balls or less");
+
+	mHighlightLocation = { 1500, 225 };
+	mCurrentButton = 1;
 }
 
 GameScreenMenu::~GameScreenMenu()
@@ -44,42 +66,146 @@ void GameScreenMenu::Render()
 		0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f);
 
-	glColor3f(1.0, 1.0, 1.0);
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, splashscreenTextureID);
-	glPushMatrix();
-	glTranslatef(0.0f, 0.0f, 0.0f);
-	glRotatef(180.0f, 1, 0, 0);
-	glScalef(20.0f, 20.0f, 2.0f);
-	DrawTextured2DSquare();
-	glPopMatrix();
+	
 
-	mControlsText->DisplayText("WASD to move", SDL_Colour{ 40,10,125 }, 1500, 900);
-	mControlsText->DisplayText("R to restart", SDL_Colour{ 62,0,125 }, 1500, 880);
-	mControlsText->DisplayText("Get to the far side of the court", SDL_Colour{ 62,0,125 }, 1500, 860);
-	mControlsText->DisplayText("You can only be hit by three balls or less", SDL_Colour{ 62,0,125 }, 1500, 840);
+	mImages[1]->DrawImage(1500, 225, 400.0f, 100.0f);
+	mImages[1]->DrawImage(1500, 125, 400.0f, 100.0f);
+	mImages[1]->DrawImage(1500, 25, 400.0f, 100.0f);
+	mImages[2]->DrawImage(0, 0, 1920.0f, 1080.0f);
+	mImages[0]->DrawImage(mHighlightLocation.x, mHighlightLocation.y, 400.0f, 100.0f);
+
+	for (int i = 0; i <= mInstructions.size() -1; i++)
+	{
+		mInstructionsText->DisplayText(mInstructions[i].c_str(), SDL_Colour{ 40,10,125 }, 1500, 840 + (i * 20), RIGHT);
+	}
+
+	for (int i = 0; i <= mMenuItems.size() - 1; i++)
+	{
+		mMenuText->DisplayText(mMenuItems[i].c_str(), SDL_Colour{ 40, 10, 125 }, 1700, 250 - (i * 100), CENTER);
+	}
 }
 
-void GameScreenMenu::Update(float deltaTime, std::vector<SDL_Event> e)
+void GameScreenMenu::Update(float deltaTime, std::vector<SDL_Event> events)
 {
-	if ((GetAsyncKeyState(VK_RETURN) & 0x80 != 0))
-		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
+	HandleInput(events);
 }
 
-void GameScreenMenu::DrawTextured2DSquare()
+void GameScreenMenu::HandleInput(std::vector<SDL_Event> events)
 {
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f);
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(-0.5f, -0.5f, 0.0f);
-	glTexCoord2f(1.0f, 0.0f);
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(0.5f, -0.5f, 0.0f);
-	glTexCoord2f(1.0f, 1.0f);
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(0.5f, 0.5f, 0.0f);
-	glTexCoord2f(0.0f, 1.0f);
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(-0.5f, 0.5f, 0.0f);
-	glEnd();
+	SDL_PumpEvents();
+	if (SDL_NumJoysticks() == 0)
+	{
+		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+
+		if (currentKeyStates[SDL_SCANCODE_UP])
+		{
+			if (!mHasMovedUp)
+			{
+				MoveHighlightUp();
+				mHasMovedUp = true;
+			}
+		}
+		else
+		{
+			mHasMovedUp = false;
+		}
+
+		if (currentKeyStates[SDL_SCANCODE_DOWN])
+		{
+			if (!mHasMovedDown)
+			{
+				MoveHighlightDown();
+				mHasMovedDown = true;
+			}
+		}
+		else
+		{
+			mHasMovedDown = false;
+		}
+
+		if (currentKeyStates[SDL_SCANCODE_RETURN]) 
+		{ 
+			switch (mCurrentButton)
+			{
+			case 1:
+				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
+				break;
+			case 2:
+				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL2);
+			case 3:
+				Quit();
+				break;
+			}
+ 
+		}
+	}
+	for (SDL_Event e : events)
+	{
+		if (SDL_NumJoysticks() > 0)
+		{
+			if (e.type == SDL_JOYAXISMOTION)
+			{
+				if (e.jaxis.which == 0)
+				{
+					if (e.jaxis.axis == 1)
+					{
+						if (e.jaxis.value > 20000)
+						{
+							if (!mHasMovedDown)
+							{
+								MoveHighlightDown();
+								mHasMovedDown = true;
+							}
+						}
+						else
+						{
+							mHasMovedDown = false;
+						}
+
+						if (e.jaxis.value < -20000)
+						{
+							if (!mHasMovedUp)
+							{
+								MoveHighlightUp();
+								mHasMovedUp = true;
+							}
+						}
+						else
+						{
+							mHasMovedUp = false;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void GameScreenMenu::MoveHighlightDown()
+{
+	mHighlightLocation.y -= 100;
+	mCurrentButton++;
+	if (mCurrentButton > 3)
+	{
+		mCurrentButton = 1;
+		mHighlightLocation = { 1500, 225 };
+	}
+}
+
+void GameScreenMenu::MoveHighlightUp()
+{
+	mHighlightLocation.y += 100;
+	mCurrentButton--;
+	if (mCurrentButton < 1)
+	{
+		mCurrentButton = 3;
+		mHighlightLocation = { 1500, 225-200 };
+	}
+}
+
+void GameScreenMenu::Quit()
+{
+	SDL_Event sdlEvent;
+	sdlEvent.type = SDL_QUIT;
+	SDL_PushEvent(&sdlEvent);
 }

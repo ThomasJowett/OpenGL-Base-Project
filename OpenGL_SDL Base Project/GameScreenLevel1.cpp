@@ -28,14 +28,14 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
 	
 	//Load Models
-	MeshData floorGeometry = OBJLoader::LoadOBJ("Floor.obj");
-	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Dodgeball.obj");
+	MeshData floorGeometry = OBJLoader::LoadOBJ("Models/Floor.obj");
+	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Models/Dodgeball.obj");
 	
 	//MeshData dodgeballGeometry = Load3DS("Car_Backfire.3DS");
 
 	//Load Textures
-	GLuint dodgeBallTextureID = Texture2D::LoadTexture2D("Dodgeball_Diffuse.raw", 512, 512);
-	GLuint courtTextureID = Texture2D::LoadTexture2D("Court_Diffuse.raw", 1200, 1200);
+	GLuint dodgeBallTextureID = Texture2D::LoadTexture2D("Textures/Dodgeball_Diffuse.raw", 512, 512);
+	GLuint courtTextureID = Texture2D::LoadTexture2D("Textures/Court_Diffuse.raw", 1200, 1200);
 
 	
 	Material dodgeballMaterial = {	
@@ -158,8 +158,8 @@ void GameScreenLevel1::Render()
 	glDisable(GL_LIGHTING);
 
 	//Render text
-	mText->DisplayText(mTime, SDL_Colour{ 1,1,1 }, 1632, 972);
-	mText->DisplayText(FPS, SDL_Colour{ 1,1,1 }, 96, 1026);
+	mText->DisplayText(mTime, SDL_Colour{ 1,1,1 }, 1632, 1000, LEFT);
+	mText->DisplayText(FPS, SDL_Colour{ 1,1,1 }, 96, 1000, RIGHT);
 }
 //--------------------------------------------------------------------------------------------------
 void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
@@ -198,7 +198,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	mTimer += deltaTime;
 	sprintf(mTime, "Time: %fs", mTimer);
 	
-	if ((GetAsyncKeyState(VK_RETURN) & 0x80 != 0))
+	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
 }
 //--------------------------------------------------------------------------------------------------
