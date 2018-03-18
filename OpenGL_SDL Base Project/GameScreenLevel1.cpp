@@ -30,6 +30,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	//Load Models
 	MeshData floorGeometry = OBJLoader::LoadOBJ("Models/Floor.obj");
 	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Models/Dodgeball.obj");
+	MeshData characterGeometry = OBJLoader::LoadOBJ("Models/Character.obj");
 	
 	//MeshData dodgeballGeometry = Load3DS("Car_Backfire.3DS");
 
@@ -63,7 +64,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	gameObject = new GameObject(transform, appearance, nullptr);
 	mGameObjects.push_back(gameObject);
 
-	appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
+	appearance = new Appearance(characterGeometry, dodgeballMaterial, dodgeBallTextureID);
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform, 20.0f);
 	gameObject = new Character(transform, appearance, particle);

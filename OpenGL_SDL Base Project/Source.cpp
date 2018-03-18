@@ -28,7 +28,7 @@ SDL_GLContext gGLContext = NULL;
 SDL_Surface*  gSurface   = NULL;
 Mix_Music*	  gMusic	 = NULL;
 Uint32		  gOldTime;
-SDL_Joystick* gGameController = NULL;
+SDL_GameController* gGameController = NULL;
 //-----------------------------------------------------------------------------------------------------
 
 int main(int argc, char* args[])
@@ -102,7 +102,6 @@ bool InitSDL()
 			cout << "Window was not created. Error: " << SDL_GetError();
 			return false;
 		}
-
 		//check for number of joysticks
 		if (SDL_NumJoysticks() < 1)
 		{
@@ -110,8 +109,8 @@ bool InitSDL()
 		}
 		else
 		{
-			//load joysticks
-			gGameController = SDL_JoystickOpen(0);
+			//load game controllers
+			gGameController = SDL_GameControllerOpen(0);
 			if (gGameController == NULL)
 			{
 				cout << "Warning: Unable to open game controller! SDL Error: " << SDL_GetError();
@@ -172,7 +171,7 @@ void CloseSDL()
 	delete GameScreenManager::GetInstance();
 
 	//Close game controller
-	SDL_JoystickClose(gGameController);
+	SDL_GameControllerClose(gGameController);
 	gGameController = NULL;
 
 	//Destroy the window.

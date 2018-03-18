@@ -41,14 +41,15 @@ GameScreenMenu::GameScreenMenu() : GameScreen()
 
 	mMenuItems.push_back("Level 1");
 	mMenuItems.push_back("Level 2");
+	mMenuItems.push_back("HighScores");
 	mMenuItems.push_back("Quit");
 
-	mInstructions.push_back("WASD to move");
+	mInstructions.push_back("WASD or left stick to move");
 	mInstructions.push_back("R to restart");
 	mInstructions.push_back("Get to the far side of the court");
 	mInstructions.push_back("You can only be hit by three balls or less");
 
-	mHighlightLocation = { 1500, 225 };
+	mHighlightLocation = { 1500, 325 };
 	mCurrentButton = 1;
 }
 
@@ -67,11 +68,12 @@ void GameScreenMenu::Render()
 		0.0f, 1.0f, 0.0f);
 
 	
-
+	mImages[1]->DrawImage(1500, 325, 400.0f, 100.0f);
 	mImages[1]->DrawImage(1500, 225, 400.0f, 100.0f);
 	mImages[1]->DrawImage(1500, 125, 400.0f, 100.0f);
 	mImages[1]->DrawImage(1500, 25, 400.0f, 100.0f);
-	mImages[2]->DrawImage(0, 0, 1920.0f, 1080.0f);
+	mImages[1]->DrawImage(1500, 25, 400.0f, 100.0f);
+	mImages[2]->DrawImage(20, 170, 1600.0f, 900.0f);
 	mImages[0]->DrawImage(mHighlightLocation.x, mHighlightLocation.y, 400.0f, 100.0f);
 
 	for (int i = 0; i <= mInstructions.size() -1; i++)
@@ -81,7 +83,7 @@ void GameScreenMenu::Render()
 
 	for (int i = 0; i <= mMenuItems.size() - 1; i++)
 	{
-		mMenuText->DisplayText(mMenuItems[i].c_str(), SDL_Colour{ 40, 10, 125 }, 1700, 250 - (i * 100), CENTER);
+		mMenuText->DisplayText(mMenuItems[i].c_str(), SDL_Colour{ 40, 10, 125 }, 1700, 350 - (i * 100), CENTER);
 	}
 }
 
@@ -93,57 +95,13 @@ void GameScreenMenu::Update(float deltaTime, std::vector<SDL_Event> events)
 void GameScreenMenu::HandleInput(std::vector<SDL_Event> events)
 {
 	SDL_PumpEvents();
-	if (SDL_NumJoysticks() == 0)
-	{
-		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-
-		if (currentKeyStates[SDL_SCANCODE_UP])
-		{
-			if (!mHasMovedUp)
-			{
-				MoveHighlightUp();
-				mHasMovedUp = true;
-			}
-		}
-		else
-		{
-			mHasMovedUp = false;
-		}
-
-		if (currentKeyStates[SDL_SCANCODE_DOWN])
-		{
-			if (!mHasMovedDown)
-			{
-				MoveHighlightDown();
-				mHasMovedDown = true;
-			}
-		}
-		else
-		{
-			mHasMovedDown = false;
-		}
-
-		if (currentKeyStates[SDL_SCANCODE_RETURN]) 
-		{ 
-			switch (mCurrentButton)
-			{
-			case 1:
-				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
-				break;
-			case 2:
-				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL2);
-			case 3:
-				Quit();
-				break;
-			}
- 
-		}
-	}
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+	
 	for (SDL_Event e : events)
 	{
 		if (SDL_NumJoysticks() > 0)
 		{
-			if (e.type == SDL_JOYAXISMOTION)
+			if (e.type == SDL_CONTROLLERAXISMOTION)
 			{
 				if (e.jaxis.which == 0)
 				{
@@ -177,6 +135,40 @@ void GameScreenMenu::HandleInput(std::vector<SDL_Event> events)
 					}
 				}
 			}
+
+			else if (e.type == SDL_CONTROLLERBUTTONDOWN)
+			{
+				switch (e.cbutton.button)
+				{
+				case SDL_CONTROLLER_BUTTON_A:
+					ChangeLevel();
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
+					MoveHighlightDown();
+					break;
+				case SDL_CONTROLLER_BUTTON_DPAD_UP:
+					MoveHighlightUp();
+					break;
+				}
+			}
+
+			else if (e.type == SDL_KEYDOWN)
+			{
+				switch (e.key.keysym.sym)
+				{
+				case SDLK_UP:
+					MoveHighlightUp();
+					break;
+				case SDLK_DOWN:
+					MoveHighlightDown();
+					break;
+				case SDLK_RETURN:
+					ChangeLevel();
+					break;
+				default:
+					break;
+				}
+			}
 		}
 	}
 }
@@ -185,10 +177,10 @@ void GameScreenMenu::MoveHighlightDown()
 {
 	mHighlightLocation.y -= 100;
 	mCurrentButton++;
-	if (mCurrentButton > 3)
+	if (mCurrentButton > 4)
 	{
 		mCurrentButton = 1;
-		mHighlightLocation = { 1500, 225 };
+		mHighlightLocation = { 1500, 325 };
 	}
 }
 
@@ -198,8 +190,27 @@ void GameScreenMenu::MoveHighlightUp()
 	mCurrentButton--;
 	if (mCurrentButton < 1)
 	{
-		mCurrentButton = 3;
-		mHighlightLocation = { 1500, 225-200 };
+		mCurrentButton = 4;
+		mHighlightLocation = { 1500, 325-300 };
+	}
+}
+
+void GameScreenMenu::ChangeLevel()
+{
+	switch (mCurrentButton)
+	{
+	case 1:
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
+		break;
+	case 2:
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL2);
+		break;
+	case 3:
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
+		break;
+	case 4:
+		Quit();
+		break;
 	}
 }
 

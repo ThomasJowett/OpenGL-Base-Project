@@ -83,7 +83,10 @@
     <ClInclude Include="Commons.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GameScreenGameOver.h" />
+    <ClInclude Include="GameScreenHighScores.h" />
     <ClInclude Include="GameScreenLevel1.h" />
+    <ClInclude Include="GameScreenLevel2.h" />
     <ClInclude Include="GameScreenManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScreenMenu.h" />
@@ -96,6 +99,8 @@
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="SoundEffects.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StateFindClosestBall.h" />
+    <ClInclude Include="StatePickUpBall.h" />
     <ClInclude Include="TextRender.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
@@ -109,7 +114,10 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="GameScreenGameOver.cpp" />
+    <ClCompile Include="GameScreenHighScores.cpp" />
     <ClCompile Include="GameScreenLevel1.cpp" />
+    <ClCompile Include="GameScreenLevel2.cpp" />
     <ClCompile Include="GameScreenManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScreenMenu.cpp" />
@@ -120,6 +128,8 @@
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="SoundEffects.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="StateFindClosestBall.cpp" />
+    <ClCompile Include="StatePickUpBall.cpp" />
     <ClCompile Include="TextRender.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />

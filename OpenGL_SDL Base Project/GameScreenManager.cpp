@@ -1,7 +1,11 @@
 #include "GameScreenManager.h"
 #include "GameScreen.h"
-#include "GameScreenLevel1.h"
 #include "GameScreenMenu.h"
+#include "GameScreenLevel1.h"
+#include "GameScreenLevel2.h"
+#include "GameScreenHighScores.h"
+#include "GameScreenGameOver.h"
+
 
 static GameScreenManager* instance = 0;
 
@@ -50,7 +54,10 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 
 	GameScreenMenu* tempMenuScreen;
 	GameScreenLevel1* tempScreen1;
-	//GameScreenLevel2* tempScreen2;
+	GameScreenLevel2* tempScreen2;
+	GameScreenHighScores* tempScreenHighScores;
+	GameScreenGameOver* tempScreenGameOver;
+	
 
 	//Initialise the new screen.
 	switch(newScreen)
@@ -73,15 +80,24 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 		break;
 
 		case SCREEN_LEVEL2:
-			std::cout << "Level 1 Loaded\n";
-			tempScreen1 = new GameScreenLevel1();
-			mCurrentScreen = (GameScreen*)tempScreen1;
-			tempScreen1 = NULL;
-		
+			std::cout << "Level 2 Loaded\n";
+			tempScreen2 = new GameScreenLevel2();
+			mCurrentScreen = (GameScreen*)tempScreen2;
+			tempScreen2 = NULL;
+		break;
+
 		case SCREEN_GAMEOVER:
+			std::cout << "GameOver Loaded\n";
+			tempScreenGameOver = new GameScreenGameOver();
+			mCurrentScreen = (GameScreen*)tempScreenGameOver;
+			tempScreenGameOver = NULL;
 		break;
 		
 		case SCREEN_HIGHSCORES:
+			std::cout << "HighScores Loaded\n";
+			tempScreenHighScores = new GameScreenHighScores();
+			mCurrentScreen = (GameScreen*)tempScreenHighScores;
+			tempScreenHighScores = NULL;
 		break;
 		
 		default:

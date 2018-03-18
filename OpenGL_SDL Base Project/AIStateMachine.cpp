@@ -1,16 +1,27 @@
 #include "AIStateMachine.h"
 
-void AIStateMachine::Update(float deltaTime)
+AIStateMachine::AIStateMachine()
 {
-	mCurrentState.Update(mCharacter, deltaTime);
+	mCurrentState = new StateFindClosestBall();
 }
 
-void AIStateMachine::ChangeState(State newState)
+AIStateMachine::~AIStateMachine()
 {
-	if (newState.CheckTransition(mCharacter) != mCurrentState.CheckTransition(mCharacter))
+}
+
+void AIStateMachine::Update(float deltaTime)
+{
+	mCurrentState->Update(mCharacter, deltaTime);
+	ChangeState();
+}
+
+void AIStateMachine::ChangeState()
+{
+	/*State* newState = mCurrentState->CheckTransition(mCharacter);
+	if (newState->CheckTransition(mCharacter) != mCurrentState->CheckTransition(mCharacter))
 	{
-		mCurrentState.Exit();
+		mCurrentState->Exit();
 		mCurrentState = newState;
-		mCurrentState.Enter();
-	}
+		mCurrentState->Enter();
+	}*/
 }

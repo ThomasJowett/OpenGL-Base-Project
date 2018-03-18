@@ -49,6 +49,8 @@ private:
 	TextRender* mText;
 	
 	SoundEffects* mVictorySound;
+
+	unsigned int mLives = 3;
 };
 
 

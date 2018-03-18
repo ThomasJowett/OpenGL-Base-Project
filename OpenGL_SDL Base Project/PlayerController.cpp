@@ -19,27 +19,39 @@ void PlayerController::Update(float deltaTime, std::vector<SDL_Event> events)
 
 	for (SDL_Event e : events)
 	{
-		if (e.type == SDL_JOYAXISMOTION)
+		if (e.type == SDL_CONTROLLERAXISMOTION)
 		{
 			//Motion on controller
-			if (e.jaxis.which == mControllerID)
+			if (e.caxis.which == mControllerID)
 			{
-				if (e.jaxis.axis == 0) { mLeftStickAxis_X = (e.jaxis.value) / 32767.0f; }
-				else if (e.jaxis.axis == 1) { mLeftStickAxis_Y = (e.jaxis.value) / 32767.0f; }
-				else if (e.jaxis.axis == 2)
+				if (e.caxis.axis == 0) { mLeftStickAxis_X = (e.caxis.value) / 32767.0f; }
+				else if (e.caxis.axis == 1) { mLeftStickAxis_Y = (e.caxis.value) / 32767.0f; }
+				
+				else if (e.caxis.axis == 2) { mRightStickAxis_X = (e.caxis.value) / 32767.0f; }
+				else if (e.caxis.axis == 3){ mRightStickAxis_Y = (e.caxis.value) / 32767.0f; }
+				else if (e.caxis.axis == 4)
 				{
 					//left trigger
 					std::cout << "left trigger\n";
 				}
-				else if (e.jaxis.axis == 3) { mRightStickAxis_X = (e.jaxis.value) / 32767.0f; }
-				else if (e.jaxis.axis == 4){ mRightStickAxis_Y = (e.jaxis.value) / 32767.0f; }
-				else if (e.jaxis.axis == 5)
+				else if (e.caxis.axis == 5)
 				{
 					//right trigger
 					std::cout << "right trigger\n";
 				}
 			}
 			
+		}
+		else if (e.type == SDL_KEYDOWN)
+		{
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_r:
+				//restart
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	

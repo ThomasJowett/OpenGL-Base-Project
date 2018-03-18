@@ -11,7 +11,6 @@
 #include "Constants.h"
 #include <time.h>
 #include <string>
-#include "Texture2D.h"
 #include "TextRender.h"
 #include "ImageRender.h"
 
@@ -24,11 +23,11 @@ public:
 	void		Render() override;
 	void		Update(float deltaTime, std::vector<SDL_Event> events) override;
 private:
-	GLuint splashscreenTextureID;
 	TextRender* mInstructionsText;
 	TextRender* mMenuText;
 	void MoveHighlightDown();
 	void MoveHighlightUp();
+	void ChangeLevel();
 	void Quit();
 
 	bool mHasMovedDown;
