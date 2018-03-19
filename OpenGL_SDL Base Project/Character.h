@@ -14,6 +14,8 @@ public:
 	void Yaw(float deltaTime, float scale);
 	void Pitch(float deltaTime, float scale);
 	void Roll(float deltaTime, float scale);
+
+	void Interact();
 private:
 	float mMovementSpeed;
 	Vector3D mForward;

@@ -1,3 +1,5 @@
-﻿  StatePickUpBall.cpp
-  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.exe
-  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.pdb (Full PDB)
+﻿  GameScreenMenu.cpp
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenmenu.cpp(80): warning C4018: '<=': signed/unsigned mismatch
+c:\users\j005627b\documents\semester2\opengl_sdl base project\gamescreenmenu.cpp(85): warning C4018: '<=': signed/unsigned mismatch
+  OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.exe
+  OpenGL_SDL Base Project.vcxproj -> C:\Users\j005627b\Documents\Semester2\Debug\OpenGL_SDL Base Project.pdb (Full PDB)

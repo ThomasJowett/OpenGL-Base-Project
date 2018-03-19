@@ -8,4 +8,6 @@ class iInput
 	virtual void Yaw(float deltaTime, float scale) = 0;
 	virtual void Pitch(float deltaTime, float scale) = 0;
 	virtual void Roll(float deltaTime, float scale) = 0;
+
+	virtual void Interact() = 0;
 };

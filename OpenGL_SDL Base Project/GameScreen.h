@@ -12,8 +12,6 @@ public:
 
 	virtual void Render();
 	virtual void Update(float deltaTime, std::vector<SDL_Event> e);
-
-
 };
 
 

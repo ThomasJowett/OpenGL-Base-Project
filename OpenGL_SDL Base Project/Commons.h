@@ -75,3 +75,9 @@ struct MeshData
 	Triangle normalsIndices[MAX_POLYGONS];
 };
 
+struct PhysicsMaterial
+{
+	float elasticity;
+	float friction;
+	float inertiaTensor[3][3];
+};

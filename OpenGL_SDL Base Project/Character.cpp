@@ -31,3 +31,8 @@ void Character::Pitch(float deltaTime, float scale)
 void Character::Roll(float deltaTime, float scale)
 {
 }
+
+void Character::Interact()
+{
+	std::cout << "interact";
+}

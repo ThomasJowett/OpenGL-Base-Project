@@ -4,6 +4,7 @@
 #include "Vector.h"
 #include "Transform.h"
 #include "Collider.h"
+#include "Commons.h"
 
 class ParticleModel
 {
@@ -38,6 +39,8 @@ private:
 
 	Vector3D DragForce();
 	Vector3D GravitationalForce();
+
+	PhysicsMaterial mPhysicsMaterial;
 };
 #endif //!_PARTICLEMODEL_H
 

@@ -16,9 +16,9 @@ public:
 	~AIStateMachine();
 	AIStateMachine(Character* character) :mCharacter(character) { ; }
 	void Update(float deltaTime);
+	void ChangeState(State* newState);
 private:
 	State* mCurrentState;
 	Character* mCharacter;
-	void ChangeState();
 };
 #endif // !_AISTATEMACHINE_H

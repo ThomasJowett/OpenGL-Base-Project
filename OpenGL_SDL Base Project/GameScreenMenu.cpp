@@ -67,7 +67,8 @@ void GameScreenMenu::Render()
 		0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f);
 
-	
+	glDisable(GL_LIGHTING);
+
 	mImages[1]->DrawImage(1500, 325, 400.0f, 100.0f);
 	mImages[1]->DrawImage(1500, 225, 400.0f, 100.0f);
 	mImages[1]->DrawImage(1500, 125, 400.0f, 100.0f);
@@ -89,6 +90,7 @@ void GameScreenMenu::Render()
 
 void GameScreenMenu::Update(float deltaTime, std::vector<SDL_Event> events)
 {
+	
 	HandleInput(events);
 }
 
@@ -152,22 +154,23 @@ void GameScreenMenu::HandleInput(std::vector<SDL_Event> events)
 				}
 			}
 
-			else if (e.type == SDL_KEYDOWN)
+			
+		}
+		if (e.type == SDL_KEYDOWN)
+		{
+			switch (e.key.keysym.sym)
 			{
-				switch (e.key.keysym.sym)
-				{
-				case SDLK_UP:
-					MoveHighlightUp();
-					break;
-				case SDLK_DOWN:
-					MoveHighlightDown();
-					break;
-				case SDLK_RETURN:
-					ChangeLevel();
-					break;
-				default:
-					break;
-				}
+			case SDLK_UP:
+				MoveHighlightUp();
+				break;
+			case SDLK_DOWN:
+				MoveHighlightDown();
+				break;
+			case SDLK_RETURN:
+				ChangeLevel();
+				break;
+			default:
+				break;
 			}
 		}
 	}

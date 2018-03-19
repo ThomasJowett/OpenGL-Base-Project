@@ -42,12 +42,24 @@ void PlayerController::Update(float deltaTime, std::vector<SDL_Event> events)
 			}
 			
 		}
+		if (e.type == SDL_CONTROLLERBUTTONDOWN)
+		{
+			switch (e.cbutton.button)
+			{
+			case SDL_CONTROLLER_BUTTON_A:
+				mCharacter->Interact();
+				break;
+			}
+		}
 		else if (e.type == SDL_KEYDOWN)
 		{
 			switch (e.key.keysym.sym)
 			{
 			case SDLK_r:
 				//restart
+				break;
+			case SDLK_e:
+				mCharacter->Interact();
 				break;
 			default:
 				break;

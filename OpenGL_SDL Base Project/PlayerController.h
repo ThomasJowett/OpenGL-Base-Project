@@ -8,7 +8,7 @@ class PlayerController
 {
 public:
 	PlayerController(Character* character, int controllerID);
-	~PlayerController() {}
+	~PlayerController() { UnPossessCharacter(); }
 	void Update(float deltaTime, std::vector<SDL_Event> e);
 	void PossessCharacter(Character* character);
 	void UnPossessCharacter();
