@@ -14,7 +14,7 @@ class Texture;
 class GameObject : public SceneNode
 {
 public:
-	GameObject(Transform* transform, Appearance* appearance, ParticleModel * particle);
+	GameObject(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider* collider);
 	~GameObject() {}
 
 	virtual void Update(float deltaTime);
@@ -27,17 +27,22 @@ public:
 	Appearance * GetAppearance() const { return mAppearance; }
 
 	void SetParticleModel(ParticleModel * particleModel) { mParticleModel = particleModel; }
-	ParticleModel * GetParticleModel() const { return mParticleModel; }
+	ParticleModel * GetPhysicsComponent() const { return mParticleModel; }
+
+	void SetCollider(Collider * collider) { mCollider = collider; }
+	Collider * GetCollider() const { return mCollider; }
+
+	virtual void CollisionEvent(GameObject* collidedWith);
+
+	std::string GetName()const { return mName; }
+	void SetName(std::string name) { mName = name; }
 
 protected:
+	std::string mName;
 	Transform * mTransform;
 	Appearance * mAppearance;
 	ParticleModel * mParticleModel;
-
-private:
-	char fileName[20];
-	char fileType[3];
-	char textureName[20];
+	Collider * mCollider;
 };
 
 

@@ -9,6 +9,7 @@
 #include "../gl/glut.h"
 #include <SDL.h>
 #include <string>
+
 #include "GameObject.h"
 #include "Camera.h"
 #include "Constants.h"
@@ -17,7 +18,6 @@
 #include "Texture2D.h"
 #include "Collision.h"
 #include "TextRender.h"
-#include "SoundEffects.h"
 #include "Character.h"
 #include "PlayerController.h"
 
@@ -47,10 +47,9 @@ private:
 	char FPS[64] = {" "};
 
 	TextRender* mText;
-	
-	SoundEffects* mVictorySound;
 
 	unsigned int mLives = 3;
+	bool mWon = false;
 };
 
 

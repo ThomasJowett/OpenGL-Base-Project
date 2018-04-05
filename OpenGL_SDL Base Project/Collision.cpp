@@ -8,14 +8,13 @@ std::vector<Contact> Collision::DetectCollisions(std::vector<GameObject*> gameOb
 		for (int j = i + 1; j < gameObjects.size(); j++)
 		{
 			 
-			if (gameObjects[i]->GetParticleModel() != nullptr && gameObjects[j]->GetParticleModel() != nullptr)
+			if (gameObjects[i]->GetCollider() != nullptr && gameObjects[j]->GetCollider() != nullptr)
 			{
-				float penetrationDepth = Collision::SphereSphereCollision(gameObjects[i]->GetParticleModel()->GetBoundingSphere(), gameObjects[j]->GetParticleModel()->GetBoundingSphere());
-				if (penetrationDepth > 0.0f)
-				{
-					Vector3D contactNormal = gameObjects[i]->GetTransform()->GetPosition() - gameObjects[j]->GetTransform()->GetPosition();
-					contactNormal.Normalize();
+				Vector3D contactNormal;
+				float penetrationDepth;
 
+				if (gameObjects[i]->GetCollider()->CheckCollision(gameObjects[j]->GetCollider(), contactNormal, penetrationDepth))
+				{
 					contacts.push_back({ gameObjects[i], gameObjects[j], contactNormal, penetrationDepth });
 				}
 				
@@ -29,19 +28,70 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 {
 	for (auto contact : contacts)
 	{
-		Vector3D velocityA = contact.first->GetParticleModel()->GetVelocity();
-		Vector3D velocityB = contact.second->GetParticleModel()->GetVelocity();
+		//std::cout << contact.contactNormal.x << "," << contact.contactNormal.y << "," << contact.contactNormal.z << std::endl;
+		Vector3D velocityA;
+		Vector3D velocityB;
+		float massA = 0.0f;
+		float massB = 0.0f;
 
-		float massA = contact.first->GetParticleModel()->GetMass();
-		float massB = contact.second->GetParticleModel()->GetMass();
+		bool moveFirst, moveSecond;
 
-		//resolve interpenetration
-		contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + ((contact.contactNormal*(contact.penetrationDepth)) * (massB / massA + massB)));
-		contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() - ((contact.contactNormal*(contact.penetrationDepth)) * (massA / massA + massB)));
+		contact.first->CollisionEvent(contact.second);
+		contact.second->CollisionEvent(contact.first);
 
-		//coeffiecient of restitution hard coded as 0.5
-		float coeffiecientOfRestitution = 0.5f;
-		contact.first->GetParticleModel()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityB - velocityA)*(massB*coeffiecientOfRestitution)) / (massA + massB));
-		contact.second->GetParticleModel()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityA - velocityB)*(massA*coeffiecientOfRestitution)) / (massA + massB));
+		if (contact.first->GetName() == "Denzel" && contact.second->GetName() == "Ball")
+			//move the ball to the list of balls following denzel
+		{
+			std::cout << contact.contactNormal.x << "," << contact.contactNormal.y << "," << contact.contactNormal.z << std::endl;
+		}
+
+		if (contact.first->GetPhysicsComponent() != nullptr)
+		{
+			velocityA = contact.first->GetPhysicsComponent()->GetVelocity();
+			massA = contact.first->GetPhysicsComponent()->GetMass();
+			moveFirst = true;
+		}
+		else
+			moveFirst = false;
+
+		if (contact.second->GetPhysicsComponent() != nullptr)
+		{
+			velocityB = contact.second->GetPhysicsComponent()->GetVelocity();
+			massB = contact.second->GetPhysicsComponent()->GetMass();
+			moveSecond = true;
+		}
+		else
+			moveSecond = false;
+
+		if (!moveFirst && !moveSecond)
+		{
+			//do nothing
+			return;
+		}
+		else if (moveFirst && moveSecond)
+		{
+			//resolve interpenetration
+			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + ((contact.contactNormal*(contact.penetrationDepth)) * (massB / massA + massB)));
+			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() - ((contact.contactNormal*(contact.penetrationDepth)) * (massA / massA + massB)));
+
+			//coeffiecient of restitution hard coded as 0.5
+			float coeffiecientOfRestitution = 1.0f;
+			contact.first->GetPhysicsComponent()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityB - velocityA)*(massB*coeffiecientOfRestitution)) / (massA + massB));
+			contact.second->GetPhysicsComponent()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityA - velocityB)*(massA*coeffiecientOfRestitution)) / (massA + massB));
+		}
+		else if (moveFirst && !moveSecond)
+		{
+			//move only first
+			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + (contact.contactNormal*contact.penetrationDepth));
+
+			contact.first->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.first->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 1.0);
+		}
+		else if (!moveFirst && moveSecond)
+		{
+			//move only second
+			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() + (contact.contactNormal*contact.penetrationDepth));
+
+			contact.second->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.second->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 1.0);
+		}
 	}
 }

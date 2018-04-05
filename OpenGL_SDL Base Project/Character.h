@@ -7,7 +7,9 @@
 class Character : public GameObject , public iInput
 {
 public:
-	Character(Transform* transform, Appearance* appearance, ParticleModel * particle);
+	Character(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider);
+
+	void CollisionEvent(GameObject* collidedWith) override;
 	void MoveRight(float deltaTime, float scale) override;
 	void MoveForward(float deltaTime, float scale) override;
 

@@ -54,6 +54,7 @@ void ImageRender::DrawImage(int x, int y, float sizeX, float sizeY)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mSurface->w, mSurface->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, mSurface->pixels);
+	
 	glBegin(GL_QUADS);
 	{
 		glTexCoord2f(0, 1); glVertex2f(x, y);

@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "GameScreenManager.h"
+#include "SoundManager.h"
 
 class GameScreen
 {

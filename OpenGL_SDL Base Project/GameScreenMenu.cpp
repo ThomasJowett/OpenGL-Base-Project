@@ -34,8 +34,6 @@ GameScreenMenu::GameScreenMenu() : GameScreen()
 	image = new ImageRender("Images/DodgeballLogo.PNG");
 	mImages.push_back(image);
 
-	//splashscreenTextureID = Texture2D::LoadTexture2D("LogoDodgeball.raw", 2048, 2048);
-
 	mInstructionsText = new TextRender("Fonts/Tabasco.ttf", 16);
 	mMenuText = new TextRender("Fonts/Dimbo Regular.ttf", 50);
 
@@ -90,7 +88,6 @@ void GameScreenMenu::Render()
 
 void GameScreenMenu::Update(float deltaTime, std::vector<SDL_Event> events)
 {
-	
 	HandleInput(events);
 }
 

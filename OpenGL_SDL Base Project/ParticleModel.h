@@ -9,7 +9,7 @@
 class ParticleModel
 {
 public:
-	ParticleModel(float mass, Vector3D velocity, Transform * transform, float radius);
+	ParticleModel(float mass, Vector3D velocity, Transform * transform);
 	~ParticleModel();
 
 	void AddForce(Vector3D force);
@@ -22,8 +22,6 @@ public:
 
 	float GetMass() const { return mMass; }
 	void SetMass(float mass) { mMass = mass; }
-
-	Sphere* GetBoundingSphere() const { return mBoundingSphere; }
 	
 	void SetDragCoefficient(float drag) { mDragCoefficient = drag; }
 
@@ -34,8 +32,6 @@ private:
 	float mMass;
 	bool mSimulatePhysics;
 	float mDragCoefficient;
-
-	Sphere* mBoundingSphere;
 
 	Vector3D DragForce();
 	Vector3D GravitationalForce();

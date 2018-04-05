@@ -61,16 +61,21 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	Appearance * appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
 	transform = new Transform({ 0.0f,0.0f,0.0f }, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 
-	gameObject = new GameObject(transform, appearance, nullptr);
+	Collider * collider = new AABB(transform, 10.0f, 944.0f, 1700.0f);
+
+	gameObject = new GameObject("Floor", transform, appearance, nullptr, collider);
 	mGameObjects.push_back(gameObject);
+	position = { 0.0f, 100.0f, -800.0f };
 
 	appearance = new Appearance(characterGeometry, dodgeballMaterial, dodgeBallTextureID);
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
-	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform, 20.0f);
-	gameObject = new Character(transform, appearance, particle);
+	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform);
+	collider = new AABB(transform, 180.0f, 50.0f, 50.0f);
+	gameObject = new Character("Denzel", transform, appearance, particle, collider);
 
 	mGameObjects.push_back(gameObject);
 
+	
 	for (int i = 0; i < 100; i++)
 	{
 		position.x = 800 * (float)rand() / (RAND_MAX) -400;
@@ -78,14 +83,15 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 		position.z = 1600 * (float)rand() / (RAND_MAX) -800;
 		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
 		transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
+		collider = new Sphere(transform, 10.0f);
 		//particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX), { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform, 20.0f);
 
-		particle = new ParticleModel(10, { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform, 20.0f);
-		gameObject = new GameObject(transform, appearance, particle);
+		particle = new ParticleModel(10, { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform);
+		gameObject = new GameObject("Ball", transform, appearance, particle, collider);
 
 		mGameObjects.push_back(gameObject);
 	}
-
+	
 	//Initialise Root Node
 	Root = new SceneNode;
 
@@ -111,8 +117,10 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glEnable(GL_TEXTURE_2D);
 
 	mText = new TextRender("Fonts/Calibri.ttf", 20);
-
-	mVictorySound = new SoundEffects("SFX/Scream.wav");
+	
+	SoundManager::GetInstance()->LoadSoundEffect("SFX/Victory.wav");
+	SoundManager::GetInstance()->LoadSoundEffect("SFX/Bounce.wav");
+	SoundManager::GetInstance()->LoadSoundEffect("SFX/Scream.wav");
 
 	mPlayerController = new PlayerController((Character*)mGameObjects[1], 0);
 }
@@ -173,10 +181,13 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	for (auto GameObject : mGameObjects)
 	{
 		GameObject->Update(deltaTime);
-		if (GameObject->GetTransform()->GetPosition().y < 0.0f && GameObject->GetParticleModel() != nullptr)
+		if (GameObject->GetTransform()->GetPosition().z > 800.0f && GameObject->GetName() == "Denzel")
 		{
-			GameObject->GetTransform()->SetPosition(GameObject->GetTransform()->GetPosition().x, 0.0f, GameObject->GetTransform()->GetPosition().z);
-			GameObject->GetParticleModel()->SetVelocity(Vector3D::Reflect(GameObject->GetParticleModel()->GetVelocity(), { 0.0f, -1.0f, 0.0f }));
+			if (!mWon)
+			{
+				SoundManager::GetInstance()->PlaySoundEffect("SFX/Victory.wav", 1, 0);
+				mWon = true;
+			}
 		}
 	}
 
@@ -201,5 +212,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
+	if (mWon)
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
 }
 //--------------------------------------------------------------------------------------------------

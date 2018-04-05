@@ -8,6 +8,7 @@
 #include "Constants.h"
 #include "Commons.h"
 #include "GameScreenManager.h"
+#include "SoundManager.h"
 
 using namespace::std;
 
@@ -15,7 +16,6 @@ using namespace::std;
 //Local function prototypes.
 bool InitSDL();
 SDL_Surface* LoadSurface(string path);
-void		 LoadMusic(string path);
 void CloseSDL();
 
 void Render();
@@ -26,7 +26,6 @@ bool Update();
 SDL_Window*   gWindow    = NULL;
 SDL_GLContext gGLContext = NULL;
 SDL_Surface*  gSurface   = NULL;
-Mix_Music*	  gMusic	 = NULL;
 Uint32		  gOldTime;
 SDL_GameController* gGameController = NULL;
 //-----------------------------------------------------------------------------------------------------
@@ -38,15 +37,10 @@ int main(int argc, char* args[])
 	if(InitSDL())
 	{
 		//Set up the game screen manager - Start with Level1
-
-		GameScreenManager::GetInstance();
+		//GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
 		
-		//Start the music.
-		LoadMusic("Music/HolFix - Stephen Page.mp3");
-		if(Mix_PlayingMusic() == 0)
-		{
-			//Mix_PlayMusic(gMusic, -1);
-		}
+		//Load the music.
+		SoundManager::GetInstance()->LoadMusic("Music/HolFix - Stephen Page.mp3");
 
 		bool quit = false;
 		gOldTime = SDL_GetTicks();
@@ -154,17 +148,6 @@ SDL_Surface* LoadSurface(string path)
 
 //-----------------------------------------------------------------------------------------------------
 
-void LoadMusic(string path)
-{
-	gMusic = Mix_LoadMUS(path.c_str());
-	if(gMusic == NULL)
-	{
-		cout << "Failed to load background music! Error: " << Mix_GetError() << endl;
-	}
-}
-
-//-----------------------------------------------------------------------------------------------------
-
 void CloseSDL()
 {
 	//Destroy the game screen manager.
@@ -179,10 +162,6 @@ void CloseSDL()
 	gWindow = NULL;
 	SDL_GL_DeleteContext(gGLContext);
 	gGLContext = NULL;
-
-	//Release music.
-	Mix_FreeMusic(gMusic);
-	gMusic = NULL;
 
 	//Quit SDL subsystems.
 	IMG_Quit();
@@ -224,6 +203,13 @@ bool Update()
 	{
 		if (e.type == SDL_QUIT)
 			return true;
+
+		//play music with m key
+		if (e.type == SDL_KEYDOWN)
+		{
+			if (e.key.keysym.sym == SDLK_m)
+				SoundManager::GetInstance()->PlayMusic("Music/HolFix - Stephen Page.mp3");
+		}
 	}
 	
 
