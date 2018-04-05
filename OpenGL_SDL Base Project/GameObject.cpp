@@ -6,14 +6,14 @@
 #include "SoundManager.h"
 
 GameObject::GameObject(std::string name, Transform * transform, Appearance * appearance, ParticleModel * particle, Collider* collider)
-	: mName(name), mTransform(transform), mAppearance(appearance), mParticleModel(particle), mCollider(collider)
+	: mName(name), mTransform(transform), mAppearance(appearance), mPhysicsComponent(particle), mCollider(collider)
 {
 }
 
 void GameObject::Update(float deltaTime)
 {
-	if (mParticleModel)
-		mParticleModel->Update(deltaTime);
+	if (mPhysicsComponent)
+		mPhysicsComponent->Update(deltaTime);
 }
 
 void GameObject::Render()
@@ -28,5 +28,5 @@ void GameObject::Render()
 void GameObject::CollisionEvent(GameObject* collidedWith)
 {
 	//std::cout << collidedWith->GetName() << std::endl;
-	SoundManager::GetInstance()->PlaySoundEffect("SFX/Bounce.wav", -1, 0);
+	//SoundManager::GetInstance()->PlaySoundEffect("SFX/Bounce.wav", -1, 0);
 }

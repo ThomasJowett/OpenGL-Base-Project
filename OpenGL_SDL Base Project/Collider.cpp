@@ -136,18 +136,18 @@ bool AABB::CheckCollision(Collider * otherCollider, Vector3D & normal, float & p
 		{
 			float mtvDistance = FLT_MAX;
 			Vector3D mtvAxis;
-
+//Z Axis
+			if (!TestAxis({ 0.0f, 0.0f, 1.0f }, GetZMin(), GetZMax(), otherBox->GetZMin(), otherBox->GetZMax(), mtvAxis, mtvDistance))
+				return false;
 			//X Axis
 			if (!TestAxis({ 1.0f, 0.0f, 0.0f }, GetXMin(), GetXMax(), otherBox->GetXMin(), otherBox->GetXMax(), mtvAxis, mtvDistance))
 				return false;
 			//Y Axis
 			if (!TestAxis({ 0.0f, 1.0f, 0.0f }, GetYMin(), GetYMax(), otherBox->GetYMin(), otherBox->GetYMax(), mtvAxis, mtvDistance))
 				return false;
-			//Z Axis
-			if (!TestAxis({ 0.0f, 0.0f, 1.0f }, GetZMin(), GetZMax(), otherBox->GetZMin(), otherBox->GetZMax(), mtvAxis, mtvDistance))
-				return false;
-
-			normal = mtvAxis.GetNormalized()*-1;
+			
+			//mtvAxis.z *= -1.0f;
+			normal = mtvAxis.GetNormalized()*-1.0f;
 			penetrationDepth = sqrt(mtvDistance);
 			mCollided = true;
 			otherCollider->SetCollided(true);
@@ -160,7 +160,16 @@ bool AABB::CheckCollision(Collider * otherCollider, Vector3D & normal, float & p
 
 bool Plane::CheckCollision(Collider * otherCollider, Vector3D & normal, float & penetrationDepth)
 {
-	return 0.0f;
+	if (Sphere* otherSphere = dynamic_cast<Sphere*>(otherCollider))
+	{
+		//if ()
+		//{
+
+		//}
+		//normal = mNormal;
+	}
+	
+	return false;
 }
 
 bool Collider::TestAxis(Vector3D axis, float minA, float maxA, float minB, float maxB, Vector3D & mtvAxis, float & mtvDistance)

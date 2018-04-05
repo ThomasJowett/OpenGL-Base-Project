@@ -1,10 +1,11 @@
 #ifndef _Appearance_H
 #define _Appearance_H
 
+#include "iRenderable.h"
 #include "Commons.h"
 #include <gl\GLU.h>
 
-class Appearance
+class Appearance : public IRenderable
 {
 public:
 	Appearance();

@@ -6,6 +6,7 @@ using namespace::std;
 
 GameScreenLevel1::GameScreenLevel1() : GameScreen()
 {
+	mWon = false;
 	std::cout << "GameScreenLevel1Constructor\n";
 	srand(time(NULL));
 
@@ -70,7 +71,8 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	appearance = new Appearance(characterGeometry, dodgeballMaterial, dodgeBallTextureID);
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform);
-	collider = new AABB(transform, 180.0f, 50.0f, 50.0f);
+	collider = new Sphere(transform, 100.0f);
+	//collider = new AABB(transform, 180.0f, 100.0f, 100.0f);
 	gameObject = new Character("Denzel", transform, appearance, particle, collider);
 
 	mGameObjects.push_back(gameObject);
@@ -187,6 +189,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 			{
 				SoundManager::GetInstance()->PlaySoundEffect("SFX/Victory.wav", 1, 0);
 				mWon = true;
+
 			}
 		}
 	}
@@ -213,6 +216,9 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
 	if (mWon)
+	{
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
+		mWon = false;
+	}
 }
 //--------------------------------------------------------------------------------------------------

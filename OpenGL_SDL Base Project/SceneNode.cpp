@@ -3,8 +3,10 @@
 SceneNode::SceneNode()
 {
 	mKeepMatrix = false;
+	pParent = NULL;
 	pLeftChild = NULL;
 	pRightSibling = NULL;
+	pLeftSibling = NULL;
 }
 
 SceneNode::~SceneNode()
@@ -19,12 +21,52 @@ SceneNode::~SceneNode()
 
 void SceneNode::AddChild(SceneNode *node)
 {
-	if (pLeftChild == NULL)
-		pLeftChild = node;
+	if (node->pParent != NULL)
+	{
+		if (node->pParent->pLeftChild != node)
+		{
+			node->pParent->pLeftChild = node->pRightSibling;
+		}
+
+		if (node->pLeftSibling != NULL)
+		{
+			node->pLeftSibling->pRightSibling = node->pRightSibling;
+
+			if (node->pRightSibling != NULL)
+			{
+				node->pRightSibling->pLeftSibling = node->pLeftSibling;
+			}
+		}
+
+		node->pParent = this;
+		node->pLeftSibling = NULL;
+		node->pRightSibling = NULL;
+
+		if (pLeftChild == NULL)
+		{
+			pLeftChild = node;
+		}
+		else
+		{
+			node->pRightSibling = pLeftChild;
+			node->pRightSibling->pLeftSibling = node;
+			pLeftChild = node;
+		}
+	}
 	else
 	{
-		node->pRightSibling = pLeftChild;
-		pLeftChild = node;
+		node->pParent = this;
+
+		if (pLeftChild == NULL)
+		{
+			pLeftChild = node;
+		}
+		else
+		{
+			node->pRightSibling = pLeftChild;
+			node->pRightSibling->pLeftSibling = node;
+			pLeftChild = node;
+		}
 	}
 }
 

@@ -122,6 +122,12 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="iUpdateable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="iRenderable.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameScreen.cpp">

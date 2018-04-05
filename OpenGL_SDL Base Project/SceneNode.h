@@ -24,6 +24,8 @@ public:
 protected:
 	bool mKeepMatrix;
 	
+	SceneNode * pParent;
 	SceneNode * pLeftChild;
 	SceneNode * pRightSibling;
+	SceneNode * pLeftSibling;
 };

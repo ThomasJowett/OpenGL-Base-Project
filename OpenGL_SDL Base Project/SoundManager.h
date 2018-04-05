@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include "Vector.h"
 
@@ -27,7 +28,7 @@ public:
 	bool PlaySoundEffect(const std::string filename, int channel, int repeat );
 	bool PlaySoundAtLocation(const std::string filename, int channel, int repeat, Vector3D location);
 	void LoadMusic(std::string filename);
-	int LoadSoundEffect(std::string filename);
+	bool LoadSoundEffect(std::string filename);
 
 private:
 	static std::string mCurrentMusicFilename;
@@ -41,7 +42,7 @@ private:
 		Mix_Chunk* sound;
 	};
 
-	std::vector<soundEffect> mSoundEffects;
+	std::map<std::string, Mix_Chunk* > mSoundEffects;
 
 	static void InitAudioDevice();
 

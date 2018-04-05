@@ -8,24 +8,31 @@ Character::Character(std::string name, Transform* transform, Appearance* appeara
 	mRight = { 1.0f, 0.0f, 0.0f };
 	mUp = { 0.0f, 1.0f, 0.0f };
 
-	mParticleModel->SetDragCoefficient(100.0f);
+	mPhysicsComponent->SetDragCoefficient(100.0f);
 }
 
 void Character::CollisionEvent(GameObject* collidedWith)
 {
-	if(Sphere* otherSphere = dynamic_cast<Sphere*>(collidedWith->GetCollider()))
-		collidedWith->SetParticleModel(nullptr);
-	//AddChild(collidedWith);
+	if (Sphere* otherSphere = dynamic_cast<Sphere*>(collidedWith->GetCollider()))
+	{
+		collidedWith->SetPhysicsComponent(nullptr);
+		collidedWith->SetCollider(nullptr);
+		//std::cout << collidedWith->GetName();
+
+		AddChild(collidedWith);
+		collidedWith->GetTransform()->SetPosition({ 0.0f, 0.0f, -50.0f * (4-mLives) });
+		mLives--;
+	}
 }
 
 void Character::MoveRight(float deltaTime, float scale)
 {
-	mParticleModel->AddForce(mForward * scale  * mMovementSpeed);
+	mPhysicsComponent->AddForce(mForward * scale  * mMovementSpeed);
 }
 
 void Character::MoveForward(float deltaTime, float scale)
 {
-	mParticleModel->AddForce(mRight * scale  * mMovementSpeed);
+	mPhysicsComponent->AddForce(mRight * scale  * mMovementSpeed);
 }
 
 void Character::Yaw(float deltaTime, float scale)

@@ -26,8 +26,8 @@ public:
 	void SetAppearance(Appearance * appearance) { mAppearance = appearance; }
 	Appearance * GetAppearance() const { return mAppearance; }
 
-	void SetParticleModel(ParticleModel * particleModel) { mParticleModel = particleModel; }
-	ParticleModel * GetPhysicsComponent() const { return mParticleModel; }
+	void SetPhysicsComponent(ParticleModel * physicsComponent) { mPhysicsComponent = physicsComponent; }
+	ParticleModel * GetPhysicsComponent() const { return mPhysicsComponent; }
 
 	void SetCollider(Collider * collider) { mCollider = collider; }
 	Collider * GetCollider() const { return mCollider; }
@@ -41,7 +41,7 @@ protected:
 	std::string mName;
 	Transform * mTransform;
 	Appearance * mAppearance;
-	ParticleModel * mParticleModel;
+	ParticleModel * mPhysicsComponent;
 	Collider * mCollider;
 };
 

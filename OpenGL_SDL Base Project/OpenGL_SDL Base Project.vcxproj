@@ -92,6 +92,8 @@
     <ClInclude Include="GameScreenMenu.h" />
     <ClInclude Include="iInput.h" />
     <ClInclude Include="ImageRender.h" />
+    <ClInclude Include="iRenderable.h" />
+    <ClInclude Include="iUpdateable.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="PlayerController.h" />

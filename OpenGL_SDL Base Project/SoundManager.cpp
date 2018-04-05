@@ -27,9 +27,11 @@ SoundManager::SoundManager()
 SoundManager::~SoundManager()
 {
 	Mix_CloseAudio();
-	for (soundEffect effect : mSoundEffects)
+
+	std::map<std::string, Mix_Chunk*>::iterator i;
+	for (i = mSoundEffects.begin(); i != mSoundEffects.end(); i++)
 	{
-		Mix_FreeChunk(effect.sound);
+		Mix_FreeChunk(i->second);
 	}
 	mSoundEffects.clear();
 }
@@ -74,16 +76,18 @@ void SoundManager::StopMusic()
 
 bool SoundManager::PlaySoundEffect(const std::string filename, int channel, int repeat)
 {
-	for (soundEffect effect : mSoundEffects)
+	if (mSoundEffects.find(filename) != mSoundEffects.end())
 	{
-		if (effect.filename == filename)
-		{
-			Mix_PlayChannel(channel, effect.sound, repeat);
-			return true;
-		}
+		Mix_PlayChannel(channel, mSoundEffects.at(filename), repeat);
+		return true;
 	}
-	std::cerr << "Error: No Sound Effect Loaded with that filename\n";
-	Mix_PlayChannel(channel, mSoundEffects[LoadSoundEffect(filename) -1].sound, repeat);
+	else
+	{
+		if (LoadSoundEffect(filename))
+			PlaySoundEffect(filename, channel, repeat);
+		else
+			return false;
+	}
 	return true;
 }
 
@@ -106,18 +110,17 @@ void SoundManager::LoadMusic(std::string filename)
 	}
 }
 
-int SoundManager::LoadSoundEffect(std::string filename)
+bool SoundManager::LoadSoundEffect(std::string filename)
 {
 	Mix_Chunk* sound = Mix_LoadWAV(filename.c_str());
 	if (sound == NULL)
 	{
 		std::cerr << "Failed to load Sound effect! Error: " << Mix_GetError() << std::endl;
-		return 0;
+		return false;
 	}
 	else
 	{
-		soundEffect soundEffect = { filename.c_str(), sound };
-		mSoundEffects.push_back(soundEffect);
-		return mSoundEffects.size();
+		mSoundEffects.insert(std::pair<std::string, Mix_Chunk*>{ filename, sound });
+		return true;
 	}
 }

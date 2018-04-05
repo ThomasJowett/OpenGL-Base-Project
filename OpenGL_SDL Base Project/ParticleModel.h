@@ -1,12 +1,13 @@
 #ifndef _PARTICLEMODEL_H
 #define _PARTICLEMODEL_H
 
+#include "iUpdateable.h"
 #include "Vector.h"
 #include "Transform.h"
 #include "Collider.h"
 #include "Commons.h"
 
-class ParticleModel
+class ParticleModel : public iUpdateable
 {
 public:
 	ParticleModel(float mass, Vector3D velocity, Transform * transform);

@@ -40,7 +40,7 @@ void Appearance::Render()
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mMaterial.specular);
 	glMaterialf(GL_FRONT, GL_SHININESS, mMaterial.specularPower);
 
-	glBindTexture(GL_TEXTURE_2D, mTextureID); //We set the active texture
+	glBindTexture(GL_TEXTURE_2D, mTextureID); //Set the active texture
 
 
 	glBegin(GL_TRIANGLES); //glBegin and glEnd delimit the vertices that feine a primitive (triangles)

@@ -20,7 +20,7 @@ public:
 
 	virtual bool CheckCollision(Collider* otherCollider, Vector3D& normal, float& penetrationDepth) = 0;
 
-	virtual Vector3D GetCentre() { return mTransform->GetPosition(); }
+	Vector3D GetCentre() { return mTransform->GetPosition(); }
 
 	bool TestAxis(Vector3D axis, float minA, float maxA, float minB, float maxB, Vector3D& mtvAxis, float& mtvDistance);
 

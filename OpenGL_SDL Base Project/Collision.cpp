@@ -17,7 +17,6 @@ std::vector<Contact> Collision::DetectCollisions(std::vector<GameObject*> gameOb
 				{
 					contacts.push_back({ gameObjects[i], gameObjects[j], contactNormal, penetrationDepth });
 				}
-				
 			}
 		}
 	}
@@ -28,7 +27,6 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 {
 	for (auto contact : contacts)
 	{
-		//std::cout << contact.contactNormal.x << "," << contact.contactNormal.y << "," << contact.contactNormal.z << std::endl;
 		Vector3D velocityA;
 		Vector3D velocityB;
 		float massA = 0.0f;
@@ -39,10 +37,15 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 		contact.first->CollisionEvent(contact.second);
 		contact.second->CollisionEvent(contact.first);
 
-		if (contact.first->GetName() == "Denzel" && contact.second->GetName() == "Ball")
-			//move the ball to the list of balls following denzel
+		if (contact.first->GetName() == "Denzel")
 		{
+			//move the ball to the list of balls following denzel
 			std::cout << contact.contactNormal.x << "," << contact.contactNormal.y << "," << contact.contactNormal.z << std::endl;
+		}
+
+		if (contact.second->GetName() == "Ball" || contact.second->GetName() == "Ball")
+		{
+			SoundManager::GetInstance()->PlaySoundEffect("SFX/Bounce", -1, 0);
 		}
 
 		if (contact.first->GetPhysicsComponent() != nullptr)
@@ -74,7 +77,7 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + ((contact.contactNormal*(contact.penetrationDepth)) * (massB / massA + massB)));
 			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() - ((contact.contactNormal*(contact.penetrationDepth)) * (massA / massA + massB)));
 
-			//coeffiecient of restitution hard coded as 0.5
+			//coeffiecient of restitution hard coded as 1.0
 			float coeffiecientOfRestitution = 1.0f;
 			contact.first->GetPhysicsComponent()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityB - velocityA)*(massB*coeffiecientOfRestitution)) / (massA + massB));
 			contact.second->GetPhysicsComponent()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityA - velocityB)*(massA*coeffiecientOfRestitution)) / (massA + massB));

@@ -23,6 +23,8 @@ private:
 	Vector3D mForward;
 	Vector3D mRight;
 	Vector3D mUp;
+
+	int mLives = 3;
 };
 #endif // !_CHARACTER_H
 

@@ -50,6 +50,7 @@ private:
 
 	unsigned int mLives = 3;
 	bool mWon = false;
+	float mWinTime;
 };
 
 
