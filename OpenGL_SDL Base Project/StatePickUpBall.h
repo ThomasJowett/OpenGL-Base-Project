@@ -6,7 +6,7 @@ public:
 	StatePickUpBall();
 	~StatePickUpBall();
 
-	void Update(Character* character, float deltaTime) override;
-	int CheckTransition(Character* character) override;
+	void During(Character* character, float deltaTime) override;
+	State* CheckTransition(Character* character) override;
 };
 

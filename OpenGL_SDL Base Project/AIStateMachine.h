@@ -12,9 +12,8 @@
 class AIStateMachine
 {
 public:
-	AIStateMachine();
 	~AIStateMachine();
-	AIStateMachine(Character* character) :mCharacter(character) { ; }
+	AIStateMachine(Character* character);
 	void Update(float deltaTime);
 	void ChangeState(State* newState);
 private:

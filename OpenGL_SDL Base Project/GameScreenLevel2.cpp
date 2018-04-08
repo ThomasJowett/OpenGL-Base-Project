@@ -54,39 +54,56 @@ GameScreenLevel2::GameScreenLevel2()
 	};
 
 	Transform * transform;
-	ParticleModel * particle;
+	ParticleModel * PhysicsComponent;
+	Appearance* appearance;
+	Collider* collider;
 	Vector3D position;
 	GameObject * gameObject;
-
-	Appearance * appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
+	
+	//the floor
+	appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
 	transform = new Transform({ 0.0f,0.0f,0.0f }, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
-
-	Collider * collider = new AABB(transform, 10.0f, 944.0f, 1700.0f);
-
+	collider = new AABB(transform, 10.0f, 944.0f, 1700.0f);
 	gameObject = new GameObject("Floor", transform, appearance, nullptr, collider);
 	mGameObjects.push_back(gameObject);
-
+	
+	//the Character
 	position = { 0.0f, 100.0f, -800.0f };
 	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
-	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform);
+	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
-	gameObject = new Level2Character("Denzel", transform, appearance, particle, collider, { 0.0f, 0.0f, 1.0f });
+	gameObject = new Level2Character("Denzel", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
 	mGameObjects.push_back(gameObject);
 
-	position = { 0.0f, 40.0f, 0.0f };
+	PlayerController* playerController = new PlayerController((Character*)gameObject, 0);
+	mPlayerControllers.push_back(playerController);
 
+	//the oponent
+	position = { 0.0f, 100.0f, 800.0f };
+	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
+	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
+	collider = new Sphere(transform, 62.0f);
+	gameObject = new Level2Character("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
+	mGameObjects.push_back(gameObject);
+
+	mAIStateMachine = new AIStateMachine((Character*)gameObject);
+
+	//the balls
+	position = { 0.0f, 40.0f, 0.0f };
+	
 	for (int i = 0; i < 8; i++)
 	{
 		position.x = 200.0f + (-50.0f * i);
 		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
 		transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 		collider = new Sphere(transform, 10.0f);
-		particle = new ParticleModel(10, { 0.0f, 0.0f, 0.0f }, transform);
-		gameObject = new GameObject("Ball", transform, appearance, particle, collider);
+		PhysicsComponent = new ParticleModel(10, { 0.0f, 0.0f, 0.0f }, transform);
+		gameObject = new GameObject("Ball", transform, appearance, PhysicsComponent, collider);
 		mGameObjects.push_back(gameObject);
 	}
-
+	
 	//Initialise Root Node
 	Root = new SceneNode;
 
@@ -100,8 +117,7 @@ GameScreenLevel2::GameScreenLevel2()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
-	PlayerController* playerController = new PlayerController((Character*)mGameObjects[1], 0);
-	mPlayerControllers.push_back(playerController);
+	
 }
 
 void GameScreenLevel2::SetLight() {
@@ -135,30 +151,29 @@ void GameScreenLevel2::Render()
 
 	mCamera->Render();
 	SetLight();
-	Root->Traverse();
+	GameScreen::Render();
 
 	glDisable(GL_LIGHTING);
 }
 
 void GameScreenLevel2::Update(float deltaTime, std::vector<SDL_Event> events)
 {
+	GameScreen::Update(deltaTime, events);
+
 	for (auto playerController : mPlayerControllers)
 	{
 		playerController->Update(deltaTime, events);
-	}
-
-	for (auto gameObject : mGameObjects)
-	{
-		gameObject->Update(deltaTime);
 	}
 
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
 	mCamera->Update(deltaTime, mGameObjects[1]->GetTransform()->GetPosition());
+	mAIStateMachine->Update(deltaTime);
 
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 	{
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
+		return;
 	}
 }

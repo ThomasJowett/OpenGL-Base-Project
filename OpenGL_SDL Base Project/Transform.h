@@ -31,9 +31,6 @@ private:
 	Vector3D mPosition;
 	Quaternion mRotation;
 	Vector3D mScale;
-	int OpNum;
-	int TransformOrder[10];
-	float transform[10][4];
 };
 
 

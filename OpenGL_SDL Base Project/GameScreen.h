@@ -21,6 +21,10 @@ public:
 
 	virtual void Render();
 	virtual void Update(float deltaTime, std::vector<SDL_Event> e);
+	std::vector<GameObject*> GetAllGameObjects()const { return mGameObjects; }
+protected:
+	SceneNode* Root;
+	std::vector<GameObject*>mGameObjects;
 };
 
 

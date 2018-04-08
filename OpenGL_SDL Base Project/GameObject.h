@@ -18,7 +18,7 @@ public:
 	~GameObject() {}
 
 	virtual void Update(float deltaTime);
-	void Render();
+	void Render() override;
 
 	void SetTransform(Transform * transform) { mTransform = transform; }
 	Transform * GetTransform() const { return mTransform; }

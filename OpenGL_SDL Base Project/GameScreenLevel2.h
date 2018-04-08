@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include "Constants.h"
 #include "Level2Character.h"
+#include "AIStateMachine.h"
 
 class GameScreenLevel2 : public GameScreen
 {
@@ -21,10 +22,9 @@ public:
 	void Update(float deltaTime, std::vector<SDL_Event> events)override;
 
 private:
-	std::vector<GameObject*>mGameObjects;
-	SceneNode* Root;
 	Camera* mCamera;
 	std::vector<PlayerController*>mPlayerControllers;
+	AIStateMachine* mAIStateMachine;
 };
 
 #endif //_GAMESCREENLEVEL2_H

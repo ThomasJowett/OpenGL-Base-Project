@@ -1,5 +1,6 @@
 #pragma once
 #include <float.h>
+#include <SDL.h> //for numerical value of PI
 #include "Vector.h"
 
 class Quaternion
@@ -25,7 +26,7 @@ public:
 		}
 		else
 		{
-			d = static_cast<float>(1.0) / sqrt(d);
+			d = static_cast<float>(1.0) / sqrtf(d);
 			r *= d;
 			i *= d;
 			j *= d;
@@ -59,5 +60,30 @@ public:
 		i += q.i * 0.5f;
 		j += q.j * 0.5f;
 		k += q.k * 0.5f;
+	}
+
+	static void CreateAxisAngleRotationMatrix(const Quaternion quaternion, float& angle, Vector3D& axis)
+	{
+		Quaternion q = quaternion;
+		if (q.r > 1)
+			q.normalise();
+		angle = 2 * acos(q.r);
+		double s = sqrtf(1 - q.r*q.r);
+
+		if (s < 0.001)
+		{
+			axis.x = q.i;
+			axis.y = q.j;
+			axis.z = q.k;
+		}
+		else
+		{
+			axis.x = q.i / s;
+			axis.y = q.j / s;
+			axis.z = q.k / s;
+		}
+
+		//convert to degrees
+		angle *= (180 / M_PI);
 	}
 };

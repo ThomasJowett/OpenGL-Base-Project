@@ -27,8 +27,6 @@ public:
 	void		SetLight();
 //--------------------------------------------------------------------------------------------------
 private:
-	std::vector<GameObject*>mGameObjects;
-	SceneNode* Root;
 	Camera* mCamera;
 	PlayerController* mPlayerController;
 

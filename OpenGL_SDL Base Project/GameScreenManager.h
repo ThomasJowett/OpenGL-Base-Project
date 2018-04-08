@@ -18,6 +18,8 @@ public:
 
 	static GameScreenManager * GetInstance();
 
+	GameScreen* GetCurrentScreen()const{ return mCurrentScreen; }
+
 private:
 	GameScreenManager(SCREENS startScreen);
 	

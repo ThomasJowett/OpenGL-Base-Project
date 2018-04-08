@@ -173,7 +173,7 @@ void GameScreenLevel1::Render()
 	mCamera->Render();
 	SetLight();
 
-	Root->Traverse();
+	GameScreen::Render();
 
 	glDisable(GL_LIGHTING);
 
@@ -242,6 +242,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	}
 	else if((GetAsyncKeyState('R') & 0x80 != 0))
 	{
+		GameScreenManager::GetInstance()->GetCurrentScreen()->GetAllGameObjects();
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
 		return;
 	}

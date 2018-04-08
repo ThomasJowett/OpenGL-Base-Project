@@ -16,11 +16,16 @@ GameScreen::~GameScreen()
 
 void GameScreen::Render()
 {
+	Root->Traverse();
 }
 
 //--------------------------------------------------------------------------------------------------
 
 void GameScreen::Update(float deltaTime, std::vector<SDL_Event> e)
 {
+	for (auto gameObject : mGameObjects)
+	{
+		gameObject->Update(deltaTime);
+	}
 }
 //--------------------------------------------------------------------------------------------------

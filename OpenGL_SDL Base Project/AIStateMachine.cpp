@@ -1,8 +1,9 @@
 #include "AIStateMachine.h"
 
-AIStateMachine::AIStateMachine()
+AIStateMachine::AIStateMachine(Character* character) :mCharacter(character)
 {
 	mCurrentState = new StateFindClosestBall();
+	mCurrentState->Enter();
 }
 
 AIStateMachine::~AIStateMachine()
@@ -11,12 +12,15 @@ AIStateMachine::~AIStateMachine()
 
 void AIStateMachine::Update(float deltaTime)
 {
-	mCurrentState->Update(mCharacter, deltaTime);
+	if (mCurrentState)
+		mCurrentState->During(mCharacter, deltaTime);
+
+	ChangeState(mCurrentState->CheckTransition(mCharacter));
 }
 
 void AIStateMachine::ChangeState(State* newState)
 {
-	if (newState->CheckTransition(mCharacter) != mCurrentState->CheckTransition(mCharacter))
+	if (newState != mCurrentState)
 	{
 		mCurrentState->Exit();
 		mCurrentState = newState;

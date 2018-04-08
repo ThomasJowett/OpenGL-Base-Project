@@ -1,3 +1,7 @@
-﻿  Level2Character.cpp
+﻿  StateFindClosestBall.cpp
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(82): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(83): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(87): warning C4305: '*=': truncation from 'double' to 'float'
   OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.exe
   OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.pdb (Full PDB)

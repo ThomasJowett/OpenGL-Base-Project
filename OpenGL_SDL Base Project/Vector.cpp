@@ -39,10 +39,6 @@ void Vector3D::Normalize()
 	z = normalized.z;
 }
 
-void Vector3D::Rotate(Vector3D axis, float theta)
-{
-}
-
 Vector3D Vector3D::Cross(Vector3D v1, Vector3D v2)
 {
 	Vector3D cross;
