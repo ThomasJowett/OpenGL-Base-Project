@@ -34,18 +34,13 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 
 		bool moveFirst, moveSecond;
 
-		contact.first->CollisionEvent(contact.second);
-		contact.second->CollisionEvent(contact.first);
+		if(!contact.first->CollisionEvent(contact.second) || !contact.second->CollisionEvent(contact.first))
+			return;
 
-		if (contact.first->GetName() == "Denzel")
+	
+		if (contact.second->GetName() == "Ball" && contact.first->GetName() == "Denzel")
 		{
-			//move the ball to the list of balls following denzel
-			std::cout << contact.contactNormal.x << "," << contact.contactNormal.y << "," << contact.contactNormal.z << std::endl;
-		}
-
-		if (contact.second->GetName() == "Ball" || contact.second->GetName() == "Ball")
-		{
-			SoundManager::GetInstance()->PlaySoundEffect("SFX/Bounce", -1, 0);
+			return;
 		}
 
 		if (contact.first->GetPhysicsComponent() != nullptr)
@@ -65,6 +60,13 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 		}
 		else
 			moveSecond = false;
+
+		//play the bounce sound effect if it is a ball colliding
+		if (contact.second->GetName() == "Ball" || contact.first->GetName() == "Ball")
+		{
+			if(velocityA.GetSqrMagnitude() > 10000.0f || velocityB.GetSqrMagnitude() > 10000.0f)
+				SoundManager::GetInstance()->PlaySoundEffect("SFX/Bounce.wav", 1, 0);
+		}
 
 		if (!moveFirst && !moveSecond)
 		{
@@ -87,14 +89,14 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 			//move only first
 			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + (contact.contactNormal*contact.penetrationDepth));
 
-			contact.first->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.first->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 1.0);
+			contact.first->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.first->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 0.8);
 		}
 		else if (!moveFirst && moveSecond)
 		{
 			//move only second
 			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() + (contact.contactNormal*contact.penetrationDepth));
 
-			contact.second->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.second->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 1.0);
+			contact.second->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.second->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 0.8);
 		}
 	}
 }

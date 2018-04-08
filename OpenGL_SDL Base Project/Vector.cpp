@@ -16,7 +16,7 @@ Vector3D::Vector3D()
 
 float Vector3D::GetMagnitude()
 {
-	return sqrtf(GetSqrMagnitude());
+	return sqrt(GetSqrMagnitude());
 }
 
 float Vector3D::GetSqrMagnitude()
@@ -32,9 +32,15 @@ Vector3D Vector3D::GetNormalized()
 
 void Vector3D::Normalize()
 {
-	x = GetNormalized().x;
-	y = GetNormalized().y;
-	z = GetNormalized().z;
+	Vector3D normalized = GetNormalized();
+
+	x = normalized.x;
+	y = normalized.y;
+	z = normalized.z;
+}
+
+void Vector3D::Rotate(Vector3D axis, float theta)
+{
 }
 
 Vector3D Vector3D::Cross(Vector3D v1, Vector3D v2)

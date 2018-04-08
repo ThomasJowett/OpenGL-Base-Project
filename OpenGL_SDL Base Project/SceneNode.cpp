@@ -17,13 +17,16 @@ SceneNode::~SceneNode()
 	if (pRightSibling)
 		delete pRightSibling;
 	pRightSibling = NULL;
+	pLeftSibling = NULL;
+	pParent = NULL;
 }
 
 void SceneNode::AddChild(SceneNode *node)
 {
+	//if the node to be attached has a parent deal with the old reference
 	if (node->pParent != NULL)
 	{
-		if (node->pParent->pLeftChild != node)
+		if (node->pParent->pLeftChild == node)
 		{
 			node->pParent->pLeftChild = node->pRightSibling;
 		}
@@ -37,37 +40,19 @@ void SceneNode::AddChild(SceneNode *node)
 				node->pRightSibling->pLeftSibling = node->pLeftSibling;
 			}
 		}
-
-		node->pParent = this;
-		node->pLeftSibling = NULL;
-		node->pRightSibling = NULL;
-
-		if (pLeftChild == NULL)
-		{
-			pLeftChild = node;
-		}
-		else
-		{
-			node->pRightSibling = pLeftChild;
-			node->pRightSibling->pLeftSibling = node;
-			pLeftChild = node;
-		}
 	}
-	else
+
+	//if this node has children then move them down the list
+	if (pLeftChild != NULL)
 	{
-		node->pParent = this;
-
-		if (pLeftChild == NULL)
-		{
-			pLeftChild = node;
-		}
-		else
-		{
-			node->pRightSibling = pLeftChild;
-			node->pRightSibling->pLeftSibling = node;
-			pLeftChild = node;
-		}
+		pLeftChild->pLeftSibling = node;
 	}
+
+	//setup the new nodes references
+	node->pLeftSibling = NULL;
+	node->pParent = this;
+	node->pRightSibling = pLeftChild;
+	pLeftChild = node;
 }
 
 void SceneNode::Traverse()

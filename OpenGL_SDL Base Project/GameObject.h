@@ -32,7 +32,7 @@ public:
 	void SetCollider(Collider * collider) { mCollider = collider; }
 	Collider * GetCollider() const { return mCollider; }
 
-	virtual void CollisionEvent(GameObject* collidedWith);
+	virtual bool CollisionEvent(GameObject* collidedWith);
 
 	std::string GetName()const { return mName; }
 	void SetName(std::string name) { mName = name; }

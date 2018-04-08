@@ -28,6 +28,8 @@ SDL_GLContext gGLContext = NULL;
 SDL_Surface*  gSurface   = NULL;
 Uint32		  gOldTime;
 SDL_GameController* gGameController = NULL;
+float gWinningTime = FLT_MAX;
+int gNull;
 //-----------------------------------------------------------------------------------------------------
 
 int main(int argc, char* args[])
@@ -35,10 +37,7 @@ int main(int argc, char* args[])
 
 	//Initialise SDL.
 	if(InitSDL())
-	{
-		//Set up the game screen manager - Start with Level1
-		//GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
-		
+	{		
 		//Load the music.
 		SoundManager::GetInstance()->LoadMusic("Music/HolFix - Stephen Page.mp3");
 

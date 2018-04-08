@@ -48,6 +48,12 @@ void TextRender::DisplayText(const char* text, SDL_Colour text_colour, int x, in
 	SDL_Surface * surface;
 	surface = TTF_RenderText_Blended(mFont, text, text_colour);
 
+	if(!surface)
+	{
+		std::cerr << "Error: Could not create surface from text";
+		return;
+	}
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

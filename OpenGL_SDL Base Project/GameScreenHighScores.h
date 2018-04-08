@@ -18,6 +18,7 @@ public:
 private:
 	TextRender* mText;
 	std::vector<std::string> LoadHighScores();
+	char mDisplayTime[3];
 protected:
 	void HandleInput(std::vector<SDL_Event > events);
 	std::vector<std::string> mHighScores;

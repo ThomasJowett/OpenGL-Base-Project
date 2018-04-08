@@ -7,9 +7,9 @@
 class Character : public GameObject , public iInput
 {
 public:
-	Character(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider);
+	Character(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider, Vector3D forward);
 
-	void CollisionEvent(GameObject* collidedWith) override;
+	virtual bool CollisionEvent(GameObject* collidedWith) override;
 	void MoveRight(float deltaTime, float scale) override;
 	void MoveForward(float deltaTime, float scale) override;
 
@@ -17,14 +17,12 @@ public:
 	void Pitch(float deltaTime, float scale);
 	void Roll(float deltaTime, float scale);
 
-	void Interact();
-private:
+	virtual void Interact();
+protected:
 	float mMovementSpeed;
 	Vector3D mForward;
 	Vector3D mRight;
 	Vector3D mUp;
-
-	int mLives = 3;
 };
 #endif // !_CHARACTER_H
 

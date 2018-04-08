@@ -94,6 +94,8 @@
     <ClInclude Include="ImageRender.h" />
     <ClInclude Include="iRenderable.h" />
     <ClInclude Include="iUpdateable.h" />
+    <ClInclude Include="Level1Character.h" />
+    <ClInclude Include="Level2Character.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="PlayerController.h" />
@@ -125,6 +127,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScreenMenu.cpp" />
     <ClCompile Include="ImageRender.cpp" />
+    <ClCompile Include="Level1Character.cpp" />
+    <ClCompile Include="Level2Character.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="PlayerController.cpp" />
@@ -140,6 +144,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\Button_Hovered.png" />
+    <Image Include="Images\Button_Normal.png" />
+    <Image Include="Images\DodgeballLogo.png" />
+    <Image Include="Images\NULL.png" />
+    <Image Include="Textures\Court2_Diffuse.png" />
+    <Image Include="Textures\Court_Diffuse.png" />
+    <Image Include="Textures\Dodgeball_Diffuse.png" />
+    <Image Include="Textures\SpaceMan_Diffuse.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

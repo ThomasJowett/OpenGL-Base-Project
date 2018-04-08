@@ -10,16 +10,9 @@
 #include <SDL.h>
 #include <string>
 
-#include "GameObject.h"
 #include "Camera.h"
-#include "Constants.h"
-#include "OBJLoader.h"
-#include "3DSLoader.h"
-#include "Texture2D.h"
-#include "Collision.h"
-#include "TextRender.h"
-#include "Character.h"
-#include "PlayerController.h"
+#include "Level1Character.h"
+
 
 class GameScreenLevel1 : GameScreen
 {
@@ -50,7 +43,6 @@ private:
 
 	unsigned int mLives = 3;
 	bool mWon = false;
-	float mWinTime;
 };
 
 

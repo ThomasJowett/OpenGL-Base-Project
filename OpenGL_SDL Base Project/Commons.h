@@ -6,8 +6,8 @@
 #include "Vector.h"
 
 //3DS Max Object type details.
-#define MAX_VERTICES 2000
-#define MAX_POLYGONS 2000
+#define MAX_VERTICES 4000
+#define MAX_POLYGONS 3500
 
 enum SCREENS
 {

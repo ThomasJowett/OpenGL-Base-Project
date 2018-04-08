@@ -12,19 +12,15 @@ ImageRender::~ImageRender()
 
 void ImageRender::LoadImage(std::string path)
 {
-	//SDL_FreeSurface(mSurface);
-
 	mSurface = IMG_Load(path.c_str());
 
-	if (mSurface != NULL)
-	{
-		SDL_SetColorKey(mSurface, SDL_TRUE, SDL_MapRGB(mSurface->format, 0, 0xFF, 0xFF));
-	}
-	else
+	if (mSurface == NULL)
 	{
 		mSurface = IMG_Load("Images/NULL.png");
 		std::cerr << "Unable to create Image. Error: " << SDL_GetError() << std::endl;
 	}
+
+	SDL_SetColorKey(mSurface, SDL_TRUE, SDL_MapRGB(mSurface->format, 0, 0xFF, 0xFF));
 }
 
 void ImageRender::DrawImage(int x, int y, float sizeX, float sizeY)

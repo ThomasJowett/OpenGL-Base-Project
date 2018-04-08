@@ -2,6 +2,8 @@
 
 using namespace::std;
 
+extern float gWinningTime;
+
 //--------------------------------------------------------------------------------------------------
 
 GameScreenLevel1::GameScreenLevel1() : GameScreen()
@@ -31,13 +33,12 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	//Load Models
 	MeshData floorGeometry = OBJLoader::LoadOBJ("Models/Floor.obj");
 	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Models/Dodgeball.obj");
-	MeshData characterGeometry = OBJLoader::LoadOBJ("Models/Character.obj");
-	
-	//MeshData dodgeballGeometry = Load3DS("Car_Backfire.3DS");
+	MeshData characterGeometry = OBJLoader::LoadOBJ("Models/SpaceMan.obj");
 
 	//Load Textures
-	GLuint dodgeBallTextureID = Texture2D::LoadTexture2D("Textures/Dodgeball_Diffuse.raw", 512, 512);
-	GLuint courtTextureID = Texture2D::LoadTexture2D("Textures/Court_Diffuse.raw", 1200, 1200);
+	GLuint dodgeBallTextureID = Texture2D::LoadTexture2D("Textures/Dodgeball_Diffuse.png");
+	GLuint courtTextureID = Texture2D::LoadTexture2D("Textures/Court_Diffuse.png");
+	GLuint SpaceManTextureID = Texture2D::LoadTexture2D("Textures/SpaceMan_Diffuse.png");
 
 	
 	Material dodgeballMaterial = {	
@@ -48,10 +49,17 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	};
 
 	Material floorMaterial = {
-		{ 0.4f, 0.2f, 0.2f, 1.0f },
+		{ 0.4f, 0.4f, 0.4f, 1.0f },
 		{ 0.2f, 0.2f, 0.2f, 1.0f },
 		{ 0.5f, 0.5f, 0.5f, 1.0f },
 		20.0f
+	};
+
+	Material SpaceManMaterial = {
+		{ 0.2f, 0.2f, 0.2f, 1.0f },
+		{ 1.0f, 1.0f, 1.0f, 1.0f },
+		{ 0.5f, 0.5f, 0.5f, 1.0f },
+		50.0f
 	};
 
 	Transform * transform;
@@ -68,12 +76,12 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	mGameObjects.push_back(gameObject);
 	position = { 0.0f, 100.0f, -800.0f };
 
-	appearance = new Appearance(characterGeometry, dodgeballMaterial, dodgeBallTextureID);
+	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform);
-	collider = new Sphere(transform, 100.0f);
+	collider = new Sphere(transform, 62.0f);
 	//collider = new AABB(transform, 180.0f, 100.0f, 100.0f);
-	gameObject = new Character("Denzel", transform, appearance, particle, collider);
+	gameObject = new Level1Character("Denzel", transform, appearance, particle, collider, { 0.0f, 0.0f, 1.0f });
 
 	mGameObjects.push_back(gameObject);
 
@@ -120,6 +128,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 	mText = new TextRender("Fonts/Calibri.ttf", 20);
 	
+	//pre-load the sound effects
 	SoundManager::GetInstance()->LoadSoundEffect("SFX/Victory.wav");
 	SoundManager::GetInstance()->LoadSoundEffect("SFX/Bounce.wav");
 	SoundManager::GetInstance()->LoadSoundEffect("SFX/Scream.wav");
@@ -169,7 +178,7 @@ void GameScreenLevel1::Render()
 	glDisable(GL_LIGHTING);
 
 	//Render text
-	mText->DisplayText(mTime, SDL_Colour{ 1,1,1 }, 1632, 1000, LEFT);
+	mText->DisplayText(mTime, SDL_Colour{ 1,5,1 }, 1632, 1000, LEFT);
 	mText->DisplayText(FPS, SDL_Colour{ 1,1,1 }, 96, 1000, RIGHT);
 }
 //--------------------------------------------------------------------------------------------------
@@ -183,13 +192,26 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	for (auto GameObject : mGameObjects)
 	{
 		GameObject->Update(deltaTime);
-		if (GameObject->GetTransform()->GetPosition().z > 800.0f && GameObject->GetName() == "Denzel")
+		if (GameObject->GetName() == "Denzel")
 		{
-			if (!mWon)
-			{
-				SoundManager::GetInstance()->PlaySoundEffect("SFX/Victory.wav", 1, 0);
-				mWon = true;
+			Level1Character* denzel = dynamic_cast<Level1Character*>(GameObject);
 
+			if (GameObject->GetTransform()->GetPosition().z > 800.0f)
+			{
+				if (!mWon)
+				{
+					SoundManager::GetInstance()->PlaySoundEffect("SFX/Victory.wav", -1, 0);
+					mWon = true;
+					gWinningTime = mTimer;
+					GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
+					return;
+				}
+			}
+			else if (denzel->GetLives() <= 0)
+			{
+				SoundManager::GetInstance()->PlaySoundEffect("SFX/Scream.wav", -1, 0);
+				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
+				return;
 			}
 		}
 	}
@@ -214,11 +236,14 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	sprintf(mTime, "Time: %fs", mTimer);
 	
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
-		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
-	if (mWon)
 	{
-		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
-		mWon = false;
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
+		return;
+	}
+	else if((GetAsyncKeyState('R') & 0x80 != 0))
+	{
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
+		return;
 	}
 }
 //--------------------------------------------------------------------------------------------------

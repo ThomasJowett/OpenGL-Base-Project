@@ -4,6 +4,14 @@
 #include <SDL.h>
 #include "GameScreenManager.h"
 #include "SoundManager.h"
+#include "Constants.h"
+#include "OBJLoader.h"
+#include "Collision.h"
+#include "TextRender.h"
+#include "Texture2D.h"
+#include "GameObject.h"
+#include "Character.h"
+#include "PlayerController.h"
 
 class GameScreen
 {

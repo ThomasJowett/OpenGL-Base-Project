@@ -25,8 +25,7 @@ void GameObject::Render()
 		mAppearance->Render();
 }
 
-void GameObject::CollisionEvent(GameObject* collidedWith)
+bool GameObject::CollisionEvent(GameObject* collidedWith)
 {
-	//std::cout << collidedWith->GetName() << std::endl;
-	//SoundManager::GetInstance()->PlaySoundEffect("SFX/Bounce.wav", -1, 0);
+	return true;
 }

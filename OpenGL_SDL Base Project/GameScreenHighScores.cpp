@@ -1,5 +1,7 @@
 #include "GameScreenHighScores.h"
 
+extern float gWinningTime;
+
 GameScreenHighScores::GameScreenHighScores()
 {
 	//srand(time(NULL));
@@ -27,6 +29,8 @@ GameScreenHighScores::GameScreenHighScores()
 
 	mText= new TextRender("Fonts/Calibri.ttf", 20);
 	mHighScores = LoadHighScores();
+
+	sprintf(mDisplayTime, "%fs", gWinningTime);
 }
 
 GameScreenHighScores::~GameScreenHighScores()
@@ -42,6 +46,9 @@ void GameScreenHighScores::Render()
 	gluLookAt(0.0f, 0.0f, 10.0f,
 		0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f);
+
+	
+	mText->DisplayText(mDisplayTime, { 0, 0, 0 }, 960, 540, CENTER);
 }
 
 void GameScreenHighScores::Update(float deltaTime, std::vector<SDL_Event> events)

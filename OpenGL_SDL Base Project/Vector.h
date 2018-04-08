@@ -17,6 +17,7 @@ public:
 	float GetSqrMagnitude();
 	Vector3D GetNormalized();
 	void Normalize();
+	void Rotate(Vector3D axis, float theta);
 
 	static Vector3D Cross(Vector3D v1, Vector3D v2);
 	static float Dot(Vector3D v1, Vector3D v2);

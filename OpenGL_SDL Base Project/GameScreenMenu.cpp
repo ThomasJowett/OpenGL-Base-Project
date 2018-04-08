@@ -26,6 +26,7 @@ GameScreenMenu::GameScreenMenu() : GameScreen()
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	ImageRender* image = new ImageRender("Images/Button_Hovered.PNG");
+	//ImageRender* image = new ImageRender("Textures/Dodgeball_Diffuse.PNG");
 	mImages.push_back(image);
 
 	image = new ImageRender("Images/Button_Normal.PNG");
