@@ -11,13 +11,15 @@ StatePickUpBall::~StatePickUpBall()
 {
 }
 
-void StatePickUpBall::During(Character* character, float deltaTime)
+void StatePickUpBall::During(AICharacter * agent, float deltaTime)
 {
 	//Attach ball to character
 }
 
-State* StatePickUpBall::CheckTransition(Character * character)
+void StatePickUpBall::Enter(AICharacter * agent)
 {
-	//return character->HasBall() ? STATE_RETURN_TO_BASELINE : STATE_PICKUP_BALL;
-	return this;
+}
+
+void StatePickUpBall::Exit(AICharacter * agent)
+{
 }

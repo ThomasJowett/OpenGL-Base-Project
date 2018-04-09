@@ -1,7 +1,9 @@
 #ifndef _STATE_H
 #define _STATE_H
 
-#include "Character.h"
+//#include "AIStateMachine.h"
+
+class AICharacter;
 
 enum STATES
 {
@@ -19,12 +21,10 @@ public:
 	State() { ; }
 	~State() { ; }
 
-	virtual void Enter() { ; }
-	virtual void During(Character* character, float deltaTime) { ; }
-	virtual void Exit() { ; }
-	virtual int GetState() { return STATE_NONE; }
-	virtual State* CheckTransition(Character* character) { return nullptr; }
-
+	virtual void Enter(AICharacter* agent) = 0;
+	virtual void During(AICharacter* agent, float deltaTime) = 0;
+	virtual void Exit(AICharacter* agent) = 0;
 };
+
 #endif // !_STATE_H
 

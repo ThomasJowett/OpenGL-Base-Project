@@ -1,29 +1,35 @@
 #include "AIStateMachine.h"
 
-AIStateMachine::AIStateMachine(Character* character) :mCharacter(character)
+AICharacter::AICharacter(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider, Vector3D forward, State* initialState)
+	:Character(name, transform, appearance, particle, collider, forward), mCurrentState(initialState)
 {
-	mCurrentState = new StateFindClosestBall();
-	mCurrentState->Enter();
+	mCurrentState->Enter(this);
 }
 
-AIStateMachine::~AIStateMachine()
+AICharacter::~AICharacter()
 {
 }
 
-void AIStateMachine::Update(float deltaTime)
+void AICharacter::Update(float deltaTime)
 {
 	if (mCurrentState)
-		mCurrentState->During(mCharacter, deltaTime);
-
-	ChangeState(mCurrentState->CheckTransition(mCharacter));
+		mCurrentState->During(this, deltaTime);
+	Character::Update(deltaTime);
 }
 
-void AIStateMachine::ChangeState(State* newState)
+void AICharacter::ChangeState(State* newState)
 {
 	if (newState != mCurrentState)
 	{
-		mCurrentState->Exit();
+		mPreviousState = mCurrentState;
+
+		mCurrentState->Exit(this);
 		mCurrentState = newState;
-		mCurrentState->Enter();
+		mCurrentState->Enter(this);
 	}
+}
+
+void AICharacter::RevertToPreviousState()
+{
+	ChangeState(mPreviousState);
 }

@@ -13,6 +13,8 @@
 #include "Character.h"
 #include "PlayerController.h"
 
+//class GameScreenManager;
+
 class GameScreen
 {
 public:

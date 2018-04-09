@@ -2,22 +2,23 @@
 #define _AISTATEMACHINE_H
 
 #include "State.h"
-#include "StatePickUpBall.h"
-#include "StateFindClosestBall.h"
-//#include "StateReturnToBaseline.h"
-//#include "StateThrowBall.h"
-//#include "StateDodge.h"
-//#include "Character.h"
+#include "Character.h"
 
-class AIStateMachine
+class AICharacter : public Character
 {
 public:
-	~AIStateMachine();
-	AIStateMachine(Character* character);
+	~AICharacter();
+	AICharacter(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider, Vector3D forward, State* initialState);
 	void Update(float deltaTime);
 	void ChangeState(State* newState);
+	void RevertToPreviousState();
+
+	State* GetCurrentState() const { return mCurrentState; }
+	State* GetPreviousState() const { return mPreviousState; }
+
+	bool IsInState(const State& state)const;
 private:
 	State* mCurrentState;
-	Character* mCharacter;
+	State* mPreviousState;
 };
 #endif // !_AISTATEMACHINE_H

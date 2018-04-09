@@ -10,6 +10,7 @@
 #include "Constants.h"
 #include "Level2Character.h"
 #include "AIStateMachine.h"
+#include "StateFindClosestBall.h"
 
 class GameScreenLevel2 : public GameScreen
 {
@@ -24,7 +25,6 @@ public:
 private:
 	Camera* mCamera;
 	std::vector<PlayerController*>mPlayerControllers;
-	AIStateMachine* mAIStateMachine;
 };
 
 #endif //_GAMESCREENLEVEL2_H

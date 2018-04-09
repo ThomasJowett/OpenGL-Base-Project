@@ -85,10 +85,9 @@ GameScreenLevel2::GameScreenLevel2()
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
-	gameObject = new Level2Character("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
+	State* initialState = new StateFindClosestBall();
+	gameObject = new AICharacter("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f }, initialState);
 	mGameObjects.push_back(gameObject);
-
-	mAIStateMachine = new AIStateMachine((Character*)gameObject);
 
 	//the balls
 	position = { 0.0f, 40.0f, 0.0f };
@@ -169,7 +168,6 @@ void GameScreenLevel2::Update(float deltaTime, std::vector<SDL_Event> events)
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
 	mCamera->Update(deltaTime, mGameObjects[1]->GetTransform()->GetPosition());
-	mAIStateMachine->Update(deltaTime);
 
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 	{

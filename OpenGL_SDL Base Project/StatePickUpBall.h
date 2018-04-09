@@ -6,7 +6,8 @@ public:
 	StatePickUpBall();
 	~StatePickUpBall();
 
-	void During(Character* character, float deltaTime) override;
-	State* CheckTransition(Character* character) override;
+	void Enter(AICharacter* agent)override;
+	void During(AICharacter* agent, float deltaTime) override;
+	void Exit(AICharacter* agent)override;
 };
 

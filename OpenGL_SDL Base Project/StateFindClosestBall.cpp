@@ -9,24 +9,16 @@ StateFindClosestBall::~StateFindClosestBall()
 {
 }
 
-void StateFindClosestBall::Update(Character * character, float deltaTime)
+void StateFindClosestBall::Enter(AICharacter * agent)
+{
+}
+
+void StateFindClosestBall::During(AICharacter* agent, float deltaTime)
 {
 	//GameScreenManager::GetInstance()->GetCurrentScreen()->GetAllGameObjects();
 	//find the closest game object with tag ball
 }
 
-State* StateFindClosestBall::CheckTransition(Character * character)
+void StateFindClosestBall::Exit(AICharacter * agent)
 {
-	/*
-	if ((character->GetTransform()->GetPosition() - mClosestBall->GetTransform()->GetPosition()).GetMagnitude() < 100.0f)
-	{
-		StatePickUpBall* tempState;
-		return tempState;
-	}
-	else
-	{
-		return this;
-	}*/
-
-	return this;
 }
