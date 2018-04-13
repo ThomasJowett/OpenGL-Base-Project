@@ -6,19 +6,54 @@
 class Quaternion
 {
 public:
-	float r;
-	float i;
-	float j;
-	float k;
+	float r;	//Real
+	float i;	//First Complex
+	float j;	//Second Complex
+	float k;	//Thrid Complex
 
 	Quaternion() : r(1), i(0), j(0), k(0) {}
 	Quaternion(const float r, const float i, const float j, const float k) : r(r), i(i), j(j), k(k) {}
 	Quaternion(const Quaternion& q) : r(q.r), i(q.i), j(q.j), k(q.k) {}
+
+	//from a vector of 3 euler angles in radians
+	Quaternion(const Vector3D angles)
+	{
+		float cos_x_2 = cosf(0.5*angles.x);
+		float cos_y_2 = cosf(0.5*angles.y);
+		float cos_z_2 = cosf(0.5*angles.z);
+
+		float sin_x_2 = sinf(0.5*angles.x);
+		float sin_y_2 = sinf(0.5*angles.y);
+		float sin_z_2 = sinf(0.5*angles.z);
+
+		// and now compute quaternion
+		r = cos_z_2*cos_y_2*cos_x_2 + sin_z_2*sin_y_2*sin_x_2;
+		i = cos_z_2*cos_y_2*sin_x_2 - sin_z_2*sin_y_2*cos_x_2;
+		j = cos_z_2*sin_y_2*cos_x_2 + sin_z_2*cos_y_2*sin_x_2;
+		k = sin_z_2*cos_y_2*cos_x_2 - cos_z_2*sin_y_2*sin_x_2;
+	}
+
+	//from 3 euler angles in radians
+	Quaternion(const float theta_Roll, float theta_Pitch, float theta_Yaw)
+	{
+		(*this) = Quaternion(Vector3D(theta_Roll, theta_Pitch, theta_Yaw));
+	}
+
 	~Quaternion() {};
 
-	void normalise()
+	float GetSqrMagnitude()
 	{
-		float d = r*r + i*i + j*j + k*k;
+		return r*r + i*i + j*j + k*k;
+	}
+
+	float GetMagnitude()
+	{
+		return sqrtf(GetSqrMagnitude());
+	}
+
+	void Normalize()
+	{
+		float d = GetSqrMagnitude();
 
 		if (d < FLT_EPSILON)
 		{
@@ -34,6 +69,27 @@ public:
 		}
 	}
 
+	Quaternion Conjugate()
+	{
+		return Quaternion(r, -i, -j, -k);
+	}
+
+	Quaternion Scale(float scaler)
+	{
+		return Quaternion(r*scaler, i*scaler, j*scaler, k*scaler);
+	}
+
+	Quaternion Inverse()
+	{
+		return Conjugate().Scale(1 / GetSqrMagnitude());
+	}
+
+	Quaternion UnitQuaternion()
+	{
+		return (*this).Scale(1 / (*this).GetMagnitude());
+	}
+
+	//Operators---------------------------------------------------------------------------------
 	
 	Quaternion operator* (const Quaternion &multiplier)
 	{
@@ -51,6 +107,16 @@ public:
 		*this = *this * q;
 	}
 
+	Vector3D RotateVectorByQuaternion(Vector3D& vector)
+	{
+		Quaternion V(0, vector.x, vector.y, vector.z);
+		V = (*this * V * this->Conjugate());
+		vector.x = V.i;
+		vector.z = V.j;
+		vector.z = V.k;
+		return vector;
+	}
+
 	void AddScaledVector(const Vector3D& vector, float scale)
 	{
 		Quaternion q(0, vector.x * scale, vector.y * scale, vector.z * scale);
@@ -62,11 +128,11 @@ public:
 		k += q.k * 0.5f;
 	}
 
-	static void CreateAxisAngleRotationMatrix(const Quaternion quaternion, float& angle, Vector3D& axis)
+	static void CreateAxisAngleRotation(const Quaternion quaternion, float& angle, Vector3D& axis)
 	{
 		Quaternion q = quaternion;
 		if (q.r > 1)
-			q.normalise();
+			q.Normalize();
 		angle = 2 * acos(q.r);
 		double s = sqrtf(1 - q.r*q.r);
 

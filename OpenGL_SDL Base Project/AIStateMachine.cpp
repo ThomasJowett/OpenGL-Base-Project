@@ -1,9 +1,10 @@
 #include "AIStateMachine.h"
 
-AICharacter::AICharacter(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider, Vector3D forward, State* initialState)
-	:Character(name, transform, appearance, particle, collider, forward), mCurrentState(initialState)
+AICharacter::AICharacter(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider, Vector3D forward)
+	:Character(name, transform, appearance, particle, collider, forward)
 {
-	mCurrentState->Enter(this);
+	//mCurrentState->Enter(this);
+	mCurrentState = nullptr;
 }
 
 AICharacter::~AICharacter()
@@ -22,14 +23,20 @@ void AICharacter::ChangeState(State* newState)
 	if (newState != mCurrentState)
 	{
 		mPreviousState = mCurrentState;
-
-		mCurrentState->Exit(this);
+		if(mCurrentState)
+			mCurrentState->Exit(this);
 		mCurrentState = newState;
-		mCurrentState->Enter(this);
+		if(mCurrentState)
+			mCurrentState->Enter(this);
 	}
 }
 
 void AICharacter::RevertToPreviousState()
 {
 	ChangeState(mPreviousState);
+}
+
+bool AICharacter::IsInState(const State* & state) const
+{
+	return (state == mCurrentState) ? true : false;
 }

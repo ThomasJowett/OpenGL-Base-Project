@@ -27,7 +27,7 @@ bool Level2Character::CollisionEvent(GameObject * collidedWith)
 				mHeldBall->SetPhysicsComponent(nullptr);
 				mHeldBall->SetCollider(nullptr);
 				AddChild(mHeldBall);
-				mHeldBall->GetTransform()->SetPosition({ -100.0f , 0.0f, 0.0f });
+				mHeldBall->GetTransform()->SetPosition({ 20.0f , 0.0f, 20.0f });
 			}
 			else
 			{

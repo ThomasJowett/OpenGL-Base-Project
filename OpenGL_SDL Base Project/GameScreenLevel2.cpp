@@ -82,11 +82,10 @@ GameScreenLevel2::GameScreenLevel2()
 	//the oponent
 	position = { 0.0f, 100.0f, 800.0f };
 	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
-	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+	transform = new Transform(position, { 0.0f, (float)M_PI, 0.0f}, { 1.0f, 1.0f, 1.0f });
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
-	State* initialState = new StateFindClosestBall();
-	gameObject = new AICharacter("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f }, initialState);
+	gameObject = new Level2Enemy("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, -1.0f });
 	mGameObjects.push_back(gameObject);
 
 	//the balls
@@ -115,8 +114,6 @@ GameScreenLevel2::GameScreenLevel2()
 	//enable Lighting
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-
-	
 }
 
 void GameScreenLevel2::SetLight() {

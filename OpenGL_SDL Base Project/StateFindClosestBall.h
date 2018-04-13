@@ -1,6 +1,9 @@
 #pragma once
 #include "State.h"
+#include "StateReturnToBaseline.h"
+ 
 #include "GameScreenManager.h"
+#include "GameScreen.h"
 
 class StateFindClosestBall :
 	public State
@@ -13,6 +16,6 @@ public:
 	void During(AICharacter* agent, float deltaTime)override;
 	void Exit(AICharacter* agent)override;
 private:
-	//GameObject* mClosestBall;
+	GameObject* mClosestBall;
 };
 

@@ -77,7 +77,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	position = { 0.0f, 100.0f, -800.0f };
 
 	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
-	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
+	transform = new Transform(position, {0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
 	//collider = new AABB(transform, 180.0f, 100.0f, 100.0f);
@@ -242,7 +242,6 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	}
 	else if((GetAsyncKeyState('R') & 0x80 != 0))
 	{
-		GameScreenManager::GetInstance()->GetCurrentScreen()->GetAllGameObjects();
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
 		return;
 	}

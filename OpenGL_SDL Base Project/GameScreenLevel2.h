@@ -9,8 +9,9 @@
 #include <SDL.h>
 #include "Constants.h"
 #include "Level2Character.h"
+#include "Level2Enemy.h"
 #include "AIStateMachine.h"
-#include "StateFindClosestBall.h"
+
 
 class GameScreenLevel2 : public GameScreen
 {

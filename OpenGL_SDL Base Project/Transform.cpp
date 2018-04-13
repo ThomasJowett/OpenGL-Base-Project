@@ -16,7 +16,7 @@ void Transform::UpdateWorldMatrix()
 	glTranslatef(mPosition.x, mPosition.y, mPosition.z);
 	float angle;
 	Vector3D axis;
-	Quaternion::CreateAxisAngleRotationMatrix(mRotation, angle, axis);
+	Quaternion::CreateAxisAngleRotation(mRotation, angle, axis);
 	glRotatef(angle,axis.x,axis.y, axis.z);
 	glScalef(mScale.x, mScale.y, mScale.z);
 }

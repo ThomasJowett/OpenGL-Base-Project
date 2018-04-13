@@ -2,6 +2,7 @@
 #define _GAMESCREEN_H
 
 #include <SDL.h>
+#include <string>
 #include "GameScreenManager.h"
 #include "SoundManager.h"
 #include "Constants.h"
@@ -23,7 +24,7 @@ public:
 
 	virtual void Render();
 	virtual void Update(float deltaTime, std::vector<SDL_Event> e);
-	std::vector<GameObject*> GetAllGameObjects()const { return mGameObjects; }
+	std::vector<GameObject*> GetAllGameObjectsWithTag(std::string tag)const;
 protected:
 	SceneNode* Root;
 	std::vector<GameObject*>mGameObjects;

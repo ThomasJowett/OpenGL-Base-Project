@@ -67,9 +67,23 @@ void GameScreenHighScores::HandleInput(std::vector<SDL_Event> events)
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
 	if (currentKeyStates[SDL_SCANCODE_ESCAPE]) { GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU); return; }
+	if (currentKeyStates[SDL_SCANCODE_RETURN]) { GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL2); return; }
 	
 	for (SDL_Event e : events)
 	{
-		if(e.type == SDL_CONTROLLER_BUTTON_A){ GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU); return; }
+		if (e.type == SDL_CONTROLLERBUTTONDOWN)
+		{
+			switch (e.cbutton.button)
+			{
+			case SDL_CONTROLLER_BUTTON_A:
+				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL2); 
+				return;
+				break;
+			case SDL_CONTROLLER_BUTTON_B:
+				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_MENU);
+				return;
+				break;
+			}
+		}
 	}
 }

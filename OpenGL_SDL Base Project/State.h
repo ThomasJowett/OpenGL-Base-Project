@@ -1,7 +1,8 @@
 #ifndef _STATE_H
 #define _STATE_H
 
-//#include "AIStateMachine.h"
+#include "AIStateMachine.h"
+
 
 class AICharacter;
 
