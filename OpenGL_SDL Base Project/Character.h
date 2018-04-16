@@ -18,6 +18,8 @@ public:
 	void Roll(float deltaTime, float scale);
 
 	virtual void Interact();
+
+	bool mInheritRoll = false, mInheritPitch = false, mInheritYaw = false;
 protected:
 	float mMovementSpeed;
 	Vector3D mForward;

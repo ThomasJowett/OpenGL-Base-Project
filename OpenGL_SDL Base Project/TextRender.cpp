@@ -26,8 +26,6 @@ void TextRender::LoadFont(std::string path, int pointSize)
 
 void TextRender::DisplayText(const char* text, SDL_Colour text_colour, int x, int y, ALIGNMENT alignment)
 {
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
 	glLoadIdentity();
 
 	gluOrtho2D(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT);
@@ -99,10 +97,8 @@ void TextRender::DisplayText(const char* text, SDL_Colour text_colour, int x, in
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 
-	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 
 	glDeleteTextures(1, &texture);
 	SDL_FreeSurface(surface);

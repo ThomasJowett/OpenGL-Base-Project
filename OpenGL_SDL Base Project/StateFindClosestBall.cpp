@@ -32,20 +32,33 @@ void StateFindClosestBall::During(AICharacter* agent, float deltaTime)
 		}
 	}
 
-	if (closestDistance < 10000.0f)
+	if (closestDistance < 5000.0f)
 	{
-		State* tempState = new StateReturnToBaseline();
-		agent->ChangeState(tempState);
+		agent->ChangeState(new StateReturnToBaseline());
 	}
 	else
 	{
-		//move towards ball
-		agent->MoveForward(deltaTime, 1.0);
-	}
+		if (mClosestBall->GetTransform()->GetPosition().x > agent->GetTransform()->GetPosition().x)
+		{
+			agent->MoveRight(deltaTime, 1.0);
+		}
+		else if (mClosestBall->GetTransform()->GetPosition().x < agent->GetTransform()->GetPosition().x)
+		{
+			agent->MoveRight(deltaTime, -1.0f);
+		}
 
-	
+		if (mClosestBall->GetTransform()->GetPosition().z < agent->GetTransform()->GetPosition().z)
+		{
+			agent->MoveForward(deltaTime, 1.0);
+		}
+		else if (mClosestBall->GetTransform()->GetPosition().z > agent->GetTransform()->GetPosition().z)
+		{
+			agent->MoveForward(deltaTime, -1.0);
+		}
+	}
 }
 
 void StateFindClosestBall::Exit(AICharacter * agent)
 {
+	delete this;
 }

@@ -85,7 +85,7 @@ GameScreenLevel2::GameScreenLevel2()
 	transform = new Transform(position, { 0.0f, (float)M_PI, 0.0f}, { 1.0f, 1.0f, 1.0f });
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
-	gameObject = new Level2Enemy("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, -1.0f });
+	gameObject = new Level2Enemy("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
 	mGameObjects.push_back(gameObject);
 
 	//the balls

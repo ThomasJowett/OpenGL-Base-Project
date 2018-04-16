@@ -9,13 +9,6 @@ public:
 
 	bool CollisionEvent(GameObject* collidedWith)override;
 	void Interact()override;
-
-	void MoveRight(float deltaTime, float scale) override;
-	void MoveForward(float deltaTime, float scale) override;
-
-	void Yaw(float deltaTime, float scale);
-	void Pitch(float deltaTime, float scale);
-	void Roll(float deltaTime, float scale);
 private:
 	GameObject* mHeldBall;
 	ParticleModel* mBallsPhysicsComponent;

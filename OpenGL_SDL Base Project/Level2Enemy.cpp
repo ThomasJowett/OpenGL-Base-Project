@@ -41,29 +41,19 @@ bool Level2Enemy::CollisionEvent(GameObject * collidedWith)
 
 void Level2Enemy::Interact()
 {
-	if (mHeldBall && mTransform->GetPosition().z < -400.0f)
+	if (mHeldBall && mTransform->GetPosition().z > 400.0f)
 	{
-		ParticleModel* physicsComponent = new ParticleModel(mBallsPhysicsComponent->GetMass(), mForward, mHeldBall->GetTransform());
+		ParticleModel* physicsComponent = new ParticleModel(mBallsPhysicsComponent->GetMass(), mTransform->GetRotation() * mForward, mHeldBall->GetTransform());
 		Sphere* collider = new Sphere(mHeldBall->GetTransform(), 10.0f);
 		mHeldBall->SetPhysicsComponent(physicsComponent);
-		Vector3D velocity = (mForward*3000.0f);
+		Vector3D velocity = (mTransform->GetRotation() * mForward*3000.0f);
 		velocity.y += 200.0f;
 		mHeldBall->GetPhysicsComponent()->SetVelocity(velocity);
 		mHeldBall->SetCollider(collider);
 
 		pParent->AddChild(mHeldBall);
-		mHeldBall->GetTransform()->SetPosition(GetTransform()->GetPosition() + mForward*100.0f);
+		mHeldBall->GetTransform()->SetPosition(GetTransform()->GetPosition() + mTransform->GetRotation() * mForward*100.0f);
 
 		mHeldBall = nullptr;
 	}
-}
-
-void Level2Enemy::MoveRight(float deltaTime, float scale)
-{
-	mPhysicsComponent->AddForce(mRight * scale  * mMovementSpeed);
-}
-
-void Level2Enemy::MoveForward(float deltaTime, float scale)
-{
-	mPhysicsComponent->AddForce(mForward * scale  * mMovementSpeed);
 }

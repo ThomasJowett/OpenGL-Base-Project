@@ -167,8 +167,9 @@ void GameScreenLevel1::Render()
 	//Clear the screen.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	glLoadIdentity();
+	
 	glEnable(GL_LIGHTING);
+	glLoadIdentity();
 		
 	mCamera->Render();
 	SetLight();

@@ -101,6 +101,12 @@ public:
 		return q;
 	}
 
+	Vector3D operator*(const Vector3D& multiplier)
+	{
+		Vector3D V = multiplier;
+		return RotateVectorByQuaternion(V);
+	}
+
 	void RotateByVector(const Vector3D& vector)
 	{
 		Quaternion q(0, vector.x, vector.y, vector.z);
