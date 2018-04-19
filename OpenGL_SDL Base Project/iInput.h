@@ -2,6 +2,7 @@
 
 class iInput
 {
+public:
 	virtual void MoveRight(float deltaTime, float scale) = 0;
 	virtual void MoveForward(float deltaTime, float scale) = 0;
 

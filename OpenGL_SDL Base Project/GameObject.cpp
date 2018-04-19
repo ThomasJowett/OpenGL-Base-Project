@@ -6,7 +6,7 @@
 #include "SoundManager.h"
 
 GameObject::GameObject(std::string name, Transform * transform, Appearance * appearance, ParticleModel * particle, Collider* collider)
-	: mName(name), mTransform(transform), mAppearance(appearance), mPhysicsComponent(particle), mCollider(collider)
+	: mName(name), SceneNode(transform), mAppearance(appearance), mPhysicsComponent(particle), mCollider(collider)
 {
 }
 
@@ -18,8 +18,7 @@ void GameObject::Update(float deltaTime)
 
 void GameObject::Render()
 {
-	if (mTransform)
-		mTransform->UpdateWorldMatrix();
+	SceneNode::Render();
 
 	if(mAppearance)
 		mAppearance->Render();

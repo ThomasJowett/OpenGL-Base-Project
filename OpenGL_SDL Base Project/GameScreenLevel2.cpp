@@ -17,7 +17,7 @@ GameScreenLevel2::GameScreenLevel2()
 	glEnable(GL_DEPTH_TEST);							//Hidden surface removal
 	glShadeModel(GL_SMOOTH);
 
-	mCamera = new Camera({ 0,0,0 }, 180.0f, -30.0f, 500.0f);
+	mCamera = new Camera(180.0f, -30.0f, 500.0f);
 
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
@@ -74,7 +74,9 @@ GameScreenLevel2::GameScreenLevel2()
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
 	gameObject = new Level2Character("Denzel", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
+	gameObject->AddChild(mCamera);
 	mGameObjects.push_back(gameObject);
+	
 
 	PlayerController* playerController = new PlayerController((Character*)gameObject, 0);
 	mPlayerControllers.push_back(playerController);
@@ -164,7 +166,8 @@ void GameScreenLevel2::Update(float deltaTime, std::vector<SDL_Event> events)
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
-	mCamera->Update(deltaTime, mGameObjects[1]->GetTransform()->GetPosition());
+	//mCamera->Update(deltaTime, mGameObjects[1]->GetTransform()->GetPosition());
+	mCamera->Update(deltaTime, events);
 
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 	{

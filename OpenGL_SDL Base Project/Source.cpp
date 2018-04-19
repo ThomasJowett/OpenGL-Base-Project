@@ -29,7 +29,7 @@ SDL_Surface*  gSurface   = NULL;
 Uint32		  gOldTime;
 SDL_GameController* gGameController = NULL;
 float gWinningTime = FLT_MAX;
-int gNull;
+int gBallsHit = 0;
 //-----------------------------------------------------------------------------------------------------
 
 int main(int argc, char* args[])

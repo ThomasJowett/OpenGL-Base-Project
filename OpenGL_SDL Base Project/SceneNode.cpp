@@ -7,6 +7,17 @@ SceneNode::SceneNode()
 	pLeftChild = NULL;
 	pRightSibling = NULL;
 	pLeftSibling = NULL;
+
+	mTransform = new Transform();
+}
+
+SceneNode::SceneNode(Transform* transform):mTransform(transform)
+{
+	mKeepMatrix = false;
+	pParent = NULL;
+	pLeftChild = NULL;
+	pRightSibling = NULL;
+	pLeftSibling = NULL;
 }
 
 SceneNode::~SceneNode()
@@ -67,4 +78,16 @@ void SceneNode::Traverse()
 		glPopMatrix();
 	if (pRightSibling != NULL)
 		pRightSibling->Traverse();
+}
+
+Transform SceneNode::GetWorldTransform() const
+{
+	SceneNode* parent = pParent;
+	Transform transform = *mTransform;
+	while (parent)
+	{
+		transform += *parent->GetTransform();
+		parent = parent->pParent;
+	}
+	return transform;
 }

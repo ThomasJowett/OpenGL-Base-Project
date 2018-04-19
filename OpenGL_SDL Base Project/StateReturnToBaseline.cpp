@@ -13,7 +13,7 @@ StateReturnToBaseline::~StateReturnToBaseline()
 
 void StateReturnToBaseline::During(AICharacter * agent, float deltaTime)
 {
-	if (agent->GetTransform()->GetPosition().z > 400.0f)
+	if (agent->GetWorldTransform().GetPosition().z > 400.0f)
 	{
 		agent->ChangeState(new StateThrowBall());
 	}

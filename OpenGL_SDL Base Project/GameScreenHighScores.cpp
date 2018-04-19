@@ -1,6 +1,7 @@
 #include "GameScreenHighScores.h"
 
 extern float gWinningTime;
+extern int gBallsHit;
 
 GameScreenHighScores::GameScreenHighScores()
 {
@@ -28,9 +29,11 @@ GameScreenHighScores::GameScreenHighScores()
 	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 
 	mText= new TextRender("Fonts/Calibri.ttf", 20);
-	mHighScores = LoadHighScores();
+	//mHighScores = LoadHighScores();
 
-	sprintf(mDisplayTime, "%fs", gWinningTime);
+
+
+	sprintf(mDisplayTime, "Score: %fs", (100 - (gWinningTime * gBallsHit)));
 }
 
 GameScreenHighScores::~GameScreenHighScores()

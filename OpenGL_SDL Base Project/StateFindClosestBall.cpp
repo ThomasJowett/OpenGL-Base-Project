@@ -22,36 +22,45 @@ void StateFindClosestBall::During(AICharacter* agent, float deltaTime)
 	float closestDistance = FLT_MAX;
 	float distance;
 
+	Transform agentWorldTransform = agent->GetWorldTransform();
+
 	for (GameObject* gameObject : gameObjects)
 	{
-		distance = (agent->GetTransform()->GetPosition() - gameObject->GetTransform()->GetPosition()).GetSqrMagnitude();
-		if (distance < closestDistance)
+		if (gameObject->GetPhysicsComponent())
 		{
-			closestDistance = distance;
-			mClosestBall = gameObject;
+			distance = (agentWorldTransform.GetPosition() - gameObject->GetWorldTransform().GetPosition()).GetSqrMagnitude();
+			if (distance < closestDistance)
+			{
+				closestDistance = distance;
+				mClosestBall = gameObject;
+			}
 		}
 	}
 
-	if (closestDistance < 5000.0f)
+	Transform closestBallTransform = mClosestBall->GetWorldTransform();
+
+	Level2Enemy* enemy = dynamic_cast<Level2Enemy*>(agent);
+
+	if (enemy->HasBall())//the ball has been picked up
 	{
 		agent->ChangeState(new StateReturnToBaseline());
 	}
 	else
 	{
-		if (mClosestBall->GetTransform()->GetPosition().x > agent->GetTransform()->GetPosition().x)
+		if (closestBallTransform.GetPosition().x > agentWorldTransform.GetPosition().x)
 		{
 			agent->MoveRight(deltaTime, 1.0);
 		}
-		else if (mClosestBall->GetTransform()->GetPosition().x < agent->GetTransform()->GetPosition().x)
+		else if (closestBallTransform.GetPosition().x < agentWorldTransform.GetPosition().x)
 		{
 			agent->MoveRight(deltaTime, -1.0f);
 		}
 
-		if (mClosestBall->GetTransform()->GetPosition().z < agent->GetTransform()->GetPosition().z)
+		if (closestBallTransform.GetPosition().z < agentWorldTransform.GetPosition().z)
 		{
 			agent->MoveForward(deltaTime, 1.0);
 		}
-		else if (mClosestBall->GetTransform()->GetPosition().z > agent->GetTransform()->GetPosition().z)
+		else if (closestBallTransform.GetPosition().z > agentWorldTransform.GetPosition().z)
 		{
 			agent->MoveForward(deltaTime, -1.0);
 		}

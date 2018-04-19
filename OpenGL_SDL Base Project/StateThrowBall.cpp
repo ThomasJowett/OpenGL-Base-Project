@@ -17,8 +17,20 @@ void StateThrowBall::Enter(AICharacter * agent)
 
 void StateThrowBall::During(AICharacter * agent, float deltaTime)
 {
-	agent->Interact();
-	agent->ChangeState(new StateFindClosestBall());
+	GameObject* character = GameScreenManager::GetInstance()->GetCurrentScreen()->GetAllGameObjectsWithTag("Denzel")[0];
+	if (character->GetTransform()->GetPosition().x > agent->GetTransform()->GetPosition().x+10.0f)
+	{
+		agent->MoveRight(deltaTime, 1.0f);
+	}
+	else if (character->GetTransform()->GetPosition().x < agent->GetTransform()->GetPosition().x- 10.0f)
+	{
+		agent->MoveRight(deltaTime, -1.0f);
+	}
+	else
+	{
+		agent->Interact();
+		agent->ChangeState(new StateFindClosestBall());
+	}
 }
 
 void StateThrowBall::Exit(AICharacter * agent)

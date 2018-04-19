@@ -3,6 +3,7 @@
 using namespace::std;
 
 extern float gWinningTime;
+extern int gBallsHit;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -25,7 +26,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glEnable(GL_DEPTH_TEST);							//Hidden surface removal
 	glShadeModel(GL_SMOOTH);
 
-	mCamera = new Camera({ 0,0,0 }, 90.0f, -30.0f, 1300.0f);
+	mCamera = new Camera(90.0f, -30.0f, 1300.0f);
 
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
@@ -40,7 +41,6 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	GLuint courtTextureID = Texture2D::LoadTexture2D("Textures/Court_Diffuse.png");
 	GLuint SpaceManTextureID = Texture2D::LoadTexture2D("Textures/SpaceMan_Diffuse.png");
 
-	
 	Material dodgeballMaterial = {	
 		{ 0.4f, 0.2f, 0.2f, 1.0f },
 		{ 0.8f, 0.2f, 0.2f, 1.0f },
@@ -181,12 +181,13 @@ void GameScreenLevel1::Render()
 	//Render text
 	mText->DisplayText(mTime, SDL_Colour{ 1,5,1 }, 1632, 1000, LEFT);
 	mText->DisplayText(FPS, SDL_Colour{ 1,1,1 }, 96, 1000, RIGHT);
+	mText->DisplayText(mBallsHit, SDL_Colour{ 1,1,1 }, 96, 20, RIGHT);
 }
 //--------------------------------------------------------------------------------------------------
-void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
+void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> events)
 {
 	//Detect Input
-	mPlayerController->Update(deltaTime, e);
+	mPlayerController->Update(deltaTime, events);
 
 	//Update the Transforms
 	
@@ -196,7 +197,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 		if (GameObject->GetName() == "Denzel")
 		{
 			Level1Character* denzel = dynamic_cast<Level1Character*>(GameObject);
-
+			gBallsHit = 4 - denzel->GetLives();
 			if (GameObject->GetTransform()->GetPosition().z > 800.0f)
 			{
 				if (!mWon)
@@ -205,13 +206,15 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 					mWon = true;
 					gWinningTime = mTimer;
 					GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
+					
 					return;
 				}
 			}
 			else if (denzel->GetLives() <= 0)
 			{
+				
 				SoundManager::GetInstance()->PlaySoundEffect("SFX/Scream.wav", -1, 0);
-				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL1);
+				GameScreenManager::GetInstance()->ChangeScreen(SCREEN_GAMEOVER);
 				return;
 			}
 		}
@@ -220,7 +223,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
-	mCamera->Update(deltaTime, mGameObjects[0]->GetTransform()->GetPosition());
+	mCamera->Update(deltaTime, events);
 	
 	//Update FPS
 	mFrameCount++;
@@ -235,6 +238,8 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> e)
 	//update timer
 	mTimer += deltaTime;
 	sprintf(mTime, "Time: %fs", mTimer);
+
+	sprintf(mBallsHit, "%i", gBallsHit);
 	
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 	{

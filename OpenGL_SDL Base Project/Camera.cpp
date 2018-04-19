@@ -2,68 +2,66 @@
 #include "Constants.h"
 #include "../gl/glut.h"
 
-static Camera* instance = 0;
 static float moveSpeed = 100.0f;
 static float lookSpeed = 0.5f;
 
-Camera::Camera(Vector3D target, float yaw, float pitch, float distance) : mLookatPos(target), mYaw(yaw), mPitch(pitch), mDistance(distance)
+Camera::Camera(float yaw, float pitch, float distance) 
+	: mYaw(yaw), mPitch(pitch), mDistance(distance)
 {
+	mForward = { 0.0f, 0.0f, 1.0f };
+	mUp = { 0.0f, 1.0f, 0.0f };
+	mRight.Cross(mForward, mUp);
+
+	mLookatPos = mTransform->GetPosition() + mForward;
 }
 
 Camera::~Camera()
 {
 }
 
-void Camera::Update(float deltaTime, Vector3D target)
+void Camera::Update(float deltaTime, std::vector<SDL_Event> events)
 {
-	mLookatPos = target;
+	//mLookatPos = target;
+	if (pParent)
+		mLookatPos = pParent->GetTransform()->GetPosition();
 	//Detect Input
-	
-	/*
-	if ((GetAsyncKeyState(VK_LSHIFT) & 0x80 != 0))
-	{
-		mMouseButtonDown = true;
-	}
-	else
-	{
-		mMouseButtonDown = false;
-	}
+	SDL_PumpEvents();
 
-	if (mMouseButtonDown)
+	for (SDL_Event e : events)
 	{
-		if (e.type == SDL_MOUSEMOTION)
+		if (e.type == SDL_MOUSEBUTTONDOWN)
 		{
-			if (e.motion.xrel < 0)//Left
-				mYaw -= lookSpeed * e.motion.xrel* -1;
-			else if (e.motion.xrel > 0)//Right
-				mYaw += lookSpeed * e.motion.xrel;
-			if (e.motion.yrel < 0)//Up
-				mPitch += lookSpeed * e.motion.yrel * -1;
-			else if (e.motion.yrel > 0)//Down
-				mPitch -= lookSpeed * e.motion.yrel;
+			mMouseButtonDown = true;
+		}
+		if (e.type == SDL_MOUSEBUTTONUP)
+		{
+			mMouseButtonDown = false;
+		}
+
+		if (mMouseButtonDown)
+		{
+			if (e.type == SDL_MOUSEMOTION)
+			{
+				if (e.motion.xrel != 0)//Left
+					Yaw(deltaTime, lookSpeed *e.motion.xrel);
+				if (e.motion.yrel != 0)//Up
+					Pitch(deltaTime, lookSpeed * e.motion.yrel * -1);
+			}
+		}
+		if (e.wheel.y == 1)
+		{
+			mDistance -= moveSpeed;
+		}
+		else if (e.wheel.y == -1)
+		{
+			mDistance += moveSpeed;
 		}
 	}
-
-	if (e.wheel.y == 1)
-	{
-		mDistance -= moveSpeed;
-	}
-	else if (e.wheel.y == -1)
-	{
-		mDistance += moveSpeed;
-	}
-	*/
 	//Clamp Values
 	if (mDistance < 50.0f)
 		mDistance = 50.0f;
 	if (mDistance > 50000.0f)
 		mDistance = 50000.0f;
-	if (mYaw > 360 || mYaw < -360)
-		mYaw = 0;
-	if (mPitch > 90)
-		mPitch = 90;
-	if (mPitch < -90)
-		mPitch = -90;
 
 	//Forward Vector: Spherical coordinates to Cartesian coordinates conversion (also known as the 'look' direction)
 	/*
@@ -71,19 +69,19 @@ void Camera::Update(float deltaTime, Vector3D target)
 		cos(mPitch) * sin(mYaw),
 		sin(mPitch),
 		cos(mPitch) * cos(mYaw));
-	mRight = Vector3D(sin(mYaw - M_PI / 2.0f), 0, cos(mYaw - M_PI / 2.0f));	
+	mRight = Vector3D(sin(mYaw - M_PI / 2.0f), 0, cos(mYaw - M_PI / 2.0f));
 	*/
-	
+
 	//Reset Up vector
 	mUp = { 0.0f, 1.0f, 0.0f };
 
 	//Calculate the Camera Position
-	mPosition.x = mLookatPos.x + mDistance * -sin(mYaw*(M_PI / 180)) * cos((mPitch)*(M_PI / 180));
-	mPosition.y = mLookatPos.y + mDistance * -sin((mPitch)*(M_PI / 180));
-	mPosition.z = mLookatPos.z + mDistance * cos((mYaw)*(M_PI / 180)) * cos((mPitch)*(M_PI / 180));
+	mTransform->SetPosition(mLookatPos.x + mDistance * -sin(mYaw*(M_PI / 180)) * cos((mPitch)*(M_PI / 180)),
+		mLookatPos.y + mDistance * -sin((mPitch)*(M_PI / 180)),
+		mLookatPos.z + mDistance * cos((mYaw)*(M_PI / 180)) * cos((mPitch)*(M_PI / 180)));
 
 	//Get the forward vector from the camera position - look at position
-	mForward = mLookatPos - mPosition;
+	mForward = mLookatPos - mTransform->GetPosition();
 	mForward.Normalize();
 
 	//Get the orthonormal right vector
@@ -95,9 +93,39 @@ void Camera::Update(float deltaTime, Vector3D target)
 	mUp.Normalize();
 }
 
-
 void Camera::Render()
 {
 	glLoadIdentity();
-	gluLookAt(mPosition.x, mPosition.y, mPosition.z, mLookatPos.x, mLookatPos.y, mLookatPos.z, mUp.x, mUp.y, mUp.z);
+	gluLookAt(mTransform->GetPosition().x, mTransform->GetPosition().y, mTransform->GetPosition().z, mLookatPos.x, mLookatPos.y, mLookatPos.z, mUp.x, mUp.y, mUp.z);
+}
+void Camera::Interact()
+{
+}
+
+void Camera::MoveRight(float deltaTime, float scale)
+{
+}
+
+void Camera::MoveForward(float deltaTime, float scale)
+{
+}
+
+void Camera::Yaw(float deltaTime, float scale)
+{
+	mYaw += scale;
+	if (mYaw > 360 || mYaw < -360)
+		mYaw = 0;
+}
+
+void Camera::Pitch(float deltaTime, float scale)
+{
+	mPitch += scale;
+	if (mPitch > 89)
+		mPitch = 89;
+	if (mPitch < -89)
+		mPitch = -89;
+}
+
+void Camera::Roll(float deltaTime, float scale)
+{
 }

@@ -10,12 +10,18 @@
 class SceneNode {
 public:
 	SceneNode();
+	SceneNode(Transform* transform);
 	virtual ~SceneNode();
 	void AddChild(SceneNode *);
-	virtual void Render() {}
+	virtual void Render() { mTransform->UpdateWorldMatrix(); }
 	void Traverse();
 
+	void SetTransform(Transform * transform) { mTransform = transform; }
+	Transform * GetTransform() const { return mTransform; }
+	Transform GetWorldTransform() const;
+
 protected:
+	Transform* mTransform;
 	bool mKeepMatrix;
 	
 	SceneNode * pParent;

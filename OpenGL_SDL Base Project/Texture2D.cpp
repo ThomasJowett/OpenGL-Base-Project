@@ -4,8 +4,6 @@
 
 using namespace::std;
 
-extern int gNull;
-
 Texture2D::Texture2D()
 {
 }

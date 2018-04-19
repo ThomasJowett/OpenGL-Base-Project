@@ -4,6 +4,7 @@
  
 #include "GameScreenManager.h"
 #include "GameScreen.h"
+#include "Level2Enemy.h"
 
 class StateFindClosestBall :
 	public State

@@ -20,8 +20,7 @@ public:
 	virtual void Update(float deltaTime);
 	void Render() override;
 
-	void SetTransform(Transform * transform) { mTransform = transform; }
-	Transform * GetTransform() const { return mTransform; }
+	
 
 	void SetAppearance(Appearance * appearance) { mAppearance = appearance; }
 	Appearance * GetAppearance() const { return mAppearance; }
@@ -39,7 +38,6 @@ public:
 
 protected:
 	std::string mName;
-	Transform * mTransform;
 	Appearance * mAppearance;
 	ParticleModel * mPhysicsComponent;
 	Collider * mCollider;

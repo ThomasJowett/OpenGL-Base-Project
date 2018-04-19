@@ -3,12 +3,6 @@
 
 #include "Transform.h"
 
-enum CollisionChanel
-{
-	OVERLAP = 0,
-	BLOCK
-};
-
 class Collider
 {
 public:

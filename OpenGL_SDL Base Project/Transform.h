@@ -27,6 +27,14 @@ public:
 
 	void UpdateWorldMatrix();
 
+	Transform operator+=(const Transform other)
+	{
+		mPosition += other.GetPosition();
+		mRotation += other.GetRotation();
+		mRotation.Normalize();
+		return *this;
+	}
+
 private:
 	Vector3D mPosition;
 	Quaternion mRotation;

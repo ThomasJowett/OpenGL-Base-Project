@@ -23,7 +23,7 @@ public:
 
 	bool		SetUpLevel();
 	void		Render() override;
-	void		Update(float deltaTime, std::vector<SDL_Event> e) override;
+	void		Update(float deltaTime, std::vector<SDL_Event> events) override;
 	void		SetLight();
 //--------------------------------------------------------------------------------------------------
 private:
@@ -35,7 +35,9 @@ private:
 
 	//FPS
 	int mInitialTime, mFinalTime, mFrameCount;
-	char FPS[64] = {" "};
+	char FPS[64] = { " " };
+
+	char mBallsHit[64] = { " " };
 
 	TextRender* mText;
 

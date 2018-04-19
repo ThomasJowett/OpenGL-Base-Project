@@ -37,12 +37,6 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 		if(!contact.first->CollisionEvent(contact.second) || !contact.second->CollisionEvent(contact.first))
 			return;
 
-	
-		if (contact.second->GetName() == "Ball" && contact.first->GetName() == "Denzel")
-		{
-			return;
-		}
-
 		if (contact.first->GetPhysicsComponent() != nullptr)
 		{
 			velocityA = contact.first->GetPhysicsComponent()->GetVelocity();
@@ -77,12 +71,12 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 		{
 			//resolve interpenetration
 			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + ((contact.contactNormal*(contact.penetrationDepth)) * (massB / massA + massB)));
-			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() - ((contact.contactNormal*(contact.penetrationDepth)) * (massA / massA + massB)));
+			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() + ((contact.contactNormal*-(contact.penetrationDepth)) * (massA / massA + massB)));
 
 			//coeffiecient of restitution hard coded as 1.0
 			float coeffiecientOfRestitution = 1.0f;
-			contact.first->GetPhysicsComponent()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityB - velocityA)*(massB*coeffiecientOfRestitution)) / (massA + massB));
-			contact.second->GetPhysicsComponent()->SetVelocity((velocityA*massA) + (velocityB*massB) + ((velocityA - velocityB)*(massA*coeffiecientOfRestitution)) / (massA + massB));
+			contact.first->GetPhysicsComponent()->SetVelocity(((velocityA*massA) + (velocityB*massB) + ((velocityB - velocityA)*(massB*coeffiecientOfRestitution)))/ (massA + massB));
+			contact.second->GetPhysicsComponent()->SetVelocity(((velocityA*massA) + (velocityB*massB) + ((velocityA - velocityB)*(massA*coeffiecientOfRestitution))) / (massA + massB));
 		}
 		else if (moveFirst && !moveSecond)
 		{

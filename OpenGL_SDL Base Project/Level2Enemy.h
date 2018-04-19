@@ -12,6 +12,8 @@ public:
 	bool CollisionEvent(GameObject* collidedWith)override;
 	void Interact()override;
 
+	bool HasBall() const { return mHeldBall; }
+
 private:
 	GameObject* mHeldBall;
 	ParticleModel* mBallsPhysicsComponent;

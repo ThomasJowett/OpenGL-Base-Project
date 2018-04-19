@@ -90,6 +90,14 @@ public:
 	}
 
 	//Operators---------------------------------------------------------------------------------
+	const Quaternion &operator +=(const Quaternion &q)
+	{
+		r += q.r;
+		i += q.i;
+		j += q.j;
+		k += q.k;
+		return *this;
+	}
 	
 	Quaternion operator* (const Quaternion &multiplier)
 	{

@@ -1,6 +1,7 @@
 #pragma once
 #include "State.h"
 #include "StateFindClosestBall.h"
+#include "GameScreenManager.h"
 
 class StateThrowBall :
 	public State
