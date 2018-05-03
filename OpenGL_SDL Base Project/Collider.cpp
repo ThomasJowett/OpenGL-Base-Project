@@ -56,7 +56,7 @@ bool Sphere::CheckCollision(Collider * otherCollider, Vector3D & normal, float &
 		if (distance.GetSqrMagnitude() < mRadius*mRadius)
 		{
 			penetrationDepth = mRadius - distance.GetMagnitude();
-			normal = ((GetCentre() - closestPoint)).GetNormalized();
+			normal = ((closestPoint - GetCentre())).GetNormalized();
 			normal.Normalize();
 			mCollided = true;
 			otherCollider->SetCollided(true);
@@ -110,7 +110,6 @@ bool AABB::CheckCollision(Collider * otherCollider, Vector3D & normal, float & p
 		{
 			penetrationDepth = otherSphere->GetBoundingRadius() - distance.GetMagnitude();
 			normal = (otherSphere->GetCentre() - closestPoint).GetNormalized();
-			normal.Normalize();
 			mCollided = true;
 			otherCollider->SetCollided(true);
 			return true;

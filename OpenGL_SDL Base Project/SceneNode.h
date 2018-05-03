@@ -13,6 +13,8 @@ public:
 	SceneNode(Transform* transform);
 	virtual ~SceneNode();
 	void AddChild(SceneNode *);
+	void RemoveSelf();
+	void RemoveSelfAndChildren();
 	virtual void Render() { mTransform->UpdateWorldMatrix(); }
 	void Traverse();
 

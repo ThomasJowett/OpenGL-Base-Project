@@ -73,12 +73,12 @@ GameScreenLevel2::GameScreenLevel2()
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
-	gameObject = new Level2Character("Denzel", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
-	gameObject->AddChild(mCamera);
-	mGameObjects.push_back(gameObject);
+	mCharacter = new Level2Character("Denzel", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
+	mCharacter->AddChild(mCamera);
+	mGameObjects.push_back(mCharacter);
 	
 
-	PlayerController* playerController = new PlayerController((Character*)gameObject, 0);
+	PlayerController* playerController = new PlayerController(mCharacter, 0);
 	mPlayerControllers.push_back(playerController);
 
 	//the oponent
@@ -87,8 +87,8 @@ GameScreenLevel2::GameScreenLevel2()
 	transform = new Transform(position, { 0.0f, (float)M_PI, 0.0f}, { 1.0f, 1.0f, 1.0f });
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
-	gameObject = new Level2Enemy("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
-	mGameObjects.push_back(gameObject);
+	mEnemy = new Level2Enemy("Enemy", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
+	mGameObjects.push_back(mEnemy);
 
 	//the balls
 	position = { 0.0f, 40.0f, 0.0f };
@@ -116,6 +116,8 @@ GameScreenLevel2::GameScreenLevel2()
 	//enable Lighting
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+
+	mText = new TextRender("Fonts/Calibri.ttf", 20);
 }
 
 void GameScreenLevel2::SetLight() {
@@ -136,6 +138,7 @@ void GameScreenLevel2::SetLight() {
 
 GameScreenLevel2::~GameScreenLevel2()
 {
+	if (mCamera) delete mCamera;
 	if (Root)  delete Root;
 }
 
@@ -149,7 +152,10 @@ void GameScreenLevel2::Render()
 
 	mCamera->Render();
 	SetLight();
-	GameScreen::Render();
+	GameScreen::Render();//render all game objects
+
+	mText->DisplayText(mPlayerScore, { 0, 0, 0 }, 960, 50, CENTER);
+	mText->DisplayText(mEnemyScore, { 0, 0, 0 }, 960, 1000, CENTER);
 
 	glDisable(GL_LIGHTING);
 }
@@ -165,8 +171,32 @@ void GameScreenLevel2::Update(float deltaTime, std::vector<SDL_Event> events)
 
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
+	int i = 0;
+	while (i < mGameObjects.size())
+	{
+		if (mGameObjects.at(i)->GetWorldTransform().GetPosition().y < -10.0f)
+		{
+			GameObject* toDelete = mGameObjects.at(i);
+			mGameObjects.erase(mGameObjects.begin() + i);
+			delete toDelete;
+		}
+		else
+			i++;
+	}
 
-	//mCamera->Update(deltaTime, mGameObjects[1]->GetTransform()->GetPosition());
+	sprintf(mPlayerScore, "%i", mCharacter->GetTimesHit());
+	sprintf(mEnemyScore, "%i", mEnemy->GetTimesHit());
+
+	if (!GetAllGameObjectsWithTag("Ball").size())
+	{
+		mTimer += deltaTime;
+		if (mTimer > 5.0f)
+		{
+			GameScreenManager::GetInstance()->ChangeScreen(SCREEN_GAMEOVER);
+			return;
+		}
+	}
+
 	mCamera->Update(deltaTime, events);
 
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))

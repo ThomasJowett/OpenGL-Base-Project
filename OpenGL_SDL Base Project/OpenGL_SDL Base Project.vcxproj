@@ -104,6 +104,7 @@
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StateCelebrate.h" />
     <ClInclude Include="StateFindClosestBall.h" />
     <ClInclude Include="StateReturnToBaseLine.h" />
     <ClInclude Include="StateThrowBall.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="StateCelebrate.cpp" />
     <ClCompile Include="StateFindClosestBall.cpp" />
     <ClCompile Include="StateReturnToBaseline.cpp" />
     <ClCompile Include="StateThrowBall.cpp" />

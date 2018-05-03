@@ -22,14 +22,7 @@ SceneNode::SceneNode(Transform* transform):mTransform(transform)
 
 SceneNode::~SceneNode()
 {
-	if (pLeftChild)
-		delete pLeftChild;
-	pLeftChild = NULL;
-	if (pRightSibling)
-		delete pRightSibling;
-	pRightSibling = NULL;
-	pLeftSibling = NULL;
-	pParent = NULL;
+	RemoveSelf();
 }
 
 void SceneNode::AddChild(SceneNode *node)
@@ -64,6 +57,72 @@ void SceneNode::AddChild(SceneNode *node)
 	node->pParent = this;
 	node->pRightSibling = pLeftChild;
 	pLeftChild = node;
+}
+
+void SceneNode::RemoveSelf()
+{
+	//Deal with parents and siblings
+	if (pParent != NULL)
+	{
+		if (pParent->pLeftChild == this)
+		{
+			pParent->pLeftChild = pRightSibling;
+		}
+
+		if (pLeftSibling != NULL)
+		{
+			pLeftSibling->pRightSibling = pRightSibling;
+
+			if (pRightSibling != NULL)
+			{
+				pRightSibling->pLeftSibling = pLeftSibling;
+			}
+		}
+	}
+
+	//Deal with children
+	if (pLeftChild != NULL)
+	{
+		pLeftChild->pParent = pParent;
+		SceneNode* rightSibling = pLeftChild->pRightSibling;
+		while (rightSibling)
+		{
+			rightSibling->pParent = pParent;
+			rightSibling = rightSibling->pRightSibling;
+		}
+	}
+
+	pParent = nullptr;
+	pRightSibling = nullptr;
+	pLeftChild = nullptr;
+	pLeftSibling = nullptr;
+}
+
+void SceneNode::RemoveSelfAndChildren()
+{
+	//Deal with parents and siblings
+	if (pParent != NULL)
+	{
+		if (pParent->pLeftChild == this)
+		{
+			pParent->pLeftChild = pRightSibling;
+		}
+
+		if (pLeftSibling != NULL)
+		{
+			pLeftSibling->pRightSibling = pRightSibling;
+
+			if (pRightSibling != NULL)
+			{
+				pRightSibling->pLeftSibling = pLeftSibling;
+			}
+		}
+	}
+
+	pParent = nullptr;
+	pRightSibling = nullptr;
+	pLeftChild = nullptr;
+	pLeftSibling = nullptr;
 }
 
 void SceneNode::Traverse()

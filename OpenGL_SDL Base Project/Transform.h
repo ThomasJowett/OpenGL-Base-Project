@@ -2,7 +2,6 @@
 #define TRANSFORM_H
 
 #include <Windows.h>
-//#include "SceneNode.h"
 #include "Vector.h"
 #include "Quaternion.h"
 #include <gl/GL.h>

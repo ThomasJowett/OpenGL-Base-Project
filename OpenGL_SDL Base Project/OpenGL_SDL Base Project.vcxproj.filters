@@ -140,6 +140,9 @@
     <ClInclude Include="StateThrowBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StateCelebrate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameScreen.cpp">
@@ -236,6 +239,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StateThrowBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateCelebrate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

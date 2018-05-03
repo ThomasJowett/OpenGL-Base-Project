@@ -26,6 +26,14 @@ public:
 private:
 	Camera* mCamera;
 	std::vector<PlayerController*>mPlayerControllers;
+	Level2Character* mCharacter;
+	Level2Enemy* mEnemy;
+
+	float mTimer = 0.0f;
+	TextRender* mText;
+
+	char mPlayerScore[64] = { " " };
+	char mEnemyScore[64] = { " " };
 };
 
 #endif //_GAMESCREENLEVEL2_H

@@ -223,6 +223,8 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> events)
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
+
+
 	mCamera->Update(deltaTime, events);
 	
 	//Update FPS

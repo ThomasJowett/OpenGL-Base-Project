@@ -70,8 +70,8 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 		else if (moveFirst && moveSecond)
 		{
 			//resolve interpenetration
-			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + ((contact.contactNormal*(contact.penetrationDepth)) * (massB / massA + massB)));
-			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() + ((contact.contactNormal*-(contact.penetrationDepth)) * (massA / massA + massB)));
+			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + (((contact.contactNormal*(contact.penetrationDepth)) * (massB / massA + massB))/1000));
+			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() + (((contact.contactNormal*-(contact.penetrationDepth)) * (massA / massA + massB))/1000));
 
 			//coeffiecient of restitution hard coded as 1.0
 			float coeffiecientOfRestitution = 1.0f;

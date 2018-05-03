@@ -30,7 +30,9 @@ bool Level2Enemy::CollisionEvent(GameObject * collidedWith)
 			}
 			else
 			{
+				//collidedWith->SetCollider(nullptr);
 				std::cout << collidedWith->GetPhysicsComponent()->GetVelocity().GetSqrMagnitude() << std::endl;
+				mTimesHit++;
 			}
 		}
 		return false;

@@ -9,9 +9,12 @@ public:
 
 	bool CollisionEvent(GameObject* collidedWith)override;
 	void Interact()override;
+
+	int GetTimesHit()const { return mTimesHit;}
 private:
 	GameObject* mHeldBall;
 	ParticleModel* mBallsPhysicsComponent;
 	Collider* mBallsCollider;
+	int mTimesHit = 0;
 };
 

@@ -31,7 +31,9 @@ bool Level2Character::CollisionEvent(GameObject * collidedWith)
 			}
 			else
 			{
+				//collidedWith->SetCollider(nullptr);
 				std::cout << collidedWith->GetPhysicsComponent()->GetVelocity().GetSqrMagnitude() << std::endl;
+				mTimesHit++;
 			}
 		}
 		return false;
