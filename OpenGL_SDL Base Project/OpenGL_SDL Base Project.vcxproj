@@ -43,7 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\OpenGL_SDL Base Project\SDL\mixer_include;..\OpenGL_SDL Base Project\SDL\include;..\OpenGL_SDL Base Project\SDL\image_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\OpenGL_SDL Base Project\GL;..\OpenGL_SDL Base Project\SDL\mixer_include;..\OpenGL_SDL Base Project\SDL\include;..\OpenGL_SDL Base Project\SDL\image_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -65,7 +65,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Library Include="..\gl\glut32.lib" />
+    <Library Include="GL\glew32.lib" />
+    <Library Include="GL\glew32s.lib" />
+    <Library Include="GL\glut32.lib" />
     <Library Include="SDL\SDL2.lib" />
     <Library Include="SDL\SDL2main.lib" />
     <Library Include="SDL\SDL2_image.lib" />
@@ -102,6 +104,7 @@
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="SceneNode.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateCelebrate.h" />
@@ -137,6 +140,7 @@
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="SceneNode.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StateCelebrate.cpp" />
@@ -150,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="Shaders\BasicShader.frag" />
+    <None Include="Shaders\BasicShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\Button_Hovered.png" />

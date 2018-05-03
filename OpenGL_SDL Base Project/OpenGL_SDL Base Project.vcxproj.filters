@@ -16,14 +16,19 @@
     <Filter Include="Interfaces">
       <UniqueIdentifier>{5922ba1e-8a64-4916-a6de-a775312e5c0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{61c7c7a5-a8e9-4bc0-8021-fabbe8b53577}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Library Include="SDL\SDL2main.lib" />
     <Library Include="SDL\SDL2.lib" />
-    <Library Include="..\gl\glut32.lib" />
     <Library Include="SDL\SDL2_mixer.lib" />
     <Library Include="SDL\SDL2_image.lib" />
     <Library Include="SDL\SDL2_ttf.lib" />
+    <Library Include="GL\glew32.lib" />
+    <Library Include="GL\glew32s.lib" />
+    <Library Include="GL\glut32.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commons.h">
@@ -143,6 +148,9 @@
     <ClInclude Include="StateCelebrate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameScreen.cpp">
@@ -244,9 +252,18 @@
     <ClCompile Include="StateCelebrate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="Shaders\BasicShader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\BasicShader.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\Button_Hovered.png">

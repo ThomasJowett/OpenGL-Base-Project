@@ -13,6 +13,8 @@
 class SoundManager
 {
 public:
+	~SoundManager();
+
 	static SoundManager * GetInstance()
 	{
 		if (instance == 0)
@@ -47,6 +49,6 @@ private:
 	static void InitAudioDevice();
 
 	SoundManager();
-	~SoundManager();
+	
 };
 #endif

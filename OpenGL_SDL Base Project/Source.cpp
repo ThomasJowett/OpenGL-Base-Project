@@ -9,6 +9,7 @@
 #include "Commons.h"
 #include "GameScreenManager.h"
 #include "SoundManager.h"
+#include "Shader.h"
 
 using namespace::std;
 
@@ -37,13 +38,15 @@ int main(int argc, char* args[])
 
 	//Initialise SDL.
 	if(InitSDL())
-	{		
+	{	
+		Shader shader("Shaders/BasicShader");
+
 		//Load the music.
 		SoundManager::GetInstance()->LoadMusic("Music/HolFix - Stephen Page.mp3");
 
 		bool quit = false;
 		gOldTime = SDL_GetTicks();
-
+		
 		//Game Loop.
 		while(!quit)
 		{
@@ -77,6 +80,13 @@ bool InitSDL()
 		}
 
 		//All good, so attempt to create the window.
+		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+		SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
 		gWindow = SDL_CreateWindow("Advanced Game Engine Creation", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 		gGLContext = SDL_GL_CreateContext(gWindow);
 		//Did the window get created?
@@ -151,6 +161,7 @@ void CloseSDL()
 {
 	//Destroy the game screen manager.
 	delete GameScreenManager::GetInstance();
+	delete SoundManager::GetInstance();
 
 	//Close game controller
 	SDL_GameControllerClose(gGameController);
