@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include "Vector.h"
 #include "Quaternion.h"
+#include "Matrix.h"
 #include <gl/GL.h>
 
 class Transform
@@ -24,6 +25,7 @@ public:
 	void SetScale(Vector3D scale) { mScale = scale; }
 	Vector3D GetScale() const { return mScale; }
 
+	Matrix4x4 GetWorldMatrix() const { return mWorldMatrix; }
 	void UpdateWorldMatrix();
 
 	Transform operator+=(const Transform other)
@@ -38,6 +40,8 @@ private:
 	Vector3D mPosition;
 	Quaternion mRotation;
 	Vector3D mScale;
+
+	Matrix4x4 mWorldMatrix;
 };
 
 

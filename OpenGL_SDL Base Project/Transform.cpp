@@ -19,4 +19,10 @@ void Transform::UpdateWorldMatrix()
 	Quaternion::CreateAxisAngleRotation(mRotation, angle, axis);
 	glRotatef(angle,axis.x,axis.y, axis.z);
 	glScalef(mScale.x, mScale.y, mScale.z);
+
+	Matrix4x4 scale = Matrix4x4::Scale(mScale);
+	Matrix4x4 rotation = Matrix4x4::Rotate(mRotation);
+	Matrix4x4 translation = Matrix4x4::Translate(mPosition);
+
+	mWorldMatrix = scale * rotation * translation;
 }

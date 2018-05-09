@@ -19,14 +19,21 @@ Camera::~Camera()
 {
 }
 
-void Camera::Update(float deltaTime, std::vector<SDL_Event> events)
+void Camera::Initialise(Vector3D eyePosition, Vector3D lookAtPosition, Vector3D up, float fovY, float farDepth, float nearDepth)
 {
-	//mLookatPos = target;
+	mTransform->SetPosition(eyePosition);
+	mProjection = Matrix4x4::Perspective(fovY, SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
+
+}
+
+void Camera::Update()
+{
 	if (pParent)
 		mLookatPos = pParent->GetTransform()->GetPosition();
+
 	//Detect Input
 	SDL_PumpEvents();
-
+/*
 	for (SDL_Event e : events)
 	{
 		if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -48,6 +55,7 @@ void Camera::Update(float deltaTime, std::vector<SDL_Event> events)
 					Pitch(deltaTime, lookSpeed * e.motion.yrel * -1);
 			}
 		}
+		/*
 		if (e.wheel.y == 1)
 		{
 			mDistance -= moveSpeed;
@@ -62,7 +70,7 @@ void Camera::Update(float deltaTime, std::vector<SDL_Event> events)
 		mDistance = 50.0f;
 	if (mDistance > 50000.0f)
 		mDistance = 50000.0f;
-
+	*/
 	//Forward Vector: Spherical coordinates to Cartesian coordinates conversion (also known as the 'look' direction)
 	/*
 	mForward = Vector3D(
@@ -91,6 +99,8 @@ void Camera::Update(float deltaTime, std::vector<SDL_Event> events)
 	//Up vector : perpendicular to both forawrd and right, calculate using the cross product
 	mUp.Cross(mRight, mForward);
 	mUp.Normalize();
+
+	mView = Matrix4x4::LookAt(mTransform->GetPosition(), mLookatPos, mUp);
 }
 
 void Camera::Render()

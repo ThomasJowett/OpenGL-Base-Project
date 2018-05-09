@@ -3,18 +3,31 @@
 #include <string>
 #include <glew.h>
 
+#include "Transform.h"
+#include "Camera.h"
+
 class Shader
 {
 public:
 	Shader(const std::string& fileName);
-	void Bind();
 	virtual ~Shader();
+
+	void Bind();
+	void Update(const Transform& transform, Camera& camera);
+	
 private:
 	static const unsigned int NUM_SHADERS = 2;
-	static const unsigned int NUM_UNIFORMS = 3;
 	Shader(const Shader& other) {}
 	void operator=(const Shader& other) {}
 
+	enum
+	{
+		WORLD_U,
+		VIEW_U,
+		PROJECTION_U,
+
+		NUM_UNIFORMS
+	};
 	GLuint mProgram;
 	GLuint mShaders[NUM_SHADERS];
 	GLuint mUniforms[NUM_UNIFORMS];

@@ -2,18 +2,21 @@
 #define _CAMERA_H
 
 #include "Commons.h"
+#include "Constants.h"
 #include "Vector.h"
 #include <SDL.h>
 #include <math.h>
 #include "SceneNode.h"
 #include "iInput.h"
+#include "Matrix.h"
 
 class Camera : public SceneNode , public iInput
 {
 public:
 	Camera(float yaw, float pitch, float distance);
 	~Camera();
-	void		Update(float deltaTime, std::vector<SDL_Event> events);
+	void		Initialise(Vector3D eyePosition, Vector3D lookAtPosition, Vector3D up, float fovY, float farDepth, float nearDepth);
+	void		Update();
 	void        Render();
 
 	void MoveRight(float deltaTime, float scale) override;
@@ -24,11 +27,17 @@ public:
 	void Roll(float deltaTime, float scale)override;
 	void Interact();
 
+	Matrix4x4 GetView() const { return mView; }
+	Matrix4x4 GetProjection() const { return mProjection; }
+
 private:
 	Vector3D mForward;
 	Vector3D mUp;
 	Vector3D mRight;
 	Vector3D mLookatPos;
+
+	Matrix4x4 mProjection;
+	Matrix4x4 mView;
 
 	float mDistance;
 	//horizontal angle : toward -z

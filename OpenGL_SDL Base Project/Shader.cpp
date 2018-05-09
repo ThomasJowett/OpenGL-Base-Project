@@ -23,12 +23,17 @@ Shader::Shader(const std::string& fileName)
 	}
 
 	glBindAttribLocation(mProgram, 0, "position");
+	glBindAttribLocation(mProgram, 1, "texCoord");
 
 	glLinkProgram(mProgram);
 	CheckShaderError(mProgram, GL_LINK_STATUS, true, "Error: Program linking failed: ");
 
 	glValidateProgram(mProgram);
 	CheckShaderError(mProgram, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
+
+	mUniforms[WORLD_U] = glGetUniformLocation(mProgram, "world");
+	mUniforms[VIEW_U] = glGetUniformLocation(mProgram, "view");
+	mUniforms[PROJECTION_U] = glGetUniformLocation(mProgram, "projection");
 }
 
 void Shader::Bind()
@@ -36,6 +41,17 @@ void Shader::Bind()
 	glUseProgram(mProgram);
 }
 
+void Shader::Update(const Transform & transform, Camera& camera)
+{
+	Matrix4x4 world = transform.GetWorldMatrix();
+	glUniformMatrix4fv(mUniforms[WORLD_U], 1, GL_TRUE, &world.m[0][0]);
+
+	Matrix4x4 view = camera.GetView();
+	glUniformMatrix4fv(mUniforms[VIEW_U], 1, GL_TRUE, &view.m[0][0]);
+
+	Matrix4x4 projection = camera.GetProjection();
+	glUniformMatrix4fv(mUniforms[PROJECTION_U], 1, GL_TRUE, &projection.m[0][0]);	
+}
 
 Shader::~Shader()
 {

@@ -11,7 +11,7 @@ void PlayerController::Update(float deltaTime, std::vector<SDL_Event> events)
 {
 	SDL_PumpEvents();
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-	
+
 	if (currentKeyStates[SDL_SCANCODE_A]) { mCharacter->MoveRight(deltaTime, -1.0f); }
 	if (currentKeyStates[SDL_SCANCODE_D]) { mCharacter->MoveRight(deltaTime, 1.0f); }
 	if (currentKeyStates[SDL_SCANCODE_W]) { mCharacter->MoveForward(deltaTime, 1.0f); }

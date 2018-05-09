@@ -5,11 +5,18 @@
 #include <iostream>
 #include <string>
 
+
 #include "Constants.h"
 #include "Commons.h"
 #include "GameScreenManager.h"
 #include "SoundManager.h"
 #include "Shader.h"
+#include <glew.h>
+
+#include "Mesh.h"
+#include "Texture2D.h"
+#include "Transform.h"
+
 
 using namespace::std;
 
@@ -40,6 +47,19 @@ int main(int argc, char* args[])
 	if(InitSDL())
 	{	
 		Shader shader("Shaders/BasicShader");
+		Vertex vertices[] = {
+			Vertex(Vector3D(-0.5, -0.5, 0), Vector2D(0, 0)),
+			Vertex(Vector3D(0, 0.5, 0), Vector2D(0.5, 1)),
+			Vertex(Vector3D(0.5, -0.5, 0), Vector2D(1, 0))
+			};
+
+		Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+		glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2D("Images/DodgeballLogo.png"));
+
+		Transform transform;
+		Camera camera(0.0f, 0.0f, 0.0f);
+		camera.Initialise(Vector3D(0.0f, 0.0f, -1.0f), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 1.0f, 0.0f), M_PI, 0.001f, 10000.0f);
 
 		//Load the music.
 		SoundManager::GetInstance()->LoadMusic("Music/HolFix - Stephen Page.mp3");
@@ -50,6 +70,11 @@ int main(int argc, char* args[])
 		//Game Loop.
 		while(!quit)
 		{
+			shader.Bind();
+			transform.UpdateWorldMatrix();
+			camera.Update();
+			shader.Update(transform, camera);
+			mesh.Draw();
 			quit = Update();
 			Render();
 		}	
@@ -182,10 +207,12 @@ void CloseSDL()
 
 void Render()
 {
-	GameScreenManager::GetInstance()->Render();
+	//GameScreenManager::GetInstance()->Render();
 
 	//Update the screen.
 	SDL_GL_SwapWindow(gWindow);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -206,7 +233,7 @@ bool Update()
 		events.push_back(e);
 	}
 
-	GameScreenManager::GetInstance()->Update((float)(newTime - gOldTime) / 1000.0f, events);
+	//GameScreenManager::GetInstance()->Update((float)(newTime - gOldTime) / 1000.0f, events);
 
 	//Handle quiting.
 	for (auto e : events)

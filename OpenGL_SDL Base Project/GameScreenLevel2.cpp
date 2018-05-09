@@ -145,7 +145,7 @@ GameScreenLevel2::~GameScreenLevel2()
 void GameScreenLevel2::Render()
 {
 	//Clear the screen.
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
 	glEnable(GL_LIGHTING);
@@ -197,7 +197,7 @@ void GameScreenLevel2::Update(float deltaTime, std::vector<SDL_Event> events)
 		}
 	}
 
-	mCamera->Update(deltaTime, events);
+	//mCamera->Update(deltaTime, events);
 
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 	{

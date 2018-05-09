@@ -26,7 +26,7 @@ GameScreenHighScores::GameScreenHighScores()
 
 
 	//clear background colour.
-	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+	//glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
 
 	mText= new TextRender("Fonts/Calibri.ttf", 20);
 	//mHighScores = LoadHighScores();
@@ -42,7 +42,7 @@ GameScreenHighScores::~GameScreenHighScores()
 
 void GameScreenHighScores::Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
 

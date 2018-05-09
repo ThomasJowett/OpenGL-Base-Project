@@ -44,6 +44,7 @@ GLuint Texture2D::LoadTexture2D(char* path)
 
 	//clear the surface we don't need it anymore
 	SDL_FreeSurface(surface);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	return ID;
 }
@@ -80,5 +81,7 @@ GLuint Texture2D::LoadTexture2DRaw(char * path, int width, int height)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, tempTextureData);
 	delete[] tempTextureData; // Clear up the data - we don't need it anymore
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	return ID;
 }

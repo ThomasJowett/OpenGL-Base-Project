@@ -99,6 +99,8 @@
     <ClInclude Include="Level1Character.h" />
     <ClInclude Include="Level2Character.h" />
     <ClInclude Include="Level2Enemy.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="PlayerController.h" />
@@ -111,6 +113,8 @@
     <ClInclude Include="StateFindClosestBall.h" />
     <ClInclude Include="StateReturnToBaseLine.h" />
     <ClInclude Include="StateThrowBall.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="TestLevel.h" />
     <ClInclude Include="TextRender.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
@@ -136,6 +140,8 @@
     <ClCompile Include="Level1Character.cpp" />
     <ClCompile Include="Level2Character.cpp" />
     <ClCompile Include="Level2Enemy.cpp" />
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="PlayerController.cpp" />
@@ -147,6 +153,8 @@
     <ClCompile Include="StateFindClosestBall.cpp" />
     <ClCompile Include="StateReturnToBaseline.cpp" />
     <ClCompile Include="StateThrowBall.cpp" />
+    <ClCompile Include="stb_image.c" />
+    <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="TextRender.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />

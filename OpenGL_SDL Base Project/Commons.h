@@ -19,6 +19,19 @@ enum SCREENS
 	SCREEN_HIGHSCORES
 };
 
+struct Vertex
+{
+	Vector3D mPosition;
+	Vector2D mTexCoord;
+
+	Vertex(const Vector3D& position, const Vector2D& texCoord)
+		:mPosition(position)
+	{
+		mTexCoord = Vector2D(texCoord.x, 1 - texCoord.y);
+	}
+};
+
+
 struct Lighting {
 	float ambient[4];
 	float diffuse[4];
