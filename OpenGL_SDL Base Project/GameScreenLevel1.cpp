@@ -26,7 +26,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	glEnable(GL_DEPTH_TEST);							//Hidden surface removal
 	glShadeModel(GL_SMOOTH);
 
-	mCamera = new Camera(90.0f, -30.0f, 1300.0f);
+	//mCamera = new Camera(90.0f, -30.0f, 1300.0f);
 
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);

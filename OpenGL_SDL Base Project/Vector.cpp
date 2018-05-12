@@ -130,3 +130,8 @@ Vector2D::Vector2D(float x, float y)
 	this->x = x;
 	this->y = y;
 }
+
+bool Vector2D::operator==(const Vector2D & other)
+{
+	return (x == other.x && y == other.y);
+}

@@ -22,7 +22,7 @@ private:
 
 	enum
 	{
-		WORLD_U,
+		MODEL_U,
 		VIEW_U,
 		PROJECTION_U,
 

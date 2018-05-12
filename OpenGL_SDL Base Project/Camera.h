@@ -8,16 +8,17 @@
 #include <math.h>
 #include "SceneNode.h"
 #include "iInput.h"
-#include "Matrix.h"
+#include <glm.hpp>
+#include <gtc\matrix_transform.hpp>
+//#include "Matrix.h"
 
-class Camera : public SceneNode , public iInput
+class Camera : public SceneNode, public iInput
 {
 public:
-	Camera(float yaw, float pitch, float distance);
+	Camera();
 	~Camera();
-	void		Initialise(Vector3D eyePosition, Vector3D lookAtPosition, Vector3D up, float fovY, float farDepth, float nearDepth);
+	void		Initialise(Vector3D eyePosition, Vector3D forward, Vector3D up, float fovY, float nearDepth, float farDepth);
 	void		Update();
-	void        Render();
 
 	void MoveRight(float deltaTime, float scale) override;
 	void MoveForward(float deltaTime, float scale) override;
@@ -27,24 +28,25 @@ public:
 	void Roll(float deltaTime, float scale)override;
 	void Interact();
 
-	Matrix4x4 GetView() const { return mView; }
-	Matrix4x4 GetProjection() const { return mProjection; }
+	glm::mat4 GetView() const { return mView; }
+	glm::mat4 GetProjection() const { return mProjection; }
+	glm::mat4 GetViewProjection() const;
 
 private:
 	Vector3D mForward;
 	Vector3D mUp;
 	Vector3D mRight;
-	Vector3D mLookatPos;
+	Vector3D mLookAtPos;
+	Vector3D mEyePos;
 
-	Matrix4x4 mProjection;
-	Matrix4x4 mView;
+	glm::mat4 mProjection;
+	glm::mat4 mView;
 
-	float mDistance;
+	//float mDistance;
 	//horizontal angle : toward -z
-	float mYaw;
+	//float mYaw;
 	//vertical angle : 0, look at the horizon
-	float mPitch;
-	bool mMouseButtonDown = false;
+	//float mPitch;
 };
 
 #endif //_CAMERA_H

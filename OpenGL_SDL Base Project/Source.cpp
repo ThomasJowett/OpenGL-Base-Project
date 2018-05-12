@@ -39,7 +39,8 @@ SDL_GameController* gGameController = NULL;
 float gWinningTime = FLT_MAX;
 int gBallsHit = 0;
 //-----------------------------------------------------------------------------------------------------
-
+float counter = M_PI;
+float up = 0.0f;
 int main(int argc, char* args[])
 {
 
@@ -48,33 +49,48 @@ int main(int argc, char* args[])
 	{	
 		Shader shader("Shaders/BasicShader");
 		Vertex vertices[] = {
-			Vertex(Vector3D(-0.5, -0.5, 0), Vector2D(0, 0)),
-			Vertex(Vector3D(0, 0.5, 0), Vector2D(0.5, 1)),
-			Vertex(Vector3D(0.5, -0.5, 0), Vector2D(1, 0))
+			Vertex(Vector3D(-5, -5, 0), Vector2D(0, 0), Vector3D(0,0,1)),
+			Vertex(Vector3D(5, -5, 0), Vector2D(1, 0), Vector3D(0,0,1)),
+			Vertex(Vector3D(5, 5, 0), Vector2D(1, 1), Vector3D(0,0,1)),
+			Vertex(Vector3D(-5, 5, 0), Vector2D(0, 1), Vector3D(0,0,1))
 			};
 
-		Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+		unsigned int indices[] = { 0,1,2,0,2,3 };
 
-		glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2D("Images/DodgeballLogo.png"));
+		Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices)/sizeof(indices[0]));
+		Mesh mesh2("Models/Spaceman.obj");
+		glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2D("Textures/Spaceman_Diffuse.png"));
+		//glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2D("Images/DodgeballLogo.png"));
+
+		//glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2DRaw("Textures/Court.raw", 512, 512));
 
 		Transform transform;
-		Camera camera(0.0f, 0.0f, 0.0f);
-		camera.Initialise(Vector3D(0.0f, 0.0f, -1.0f), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 1.0f, 0.0f), M_PI, 0.001f, 10000.0f);
+		
+		Camera camera;
+		camera.Initialise(Vector3D(0.0f, 0.0f, -100.0f), Vector3D(0.0f, 0.0f, 1.0f), Vector3D(0.0f, 1.0f, 0.0f), 90, 0.1f, 1000.0f);
 
 		//Load the music.
 		SoundManager::GetInstance()->LoadMusic("Music/HolFix - Stephen Page.mp3");
 
 		bool quit = false;
 		gOldTime = SDL_GetTicks();
+
 		
 		//Game Loop.
 		while(!quit)
 		{
+			
+			//glClearDepth(0.0f);
+			glClearColor(0, 0, 0, 1.0f);
+			transform.SetPosition(0.0f, 0.0f, up);
+			transform.SetRotation(Quaternion(0.0f, counter, 0.0f));
+			
 			shader.Bind();
 			transform.UpdateWorldMatrix();
 			camera.Update();
 			shader.Update(transform, camera);
 			mesh.Draw();
+			mesh2.Draw();
 			quit = Update();
 			Render();
 		}	
@@ -93,7 +109,7 @@ bool InitSDL()
 	//Setup SDL.
 	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
-		cout << "SDL did not initialise. Error: " << SDL_GetError();
+		cout << "SDL did not initialise. ERROR: " << SDL_GetError();
 		return false;
 	}
 	else
@@ -110,6 +126,7 @@ bool InitSDL()
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 		gWindow = SDL_CreateWindow("Advanced Game Engine Creation", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
@@ -120,30 +137,52 @@ bool InitSDL()
 			//Initialise the Mixer.
 			if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0)
 			{
-				cout << "Mixer could not initialise. Error: " << Mix_GetError();
+				cout << "Mixer could not initialise. ERROR: " << Mix_GetError();
 				return false;
+			}
+
+			//Setup OpenGL
+			GLint GlewInitResult = glewInit();
+			if (GLEW_OK != GlewInitResult)
+			{
+				cerr << "Glew Setup failed. ERROR: " << glewGetErrorString(GlewInitResult) << endl;
+				return false;
+			}
+
+			glDepthFunc(GL_LEQUAL);
+			glDepthRange(0.0f, 1000.0f);
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			
+			glShadeModel(GL_SMOOTH);
+			glPolygonMode(GL_FRONT, GL_FILL);
+
+
+			//check for number of joysticks
+			if (SDL_NumJoysticks() < 1)
+			{
+				cout << "Warning: No joysticks connected!\n";
+			}
+			else
+			{
+				//load game controllers
+				gGameController = SDL_GameControllerOpen(0);
+				if (gGameController == NULL)
+				{
+					cout << "Warning: Unable to open game controller! SDL Error: " << SDL_GetError();
+				}
 			}
 		}
 		else
 		{
 			//Nope.
-			cout << "Window was not created. Error: " << SDL_GetError();
+			cerr << "Window was not created. ERROR: " << SDL_GetError();
 			return false;
 		}
-		//check for number of joysticks
-		if (SDL_NumJoysticks() < 1)
-		{
-			cout << "Warning: No joysticks connected!\n";
-		}
-		else
-		{
-			//load game controllers
-			gGameController = SDL_GameControllerOpen(0);
-			if (gGameController == NULL)
-			{
-				cout << "Warning: Unable to open game controller! SDL Error: " << SDL_GetError();
-			}
-		}
+		
 	}
 
 	return true;
@@ -211,7 +250,6 @@ void Render()
 
 	//Update the screen.
 	SDL_GL_SwapWindow(gWindow);
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -246,6 +284,14 @@ bool Update()
 		{
 			if (e.key.keysym.sym == SDLK_m)
 				SoundManager::GetInstance()->PlayMusic("Music/HolFix - Stephen Page.mp3");
+			if (e.key.keysym.sym == SDLK_RIGHT)
+				counter += 0.1f;
+			if (e.key.keysym.sym == SDLK_LEFT)
+				counter -= 0.1f;
+			if (e.key.keysym.sym == SDLK_UP)
+				up += 1.0f;
+			if (e.key.keysym.sym == SDLK_DOWN)
+				up -= 1.0f;
 		}
 	}
 	

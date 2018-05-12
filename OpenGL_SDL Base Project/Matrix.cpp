@@ -89,7 +89,7 @@ Matrix4x4 Matrix4x4::Perspective(float fovY, float aspectRatio, float nearDepth,
 	mResult.m[0][3] = 0.0f;
 
 	mResult.m[1][0] = 0.0f;
-	mResult.m[1][1] =fd;
+	mResult.m[1][1] = fd;
 	mResult.m[1][2] = 0.0f;
 	mResult.m[1][3] = 0.0f;
 
@@ -100,18 +100,19 @@ Matrix4x4 Matrix4x4::Perspective(float fovY, float aspectRatio, float nearDepth,
 
 	mResult.m[3][0] = 0.0f;
 	mResult.m[3][1] = 0.0f;
-	mResult.m[3][2] = (2 * farDepth * nearDepth) / (farDepth - nearDepth);
+	mResult.m[3][2] = 2 * (farDepth * nearDepth) / (farDepth - nearDepth);
 	mResult.m[3][3] = 0.0f;
 	return mResult;
 }
 
 Matrix4x4 Matrix4x4::LookAt(Vector3D eyePosition, Vector3D lookAtPosition, Vector3D up)
 {
-	Vector3D zaxis = (eyePosition - lookAtPosition).GetNormalized();//for left hand rule flip them
-	Vector3D xaxis = (Vector3D::Cross(up, zaxis)).GetNormalized();
-	Vector3D yaxis = Vector3D::Cross(zaxis, xaxis);
-
+	Vector3D zaxis = (lookAtPosition - eyePosition).GetNormalized();
+	Vector3D xaxis = (Vector3D::Cross(zaxis, up)).GetNormalized();
+	Vector3D yaxis = Vector3D::Cross(xaxis, zaxis);
+	
 	Matrix4x4 mResult;
+	
 	mResult.m[0][0] = xaxis.x;
 	mResult.m[0][1] = yaxis.x;
 	mResult.m[0][2] = zaxis.x;
@@ -131,6 +132,7 @@ Matrix4x4 Matrix4x4::LookAt(Vector3D eyePosition, Vector3D lookAtPosition, Vecto
 	mResult.m[3][1] = -Vector3D::Dot(yaxis, eyePosition);
 	mResult.m[3][2] = -Vector3D::Dot(zaxis, eyePosition);
 	mResult.m[3][3] = 1.0f;
+	
 	return mResult;
 }
 

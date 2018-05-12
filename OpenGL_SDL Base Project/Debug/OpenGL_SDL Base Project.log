@@ -1,4 +1,4 @@
-﻿  Camera.cpp
+﻿  Source.cpp
 f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(21): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(23): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
@@ -9,5 +9,6 @@ f:\documents\onedrive - staffordshire university\university work\advanced games 
 f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(162): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(163): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(167): warning C4305: '*=': truncation from 'double' to 'float'
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\source.cpp(42): warning C4305: 'initializing': truncation from 'double' to 'float'
   OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.exe
   OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.pdb (Full PDB)

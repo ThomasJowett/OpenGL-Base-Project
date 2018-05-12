@@ -5,6 +5,7 @@
 #include "Vector.h"
 #include "Quaternion.h"
 #include "Matrix.h"
+#include <glm.hpp>
 #include <gl/GL.h>
 
 class Transform
@@ -25,6 +26,7 @@ public:
 	void SetScale(Vector3D scale) { mScale = scale; }
 	Vector3D GetScale() const { return mScale; }
 
+	//glm::mat4 GetWorldMatrix() const { return mWorldMatrix; }
 	Matrix4x4 GetWorldMatrix() const { return mWorldMatrix; }
 	void UpdateWorldMatrix();
 
@@ -41,6 +43,7 @@ private:
 	Quaternion mRotation;
 	Vector3D mScale;
 
+	//glm::mat4 mWorldMatrix;
 	Matrix4x4 mWorldMatrix;
 };
 

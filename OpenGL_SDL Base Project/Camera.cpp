@@ -2,138 +2,94 @@
 #include "Constants.h"
 #include "../gl/glut.h"
 
+
 static float moveSpeed = 100.0f;
 static float lookSpeed = 0.5f;
 
-Camera::Camera(float yaw, float pitch, float distance) 
-	: mYaw(yaw), mPitch(pitch), mDistance(distance)
+Camera::Camera() 
 {
-	mForward = { 0.0f, 0.0f, 1.0f };
-	mUp = { 0.0f, 1.0f, 0.0f };
-	mRight.Cross(mForward, mUp);
+	//mForward = { 0.0f, 0.0f, 1.0f };
+	//mUp = { 0.0f, 1.0f, 0.0f };
+	//mRight.Cross(mForward, mUp);
+	//mEyePos = Vector3D();
 
-	mLookatPos = mTransform->GetPosition() + mForward;
+	//mLookatPos = mEyePos + mForward;
 }
 
 Camera::~Camera()
 {
 }
 
-void Camera::Initialise(Vector3D eyePosition, Vector3D lookAtPosition, Vector3D up, float fovY, float farDepth, float nearDepth)
+void Camera::Initialise(Vector3D eyePosition, Vector3D forward, Vector3D up, float fovY, float nearDepth, float farDepth)
 {
-	mTransform->SetPosition(eyePosition);
-	mProjection = Matrix4x4::Perspective(fovY, SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
+	mEyePos = eyePosition;
+	//mTransform->SetPosition(eyePosition);
+	mForward = forward;
+	mUp = up;
+	mRight = Vector3D::Cross(mForward, mUp);
+	//mLookAtPos = mEyePos + mForward;
 
+	mProjection = glm::perspective(fovY, (float)SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
+
+	//mProjection = Matrix4x4::Perspective((fovY * (M_PI/180)), SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
+	//mProjection = Matrix4x4::Perspective((fovY), SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
 }
 
 void Camera::Update()
 {
-	if (pParent)
-		mLookatPos = pParent->GetTransform()->GetPosition();
+	//mEyePos = GetWorldTransform().GetPosition();
 
-	//Detect Input
-	SDL_PumpEvents();
-/*
-	for (SDL_Event e : events)
-	{
-		if (e.type == SDL_MOUSEBUTTONDOWN)
-		{
-			mMouseButtonDown = true;
-		}
-		if (e.type == SDL_MOUSEBUTTONUP)
-		{
-			mMouseButtonDown = false;
-		}
+	//mUp = { 0.0f, 1.0f, 0.0f };
 
-		if (mMouseButtonDown)
-		{
-			if (e.type == SDL_MOUSEMOTION)
-			{
-				if (e.motion.xrel != 0)//Left
-					Yaw(deltaTime, lookSpeed *e.motion.xrel);
-				if (e.motion.yrel != 0)//Up
-					Pitch(deltaTime, lookSpeed * e.motion.yrel * -1);
-			}
-		}
-		/*
-		if (e.wheel.y == 1)
-		{
-			mDistance -= moveSpeed;
-		}
-		else if (e.wheel.y == -1)
-		{
-			mDistance += moveSpeed;
-		}
-	}
-	//Clamp Values
-	if (mDistance < 50.0f)
-		mDistance = 50.0f;
-	if (mDistance > 50000.0f)
-		mDistance = 50000.0f;
-	*/
-	//Forward Vector: Spherical coordinates to Cartesian coordinates conversion (also known as the 'look' direction)
+	mLookAtPos = mEyePos + mForward;
+
+	//std::cout << mLookAtPos.x << " " << mLookAtPos.y << " " << mLookAtPos.z << std::endl;
+
+	//std::cout << mEyePos.x << " " << mEyePos.y << " " << mEyePos.z << std::endl;
+
 	/*
-	mForward = Vector3D(
-		cos(mPitch) * sin(mYaw),
-		sin(mPitch),
-		cos(mPitch) * cos(mYaw));
-	mRight = Vector3D(sin(mYaw - M_PI / 2.0f), 0, cos(mYaw - M_PI / 2.0f));
-	*/
-
-	//Reset Up vector
-	mUp = { 0.0f, 1.0f, 0.0f };
-
 	//Calculate the Camera Position
 	mTransform->SetPosition(mLookatPos.x + mDistance * -sin(mYaw*(M_PI / 180)) * cos((mPitch)*(M_PI / 180)),
 		mLookatPos.y + mDistance * -sin((mPitch)*(M_PI / 180)),
 		mLookatPos.z + mDistance * cos((mYaw)*(M_PI / 180)) * cos((mPitch)*(M_PI / 180)));
+	*/
+	glm::vec3 eye = { mEyePos.x , mEyePos.y, mEyePos.z };
+	glm::vec3 at = { mLookAtPos.x, mLookAtPos.y, mLookAtPos.z };
+	glm::vec3 up = { mUp.x, mUp.y, mUp.z };
+	mView = glm::lookAt(eye, at, up);
 
-	//Get the forward vector from the camera position - look at position
-	mForward = mLookatPos - mTransform->GetPosition();
-	mForward.Normalize();
-
-	//Get the orthonormal right vector
-	mRight.Cross(mForward, mUp);
-	mRight.Normalize();
-
-	//Up vector : perpendicular to both forawrd and right, calculate using the cross product
-	mUp.Cross(mRight, mForward);
-	mUp.Normalize();
-
-	mView = Matrix4x4::LookAt(mTransform->GetPosition(), mLookatPos, mUp);
+	//mView = Matrix4x4::LookAt(mEyePos, mLookAtPos, mUp);
 }
 
-void Camera::Render()
-{
-	glLoadIdentity();
-	gluLookAt(mTransform->GetPosition().x, mTransform->GetPosition().y, mTransform->GetPosition().z, mLookatPos.x, mLookatPos.y, mLookatPos.z, mUp.x, mUp.y, mUp.z);
-}
 void Camera::Interact()
 {
 }
 
+glm::mat4 Camera::GetViewProjection() const
+{
+	glm::vec3 eye = { mEyePos.x , mEyePos.y, mEyePos.z };
+	glm::vec3 forward = { mForward.x, mForward.y, mForward.z };
+	glm::vec3 up = { mUp.x, mUp.y, mUp.z };
+
+	return mProjection * glm::lookAt(eye, eye + forward, up);
+}
+
 void Camera::MoveRight(float deltaTime, float scale)
 {
+	mEyePos += mRight * scale;
 }
 
 void Camera::MoveForward(float deltaTime, float scale)
 {
+	mEyePos += mForward * scale;
 }
 
 void Camera::Yaw(float deltaTime, float scale)
 {
-	mYaw += scale;
-	if (mYaw > 360 || mYaw < -360)
-		mYaw = 0;
 }
 
 void Camera::Pitch(float deltaTime, float scale)
 {
-	mPitch += scale;
-	if (mPitch > 89)
-		mPitch = 89;
-	if (mPitch < -89)
-		mPitch = -89;
 }
 
 void Camera::Roll(float deltaTime, float scale)

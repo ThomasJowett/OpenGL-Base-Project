@@ -43,7 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\OpenGL_SDL Base Project\GL;..\OpenGL_SDL Base Project\SDL\mixer_include;..\OpenGL_SDL Base Project\SDL\include;..\OpenGL_SDL Base Project\SDL\image_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\OpenGL_SDL Base Project\glm;..\OpenGL_SDL Base Project\GL;..\OpenGL_SDL Base Project\SDL\mixer_include;..\OpenGL_SDL Base Project\SDL\include;..\OpenGL_SDL Base Project\SDL\image_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -102,6 +102,7 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="OBJLoader2.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Quaternion.h" />
@@ -143,6 +144,7 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="OBJLoader2.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="SceneNode.cpp" />

@@ -23,12 +23,10 @@ struct Vertex
 {
 	Vector3D mPosition;
 	Vector2D mTexCoord;
+	Vector3D mNormal;
 
-	Vertex(const Vector3D& position, const Vector2D& texCoord)
-		:mPosition(position)
-	{
-		mTexCoord = Vector2D(texCoord.x, 1 - texCoord.y);
-	}
+	Vertex(const Vector3D& position, const Vector2D& texCoord, const Vector3D& normal)
+		:mPosition(position),mTexCoord(texCoord), mNormal(normal) {}
 };
 
 
