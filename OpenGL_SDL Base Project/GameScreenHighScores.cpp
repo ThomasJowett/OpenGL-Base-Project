@@ -1,8 +1,5 @@
 #include "GameScreenHighScores.h"
 
-extern float gWinningTime;
-extern int gBallsHit;
-
 GameScreenHighScores::GameScreenHighScores()
 {
 	//srand(time(NULL));
@@ -33,7 +30,7 @@ GameScreenHighScores::GameScreenHighScores()
 
 
 
-	sprintf(mDisplayTime, "Score: %fs", (100 - (gWinningTime * gBallsHit)));
+	//sprintf(mDisplayTime, "Score: %fs", (100 - (gWinningTime * gBallsHit)));
 }
 
 GameScreenHighScores::~GameScreenHighScores()

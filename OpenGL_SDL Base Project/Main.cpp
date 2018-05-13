@@ -1,21 +1,17 @@
+#include "Commons.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 
 #include "Constants.h"
-#include "Commons.h"
 #include "GameScreenManager.h"
 #include "SoundManager.h"
-#include "Shader.h"
-#include <glew.h>
 
-#include "Mesh.h"
-#include "Texture2D.h"
-#include "Transform.h"
 
 
 using namespace::std;
@@ -23,7 +19,6 @@ using namespace::std;
 //-----------------------------------------------------------------------------------------------------
 //Local function prototypes.
 bool InitSDL();
-SDL_Surface* LoadSurface(string path);
 void CloseSDL();
 
 void Render();
@@ -33,45 +28,20 @@ bool Update();
 //Globals.
 SDL_Window*   gWindow    = NULL;
 SDL_GLContext gGLContext = NULL;
-SDL_Surface*  gSurface   = NULL;
 Uint32		  gOldTime;
-SDL_GameController* gGameController = NULL;
-float gWinningTime = FLT_MAX;
-int gBallsHit = 0;
+SDL_GameController* gGameControllers[4];
+
 //-----------------------------------------------------------------------------------------------------
-float counter = M_PI;
-float up = 0.0f;
+
 int main(int argc, char* args[])
 {
 
 	//Initialise SDL.
 	if(InitSDL())
 	{	
-		Shader shader("Shaders/BasicShader");
-		Vertex vertices[] = {
-			Vertex(Vector3D(-5, -5, 0), Vector2D(0, 0), Vector3D(0,0,1)),
-			Vertex(Vector3D(5, -5, 0), Vector2D(1, 0), Vector3D(0,0,1)),
-			Vertex(Vector3D(5, 5, 0), Vector2D(1, 1), Vector3D(0,0,1)),
-			Vertex(Vector3D(-5, 5, 0), Vector2D(0, 1), Vector3D(0,0,1))
-			};
-
-		unsigned int indices[] = { 0,1,2,0,2,3 };
-
-		Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices)/sizeof(indices[0]));
-		Mesh mesh2("Models/Spaceman.obj");
-		glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2D("Textures/Spaceman_Diffuse.png"));
-		//glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2D("Images/DodgeballLogo.png"));
-
-		//glBindTexture(GL_TEXTURE_2D, Texture2D::LoadTexture2DRaw("Textures/Court.raw", 512, 512));
-
-		Transform transform;
-		
-		Camera camera;
-		camera.Initialise(Vector3D(0.0f, 0.0f, -100.0f), Vector3D(0.0f, 0.0f, 1.0f), Vector3D(0.0f, 1.0f, 0.0f), 90, 0.1f, 1000.0f);
-
 		//Load the music.
 		SoundManager::GetInstance()->LoadMusic("Music/HolFix - Stephen Page.mp3");
-
+		
 		bool quit = false;
 		gOldTime = SDL_GetTicks();
 
@@ -79,18 +49,6 @@ int main(int argc, char* args[])
 		//Game Loop.
 		while(!quit)
 		{
-			
-			//glClearDepth(0.0f);
-			glClearColor(0, 0, 0, 1.0f);
-			transform.SetPosition(0.0f, 0.0f, up);
-			transform.SetRotation(Quaternion(0.0f, counter, 0.0f));
-			
-			shader.Bind();
-			transform.UpdateWorldMatrix();
-			camera.Update();
-			shader.Update(transform, camera);
-			mesh.Draw();
-			mesh2.Draw();
 			quit = Update();
 			Render();
 		}	
@@ -169,10 +127,13 @@ bool InitSDL()
 			else
 			{
 				//load game controllers
-				gGameController = SDL_GameControllerOpen(0);
-				if (gGameController == NULL)
+				for (int i = 0; i < SDL_NumJoysticks(); i++)
 				{
-					cout << "Warning: Unable to open game controller! SDL Error: " << SDL_GetError();
+					gGameControllers[i] = SDL_GameControllerOpen(i);
+					if (gGameControllers[i] == NULL)
+					{
+						std::cerr << "Warning: Unable to open game controller! SDL Error: " << SDL_GetError();
+					}
 				}
 			}
 		}
@@ -190,46 +151,17 @@ bool InitSDL()
 
 //-----------------------------------------------------------------------------------------------------
 
-SDL_Surface* LoadSurface(string path)
-{
-	SDL_Surface* pLoadedSurface = NULL;
-	SDL_Surface* pOptimizedSurface = NULL;
-
-	//Load the image.
-	pLoadedSurface = IMG_Load(path.c_str());
-	if(pLoadedSurface == NULL)
-	{
-		cout << "Failed to load image. Error: " << SDL_GetError();
-		return NULL;
-	}
-	else
-	{
-		//Convert the surface to the screen format.
-		pOptimizedSurface = SDL_ConvertSurface( pLoadedSurface, gSurface->format, NULL);
-		if(pOptimizedSurface == NULL)
-		{
-			cout << "Unable to optimize the surface. Error: " << SDL_GetError();
-			return NULL;
-		}
-
-		//Free the memory used for the loaded surface.
-		SDL_FreeSurface(pLoadedSurface);
-	}
-
-	return pOptimizedSurface;
-}
-
-//-----------------------------------------------------------------------------------------------------
-
 void CloseSDL()
 {
 	//Destroy the game screen manager.
 	delete GameScreenManager::GetInstance();
 	delete SoundManager::GetInstance();
 
-	//Close game controller
-	SDL_GameControllerClose(gGameController);
-	gGameController = NULL;
+	//Close game controllers
+	for (auto controller : gGameControllers)
+	{
+		SDL_GameControllerClose(controller);
+	}
 
 	//Destroy the window.
 	SDL_DestroyWindow(gWindow);
@@ -246,7 +178,8 @@ void CloseSDL()
 
 void Render()
 {
-	//GameScreenManager::GetInstance()->Render();
+	glClearColor(0, 0, 0, 1);
+	GameScreenManager::GetInstance()->Render();
 
 	//Update the screen.
 	SDL_GL_SwapWindow(gWindow);
@@ -271,7 +204,7 @@ bool Update()
 		events.push_back(e);
 	}
 
-	//GameScreenManager::GetInstance()->Update((float)(newTime - gOldTime) / 1000.0f, events);
+	GameScreenManager::GetInstance()->Update((float)(newTime - gOldTime) / 1000.0f, events);
 
 	//Handle quiting.
 	for (auto e : events)
@@ -283,15 +216,7 @@ bool Update()
 		if (e.type == SDL_KEYDOWN)
 		{
 			if (e.key.keysym.sym == SDLK_m)
-				SoundManager::GetInstance()->PlayMusic("Music/HolFix - Stephen Page.mp3");
-			if (e.key.keysym.sym == SDLK_RIGHT)
-				counter += 0.1f;
-			if (e.key.keysym.sym == SDLK_LEFT)
-				counter -= 0.1f;
-			if (e.key.keysym.sym == SDLK_UP)
-				up += 1.0f;
-			if (e.key.keysym.sym == SDLK_DOWN)
-				up -= 1.0f;
+				SoundManager::GetInstance()->PlayMusic("Music/HolFix - Stephen Page.mp3");				
 		}
 	}
 	

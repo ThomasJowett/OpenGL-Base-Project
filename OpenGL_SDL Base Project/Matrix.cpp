@@ -80,57 +80,57 @@ Matrix4x4 Matrix4x4::Rotate(Quaternion rotation)
 
 Matrix4x4 Matrix4x4::Perspective(float fovY, float aspectRatio, float nearDepth, float farDepth)
 {
-	float fd = 1 / tan(fovY / 2);
+	float tanHalfFovY = (tan(fovY / 2));
 
 	Matrix4x4 mResult;
-	mResult.m[0][0] = fd / aspectRatio;
+	mResult.m[0][0] = 1 / (tanHalfFovY * aspectRatio);
 	mResult.m[0][1] = 0.0f;
 	mResult.m[0][2] = 0.0f;
 	mResult.m[0][3] = 0.0f;
 
 	mResult.m[1][0] = 0.0f;
-	mResult.m[1][1] = fd;
+	mResult.m[1][1] = 1 / tanHalfFovY;
 	mResult.m[1][2] = 0.0f;
 	mResult.m[1][3] = 0.0f;
 
 	mResult.m[2][0] = 0.0f;
 	mResult.m[2][1] = 0.0f;
-	mResult.m[2][2] = (farDepth + nearDepth) / (farDepth - nearDepth);
-	mResult.m[2][3] = -1;
+	mResult.m[2][2] = farDepth / (nearDepth - farDepth);
+	mResult.m[2][3] = -1.0f;
 
 	mResult.m[3][0] = 0.0f;
 	mResult.m[3][1] = 0.0f;
-	mResult.m[3][2] = 2 * (farDepth * nearDepth) / (farDepth - nearDepth);
+	mResult.m[3][2] = -(farDepth * nearDepth) / (farDepth - nearDepth);
 	mResult.m[3][3] = 0.0f;
 	return mResult;
 }
 
 Matrix4x4 Matrix4x4::LookAt(Vector3D eyePosition, Vector3D lookAtPosition, Vector3D up)
 {
-	Vector3D zaxis = (lookAtPosition - eyePosition).GetNormalized();
-	Vector3D xaxis = (Vector3D::Cross(zaxis, up)).GetNormalized();
-	Vector3D yaxis = Vector3D::Cross(xaxis, zaxis);
+	Vector3D f = (lookAtPosition - eyePosition).GetNormalized();
+	Vector3D s = (Vector3D::Cross(f, up)).GetNormalized();
+	Vector3D u = Vector3D::Cross(s, f);
 	
 	Matrix4x4 mResult;
 	
-	mResult.m[0][0] = xaxis.x;
-	mResult.m[0][1] = yaxis.x;
-	mResult.m[0][2] = zaxis.x;
+	mResult.m[0][0] = s.x;
+	mResult.m[0][1] = u.x;
+	mResult.m[0][2] = -f.x;
 	mResult.m[0][3] = 0.0f;
 
-	mResult.m[1][0] = xaxis.y;
-	mResult.m[1][1] = yaxis.y;
-	mResult.m[1][2] = zaxis.y;
+	mResult.m[1][0] = s.y;
+	mResult.m[1][1] = u.y;
+	mResult.m[1][2] = -f.y;
 	mResult.m[1][3] = 0.0f;
 
-	mResult.m[2][0] = xaxis.z;
-	mResult.m[2][1] = yaxis.z;
-	mResult.m[2][2] = zaxis.z;
+	mResult.m[2][0] = s.z;
+	mResult.m[2][1] = u.z;
+	mResult.m[2][2] = -f.z;
 	mResult.m[2][3] = 0.0f;
 
-	mResult.m[3][0] = -Vector3D::Dot(xaxis, eyePosition);
-	mResult.m[3][1] = -Vector3D::Dot(yaxis, eyePosition);
-	mResult.m[3][2] = -Vector3D::Dot(zaxis, eyePosition);
+	mResult.m[3][0] = -Vector3D::Dot(s, eyePosition);
+	mResult.m[3][1] = -Vector3D::Dot(up, eyePosition);
+	mResult.m[3][2] = Vector3D::Dot(f, eyePosition);
 	mResult.m[3][3] = 1.0f;
 	
 	return mResult;

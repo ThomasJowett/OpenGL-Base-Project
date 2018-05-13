@@ -1,5 +1,4 @@
 #include "Transform.h"
-#include <gtc\matrix_transform.hpp>
 
 Transform::Transform()
 {

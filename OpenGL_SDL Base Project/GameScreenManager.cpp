@@ -3,6 +3,7 @@
 #include "GameScreenMenu.h"
 #include "GameScreenLevel1.h"
 #include "GameScreenLevel2.h"
+#include "TestLevel.h"
 #include "GameScreenHighScores.h"
 #include "GameScreenGameOver.h"
 
@@ -55,6 +56,7 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 	GameScreenMenu* tempMenuScreen;
 	GameScreenLevel1* tempScreen1;
 	GameScreenLevel2* tempScreen2;
+	TestLevel* tempTest;
 	GameScreenHighScores* tempScreenHighScores;
 	GameScreenGameOver* tempScreenGameOver;
 	
@@ -84,6 +86,13 @@ void GameScreenManager::ChangeScreen(SCREENS newScreen)
 			tempScreen2 = new GameScreenLevel2();
 			mCurrentScreen = (GameScreen*)tempScreen2;
 			tempScreen2 = NULL;
+		break;
+
+		case SCREEN_TEST:
+			std::cout << "Opening Test Level\n";
+			tempTest = new TestLevel();
+			mCurrentScreen = (GameScreen*)tempTest;
+			tempTest = NULL;
 		break;
 
 		case SCREEN_GAMEOVER:

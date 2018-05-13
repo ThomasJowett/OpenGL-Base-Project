@@ -40,7 +40,7 @@ GameScreenMenu::GameScreenMenu() : GameScreen()
 
 	mMenuItems.push_back("Level 1");
 	mMenuItems.push_back("Level 2");
-	mMenuItems.push_back("HighScores");
+	mMenuItems.push_back("Test");
 	mMenuItems.push_back("Quit");
 
 	mInstructions.push_back("WASD or left stick to move");
@@ -205,7 +205,7 @@ void GameScreenMenu::ChangeLevel()
 		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_LEVEL2);
 		break;
 	case 3:
-		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
+		GameScreenManager::GetInstance()->ChangeScreen(SCREEN_TEST);
 		break;
 	case 4:
 		Quit();

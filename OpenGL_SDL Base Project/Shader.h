@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include <glew.h>
 
+#include "Commons.h"
 #include "Transform.h"
 #include "Camera.h"
 

@@ -2,9 +2,6 @@
 
 using namespace::std;
 
-extern float gWinningTime;
-extern int gBallsHit;
-
 //--------------------------------------------------------------------------------------------------
 
 GameScreenLevel1::GameScreenLevel1() : GameScreen()
@@ -166,7 +163,7 @@ void GameScreenLevel1::Render()
 	glEnable(GL_LIGHTING);
 	glLoadIdentity();
 		
-	mCamera->Render();
+	//mCamera->Render();
 	SetLight();
 
 	GameScreen::Render();
@@ -192,14 +189,14 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> events)
 		if (GameObject->GetName() == "Denzel")
 		{
 			Level1Character* denzel = dynamic_cast<Level1Character*>(GameObject);
-			gBallsHit = 4 - denzel->GetLives();
+			//gBallsHit = 4 - denzel->GetLives();
 			if (GameObject->GetTransform()->GetPosition().z > 800.0f)
 			{
 				if (!mWon)
 				{
 					SoundManager::GetInstance()->PlaySoundEffect("SFX/Victory.wav", -1, 0);
 					mWon = true;
-					gWinningTime = mTimer;
+					//gWinningTime = mTimer;
 					GameScreenManager::GetInstance()->ChangeScreen(SCREEN_HIGHSCORES);
 					
 					return;
@@ -220,7 +217,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> events)
 
 
 
-	//mCamera->Update(deltaTime, events);
+	mCamera->Update();
 	
 	//Update FPS
 	mFrameCount++;
@@ -236,7 +233,7 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> events)
 	mTimer += deltaTime;
 	sprintf(mTime, "Time: %fs", mTimer);
 
-	sprintf(mBallsHit, "%i", gBallsHit);
+	//sprintf(mBallsHit, "%i", gBallsHit);
 	
 	if ((GetAsyncKeyState(VK_ESCAPE) & 0x80 != 0))
 	{

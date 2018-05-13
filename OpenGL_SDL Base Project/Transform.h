@@ -5,8 +5,6 @@
 #include "Vector.h"
 #include "Quaternion.h"
 #include "Matrix.h"
-#include <glm.hpp>
-#include <gl/GL.h>
 
 class Transform
 {

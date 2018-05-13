@@ -1,7 +1,6 @@
 #include "Mesh.h"
 
 
-
 Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
 	IndexedModel model;

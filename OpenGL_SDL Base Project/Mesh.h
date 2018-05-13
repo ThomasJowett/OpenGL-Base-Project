@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector.h"
-#include <glew.h>
 #include <vector>
 #include "Commons.h"
 #include "OBJLoader2.h"

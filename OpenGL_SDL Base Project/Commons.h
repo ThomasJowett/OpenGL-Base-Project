@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <vector>
 #include "Vector.h"
+#include <glew.h> //only place this should be
 
 //3DS Max Object type details.
 #define MAX_VERTICES 4000
@@ -15,6 +16,7 @@ enum SCREENS
 	SCREEN_MENU,
 	SCREEN_LEVEL1,
 	SCREEN_LEVEL2,
+	SCREEN_TEST,
 	SCREEN_GAMEOVER,
 	SCREEN_HIGHSCORES
 };

@@ -6,8 +6,6 @@
 #include <SDL_ttf.h>
 #include <string>
 #include "Commons.h"
-#include <GL\gl.h>
-#include <GL\glu.h>
 #include "Constants.h"
 enum ALIGNMENT
 {

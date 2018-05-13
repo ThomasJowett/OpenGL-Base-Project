@@ -10,7 +10,7 @@
 #include "iInput.h"
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
-//#include "Matrix.h"
+#include "Matrix.h"
 
 class Camera : public SceneNode, public iInput
 {
@@ -28,9 +28,11 @@ public:
 	void Roll(float deltaTime, float scale)override;
 	void Interact();
 
-	glm::mat4 GetView() const { return mView; }
-	glm::mat4 GetProjection() const { return mProjection; }
-	glm::mat4 GetViewProjection() const;
+	Matrix4x4 GetView() const { return mView; }
+	Matrix4x4 GetProjection() const { return mProjection; }
+
+	//glm::mat4 GetView() const { return mView; }
+	//glm::mat4 GetProjection() const { return mProjection; }
 
 private:
 	Vector3D mForward;
@@ -39,8 +41,11 @@ private:
 	Vector3D mLookAtPos;
 	Vector3D mEyePos;
 
-	glm::mat4 mProjection;
-	glm::mat4 mView;
+	Matrix4x4 mProjection;
+	Matrix4x4 mView;
+
+	//glm::mat4 mProjection;
+	//glm::mat4 mView;
 
 	//float mDistance;
 	//horizontal angle : toward -z

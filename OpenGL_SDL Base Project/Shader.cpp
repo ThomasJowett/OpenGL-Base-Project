@@ -1,9 +1,8 @@
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
+#include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
-
-
 
 Shader::Shader(const std::string& fileName)
 {
@@ -44,11 +43,17 @@ void Shader::Update(const Transform & transform, Camera& camera)
 	//glm::mat4 world = transform.GetWorldMatrix();
 	//glUniformMatrix4fv(mUniforms[WORLD_U], 1, GL_FALSE, &world[0][0]);
 
-	glm::mat4 view = camera.GetView();
-	glUniformMatrix4fv(mUniforms[VIEW_U], 1, GL_FALSE, &view[0][0]);
+	//glm::mat4 view = camera.GetView();
+	//glUniformMatrix4fv(mUniforms[VIEW_U], 1, GL_FALSE, &view[0][0]);
 
-	glm::mat4 projection = camera.GetProjection();
-	glUniformMatrix4fv(mUniforms[PROJECTION_U], 1, GL_FALSE, &projection[0][0]);	
+	//glm::mat4 projection = camera.GetProjection();
+	//glUniformMatrix4fv(mUniforms[PROJECTION_U], 1, GL_FALSE, &projection[0][0]);
+
+	Matrix4x4 view = camera.GetView();
+	glUniformMatrix4fv(mUniforms[VIEW_U], 1, GL_FALSE, &view.m[0][0]);
+
+	Matrix4x4 projection = camera.GetProjection();
+	glUniformMatrix4fv(mUniforms[PROJECTION_U], 1, GL_FALSE, &projection.m[0][0]);
 }
 
 Shader::~Shader()

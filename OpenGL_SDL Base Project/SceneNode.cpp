@@ -127,14 +127,15 @@ void SceneNode::RemoveSelfAndChildren()
 
 void SceneNode::Traverse()
 {
+	//TODO: use with buffers
 	if (!mKeepMatrix)
-		glPushMatrix();
+		//glPushMatrix();
 
 	Render();
 	if (pLeftChild != NULL)
 		pLeftChild->Traverse();
 	if (!mKeepMatrix)
-		glPopMatrix();
+		//glPopMatrix();
 	if (pRightSibling != NULL)
 		pRightSibling->Traverse();
 }

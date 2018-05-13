@@ -4,7 +4,6 @@
 #include "Commons.h"
 #include <iostream>
 #include <Windows.h>
-#include <gl/GL.h>
 #include "Transform.h"
 
 class SceneNode {
