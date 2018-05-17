@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
-#include <glm.hpp>
 #include "Vector.h"
+#include "Mesh.h"
 
 struct OBJIndex
 {
@@ -13,17 +13,6 @@ struct OBJIndex
 	unsigned int normalIndex;
 
 	bool operator<(const OBJIndex& r) const { return vertexIndex < r.vertexIndex; }
-};
-
-class IndexedModel
-{
-public:
-	std::vector<Vector3D> positions;
-	std::vector<Vector2D> texCoords;
-	std::vector<Vector3D> normals;
-	std::vector<unsigned int> indices;
-
-	void CalcNormals();
 };
 
 class OBJModel
@@ -36,7 +25,9 @@ public:
 	bool hasUVs;
 	bool hasNormals;
 
-	OBJModel(const std::string& fileName);
+	OBJModel();
+
+	IndexedModel LoadOBJ(const std::string& fileName);
 
 	IndexedModel ToIndexedModel();
 private:

@@ -93,7 +93,6 @@ bool SoundManager::PlaySoundEffect(const std::string filename, int channel, int 
 
 bool SoundManager::PlaySoundAtLocation(const std::string filename, int channel, int repeat, Vector3D location)
 {
-
 	return false;
 }
 

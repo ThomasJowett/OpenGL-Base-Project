@@ -28,7 +28,7 @@ void StateCelebrate::During(AICharacter * agent, float deltaTime)
 		rotation.Normalize();
 		agent->GetTransform()->SetRotation(rotation);
 
-		agent->MoveForward(deltaTime, 1.0f);
+		agent->MoveForward(1.0f);
 	}
 }
 

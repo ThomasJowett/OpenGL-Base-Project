@@ -13,7 +13,9 @@ public:
 	virtual ~Shader();
 
 	void Bind();
-	void Update(const Transform& transform, Camera& camera);
+	void UpdateWorld(const Transform& transform);
+	void UpdateViewProjection(const Camera& camera);
+	void UpdateLight(const Vector3D& lightPos);
 	
 private:
 	static const unsigned int NUM_SHADERS = 2;
@@ -25,6 +27,8 @@ private:
 		MODEL_U,
 		VIEW_U,
 		PROJECTION_U,
+		EYEPOSW_U,
+		LIGHTPOSW_U,
 
 		NUM_UNIFORMS
 	};

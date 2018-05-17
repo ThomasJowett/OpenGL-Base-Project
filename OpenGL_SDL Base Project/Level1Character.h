@@ -8,12 +8,12 @@ public:
 
 	bool CollisionEvent(GameObject* collidedWith)override;
 
-	void MoveRight(float deltaTime, float scale) override;
-	void MoveForward(float deltaTime, float scale) override;
+	void MoveRight(float scale) override;
+	void MoveForward(float scale) override;
 
-	void Yaw(float deltaTime, float scale);
-	void Pitch(float deltaTime, float scale);
-	void Roll(float deltaTime, float scale);
+	void Yaw(float scale) override;
+	void Pitch(float scale) override;
+	void Roll(float scale) override;
 
 	int GetLives() const { return mLives; }
 private:

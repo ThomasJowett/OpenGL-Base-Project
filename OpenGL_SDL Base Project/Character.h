@@ -10,12 +10,12 @@ public:
 	Character(std::string name, Transform* transform, Appearance* appearance, ParticleModel * particle, Collider * collider, Vector3D forward);
 
 	virtual bool CollisionEvent(GameObject* collidedWith) override;
-	void MoveRight(float deltaTime, float scale) override;
-	void MoveForward(float deltaTime, float scale) override;
+	void MoveRight(float scale) override;
+	void MoveForward(float scale) override;
 
-	void Yaw(float deltaTime, float scale);
-	void Pitch(float deltaTime, float scale);
-	void Roll(float deltaTime, float scale);
+	void Yaw(float scale)override;
+	void Pitch(float scale)override;
+	void Roll(float scale)override;
 
 	virtual void Interact();
 

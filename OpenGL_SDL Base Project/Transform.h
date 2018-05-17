@@ -16,7 +16,6 @@ public:
 	void SetPosition(Vector3D position) { mPosition = position; }
 	Vector3D GetPosition() const { return mPosition; }
 
-	//void SetRotation(float pitch, float roll, float yaw) { mRotation = Vector3D{ pitch , roll, yaw }; }
 	void SetRotation(Quaternion rotation) { mRotation = rotation; }
 	Quaternion GetRotation() const { return mRotation; }
 
@@ -24,7 +23,6 @@ public:
 	void SetScale(Vector3D scale) { mScale = scale; }
 	Vector3D GetScale() const { return mScale; }
 
-	//glm::mat4 GetWorldMatrix() const { return mWorldMatrix; }
 	Matrix4x4 GetWorldMatrix() const { return mWorldMatrix; }
 	void UpdateWorldMatrix();
 
@@ -41,7 +39,6 @@ private:
 	Quaternion mRotation;
 	Vector3D mScale;
 
-	//glm::mat4 mWorldMatrix;
 	Matrix4x4 mWorldMatrix;
 };
 

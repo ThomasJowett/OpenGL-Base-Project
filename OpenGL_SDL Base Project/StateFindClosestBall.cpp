@@ -54,20 +54,20 @@ void StateFindClosestBall::During(AICharacter* agent, float deltaTime)
 
 				if (closestBallTransform.GetPosition().x > agentWorldTransform.GetPosition().x)
 				{
-					agent->MoveRight(deltaTime, 1.0);
+					agent->MoveRight(1.0);
 				}
 				else if (closestBallTransform.GetPosition().x < agentWorldTransform.GetPosition().x)
 				{
-					agent->MoveRight(deltaTime, -1.0f);
+					agent->MoveRight(-1.0f);
 				}
 
 				if (closestBallTransform.GetPosition().z < agentWorldTransform.GetPosition().z)
 				{
-					agent->MoveForward(deltaTime, 1.0);
+					agent->MoveForward(1.0);
 				}
 				else if (closestBallTransform.GetPosition().z > agentWorldTransform.GetPosition().z)
 				{
-					agent->MoveForward(deltaTime, -1.0);
+					agent->MoveForward(-1.0);
 				}
 			}
 		}

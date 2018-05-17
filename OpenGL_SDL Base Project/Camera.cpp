@@ -1,6 +1,5 @@
 #include "Camera.h"
 #include "Constants.h"
-//#include "../gl/glut.h"
 
 
 static float moveSpeed = 100.0f;
@@ -8,12 +7,6 @@ static float lookSpeed = 0.5f;
 
 Camera::Camera() 
 {
-	//mForward = { 0.0f, 0.0f, 1.0f };
-	//mUp = { 0.0f, 1.0f, 0.0f };
-	//mRight.Cross(mForward, mUp);
-	//mEyePos = Vector3D();
-
-	//mLookatPos = mEyePos + mForward;
 }
 
 Camera::~Camera()
@@ -22,26 +15,21 @@ Camera::~Camera()
 
 void Camera::Initialise(Vector3D eyePosition, Vector3D forward, Vector3D up, float fovY, float nearDepth, float farDepth)
 {
-	mEyePos = eyePosition;
-	//mTransform->SetPosition(eyePosition);
+	mTransform->SetPosition(eyePosition);
 	mForward = forward;
 	mUp = up;
 	mRight = Vector3D::Cross(mForward, mUp);
-	//mLookAtPos = mEyePos + mForward;
 
-	//mProjection = glm::perspective(fovY, (float)SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
-
-	//mProjection = Matrix4x4::Perspective((fovY * (M_PI/180)), SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
 	mProjection = Matrix4x4::Perspective((fovY), (float)SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
 }
 
 void Camera::Update()
 {
-	//mEyePos = GetWorldTransform().GetPosition();
+	Vector3D mEyePos = GetWorldTransform().GetPosition();
 
 	//mUp = { 0.0f, 1.0f, 0.0f };
 
-	mLookAtPos = mEyePos + mForward;
+	Vector3D mLookAtPos = mEyePos + mForward;
 
 	/*
 	//Calculate the Camera Position
@@ -57,24 +45,24 @@ void Camera::Interact()
 {
 }
 
-void Camera::MoveRight(float deltaTime, float scale)
+void Camera::MoveRight(float scale)
 {
-	mEyePos += mRight * scale;
+	mTransform->SetPosition(mTransform->GetPosition() + (mTransform->GetRotation() * mRight * scale));
 }
 
-void Camera::MoveForward(float deltaTime, float scale)
+void Camera::MoveForward(float scale)
 {
-	mEyePos += mForward * scale;
+	mTransform->SetPosition(mTransform->GetPosition() + (mTransform->GetRotation() * mForward * scale));
 }
 
-void Camera::Yaw(float deltaTime, float scale)
-{
-}
-
-void Camera::Pitch(float deltaTime, float scale)
+void Camera::Yaw(float scale)
 {
 }
 
-void Camera::Roll(float deltaTime, float scale)
+void Camera::Pitch(float scale)
+{
+}
+
+void Camera::Roll(float scale)
 {
 }

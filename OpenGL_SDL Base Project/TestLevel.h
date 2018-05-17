@@ -17,8 +17,12 @@ public:
 
 private:
 	Mesh* mesh;
+	Mesh* mesh2;
 	Shader* shader;
 	Transform transform;
+	Transform transform2;
 	Camera camera;
+
+	float rotation;
 };
 

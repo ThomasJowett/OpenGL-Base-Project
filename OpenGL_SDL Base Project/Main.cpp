@@ -87,18 +87,14 @@ bool InitSDL()
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-		gWindow = SDL_CreateWindow("Advanced Game Engine Creation", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+		gWindow = SDL_CreateWindow("Advanced Game Engine Creation", 
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			SCREEN_WIDTH, SCREEN_HEIGHT,
+			SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 		gGLContext = SDL_GL_CreateContext(gWindow);
 		//Did the window get created?
 		if(gWindow != NULL)
 		{
-			//Initialise the Mixer.
-			if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0)
-			{
-				cout << "Mixer could not initialise. ERROR: " << Mix_GetError();
-				return false;
-			}
-
 			//Setup OpenGL
 			GLint GlewInitResult = glewInit();
 			if (GLEW_OK != GlewInitResult)
@@ -107,8 +103,8 @@ bool InitSDL()
 				return false;
 			}
 
-			glDepthFunc(GL_LEQUAL);
-			glDepthRange(0.0f, 1000.0f);
+			//glDepthFunc(GL_LEQUAL);
+			//glDepthRange(0.0f, 1000.0f);
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
@@ -132,7 +128,7 @@ bool InitSDL()
 					gGameControllers[i] = SDL_GameControllerOpen(i);
 					if (gGameControllers[i] == NULL)
 					{
-						std::cerr << "Warning: Unable to open game controller! SDL Error: " << SDL_GetError();
+						std::cerr << "Warning: Unable to open game controller! ERROR: " << SDL_GetError();
 					}
 				}
 			}

@@ -12,10 +12,10 @@ void PlayerController::Update(float deltaTime, std::vector<SDL_Event> events)
 	SDL_PumpEvents();
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
-	if (currentKeyStates[SDL_SCANCODE_A]) { mCharacter->MoveRight(deltaTime, -1.0f); }
-	if (currentKeyStates[SDL_SCANCODE_D]) { mCharacter->MoveRight(deltaTime, 1.0f); }
-	if (currentKeyStates[SDL_SCANCODE_W]) { mCharacter->MoveForward(deltaTime, 1.0f); }
-	if (currentKeyStates[SDL_SCANCODE_S]) { mCharacter->MoveForward(deltaTime, -1.0f); }
+	if (currentKeyStates[SDL_SCANCODE_A]) { mCharacter->MoveRight(-1.0f); }
+	if (currentKeyStates[SDL_SCANCODE_D]) { mCharacter->MoveRight(1.0f); }
+	if (currentKeyStates[SDL_SCANCODE_W]) { mCharacter->MoveForward(1.0f); }
+	if (currentKeyStates[SDL_SCANCODE_S]) { mCharacter->MoveForward(-1.0f); }
 
 	for (SDL_Event e : events)
 	{
@@ -69,8 +69,8 @@ void PlayerController::Update(float deltaTime, std::vector<SDL_Event> events)
 	
 	if ((mLeftStickAxis_X*mLeftStickAxis_X) + (mLeftStickAxis_Y*mLeftStickAxis_Y) > mJoystickDeadZone / 32767.0f)
 	{
-		mCharacter->MoveRight(deltaTime, mLeftStickAxis_X);
-		mCharacter->MoveForward(deltaTime, -mLeftStickAxis_Y);
+		mCharacter->MoveRight(mLeftStickAxis_X);
+		mCharacter->MoveForward(-mLeftStickAxis_Y);
 	}
 }
 

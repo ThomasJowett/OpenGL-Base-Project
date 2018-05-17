@@ -1,8 +1,6 @@
 #include "Shader.h"
 #include <iostream>
 #include <fstream>
-#include <glm.hpp>
-#include <gtc\matrix_transform.hpp>
 
 Shader::Shader(const std::string& fileName)
 {
@@ -15,9 +13,9 @@ Shader::Shader(const std::string& fileName)
 		glAttachShader(mProgram, mShaders[i]);
 	}
 
-	glBindAttribLocation(mProgram, 0, "position");
-	glBindAttribLocation(mProgram, 1, "texCoord");
-	glBindAttribLocation(mProgram, 2, "normal");
+	//glBindAttribLocation(mProgram, 0, "position");
+	//glBindAttribLocation(mProgram, 1, "texCoord");
+	//glBindAttribLocation(mProgram, 2, "normal");
 
 	glLinkProgram(mProgram);
 	CheckShaderError(mProgram, GL_LINK_STATUS, true, "Error: Program linking failed: ");
@@ -25,9 +23,23 @@ Shader::Shader(const std::string& fileName)
 	glValidateProgram(mProgram);
 	CheckShaderError(mProgram, GL_VALIDATE_STATUS, true, "Error: Program is invalid: ");
 
+	//Position
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	//TexCoord
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+
+	//Normal
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(2);
+
 	mUniforms[MODEL_U] = glGetUniformLocation(mProgram, "model");
 	mUniforms[VIEW_U] = glGetUniformLocation(mProgram, "view");
 	mUniforms[PROJECTION_U] = glGetUniformLocation(mProgram, "projection");
+	mUniforms[EYEPOSW_U] = glGetUniformLocation(mProgram, "eyePosW");
+	mUniforms[LIGHTPOSW_U] = glGetUniformLocation(mProgram, "lightPosW");
 }
 
 void Shader::Bind()
@@ -35,25 +47,27 @@ void Shader::Bind()
 	glUseProgram(mProgram);
 }
 
-void Shader::Update(const Transform & transform, Camera& camera)
+void Shader::UpdateWorld(const Transform & transform)
 {
 	Matrix4x4 model = transform.GetWorldMatrix();
 	glUniformMatrix4fv(mUniforms[MODEL_U], 1, GL_TRUE, &model.m[0][0]);
+}
 
-	//glm::mat4 world = transform.GetWorldMatrix();
-	//glUniformMatrix4fv(mUniforms[WORLD_U], 1, GL_FALSE, &world[0][0]);
-
-	//glm::mat4 view = camera.GetView();
-	//glUniformMatrix4fv(mUniforms[VIEW_U], 1, GL_FALSE, &view[0][0]);
-
-	//glm::mat4 projection = camera.GetProjection();
-	//glUniformMatrix4fv(mUniforms[PROJECTION_U], 1, GL_FALSE, &projection[0][0]);
-
+void Shader::UpdateViewProjection(const Camera & camera)
+{
 	Matrix4x4 view = camera.GetView();
 	glUniformMatrix4fv(mUniforms[VIEW_U], 1, GL_FALSE, &view.m[0][0]);
 
 	Matrix4x4 projection = camera.GetProjection();
 	glUniformMatrix4fv(mUniforms[PROJECTION_U], 1, GL_FALSE, &projection.m[0][0]);
+
+	Vector3D eyePosW = camera.GetWorldTransform().GetPosition();
+	glUniform3f(mUniforms[EYEPOSW_U], eyePosW.x, eyePosW.y, eyePosW.z);
+}
+
+void Shader::UpdateLight(const Vector3D & lightPos)
+{
+	glUniform4f(mUniforms[LIGHTPOSW_U], lightPos.x, lightPos.y, lightPos.z, 1.0f);
 }
 
 Shader::~Shader()

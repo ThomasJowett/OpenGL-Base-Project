@@ -17,6 +17,7 @@ GameScreenLevel2::GameScreenLevel2()
 	glEnable(GL_DEPTH_TEST);							//Hidden surface removal
 	glShadeModel(GL_SMOOTH);
 
+	gluLookAt(0, 0, -100.0f, 0, 0, 0, 0, 1, 0);
 	//mCamera = new Camera(180.0f, -30.0f, 500.0f);
 
 	//clear background colour.
@@ -74,7 +75,7 @@ GameScreenLevel2::GameScreenLevel2()
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
 	mCharacter = new Level2Character("Denzel", transform, appearance, PhysicsComponent, collider, { 0.0f, 0.0f, 1.0f });
-	mCharacter->AddChild(mCamera);
+	//mCharacter->AddChild(mCamera);
 	mGameObjects.push_back(mCharacter);
 	
 
@@ -150,7 +151,7 @@ void GameScreenLevel2::Render()
 	glLoadIdentity();
 	glEnable(GL_LIGHTING);
 
-	mCamera->Render();
+	//mCamera->Render();
 	SetLight();
 	GameScreen::Render();//render all game objects
 

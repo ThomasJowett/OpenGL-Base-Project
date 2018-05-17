@@ -16,27 +16,27 @@ bool Character::CollisionEvent(GameObject* collidedWith)
 	return true;
 }
 
-void Character::MoveRight(float deltaTime, float scale)
+void Character::MoveRight(float scale)
 {
 	mPhysicsComponent->AddForce((mTransform->GetRotation() * mRight) * scale  * mMovementSpeed);
 }
 
-void Character::MoveForward(float deltaTime, float scale)
+void Character::MoveForward(float scale)
 {
 	mPhysicsComponent->AddForce((mTransform->GetRotation() * mForward) * scale  * mMovementSpeed);
 }
 
-void Character::Yaw(float deltaTime, float scale)
+void Character::Yaw(float scale)
 {
 	//rotate quaternion about up vector
 }
 
-void Character::Pitch(float deltaTime, float scale)
+void Character::Pitch(float scale)
 {
 	//rotate quaternion about right vector
 }
 
-void Character::Roll(float deltaTime, float scale)
+void Character::Roll(float scale)
 {
 	//rotate quaternion about forward vector
 }

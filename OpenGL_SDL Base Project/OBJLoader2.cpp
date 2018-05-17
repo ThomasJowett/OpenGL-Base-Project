@@ -10,7 +10,11 @@ static inline unsigned int ParseOBJIndexValue(const std::string& token, unsigned
 static inline float ParseOBJFloatValue(const std::string& token, unsigned int start, unsigned int end);
 static inline std::vector<std::string> SplitString(const std::string &s, char delim);
 
-OBJModel::OBJModel(const std::string& fileName)
+OBJModel::OBJModel()
+{
+}
+
+IndexedModel OBJModel::LoadOBJ(const std::string & fileName)
 {
 	hasUVs = false;
 	hasNormals = false;
@@ -52,29 +56,11 @@ OBJModel::OBJModel(const std::string& fileName)
 	{
 		std::cerr << "Unable to load mesh: " << fileName << std::endl;
 	}
+
+	return ToIndexedModel();
 }
 
-void IndexedModel::CalcNormals()
-{
-	for (unsigned int i = 0; i < indices.size(); i += 3)
-	{
-		int i0 = indices[i];
-		int i1 = indices[i + 1];
-		int i2 = indices[i + 2];
 
-		Vector3D v1 = positions[i1] - positions[i0];
-		Vector3D v2 = positions[i2] - positions[i0];
-
-		Vector3D normal = Vector3D::Cross(v1, v2).GetNormalized();
-
-		normals[i0] += normal;
-		normals[i1] += normal;
-		normals[i2] += normal;
-	}
-
-	for (unsigned int i = 0; i < positions.size(); i++)
-		normals[i].Normalize();
-}
 
 IndexedModel OBJModel::ToIndexedModel()
 {

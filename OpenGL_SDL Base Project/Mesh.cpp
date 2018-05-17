@@ -1,11 +1,31 @@
 #include "Mesh.h"
 
+void IndexedModel::CalcNormals()
+{
+	for (unsigned int i = 0; i < indices.size(); i += 3)
+	{
+		int i0 = indices[i];
+		int i1 = indices[i + 1];
+		int i2 = indices[i + 2];
+
+		Vector3D v1 = positions[i1] - positions[i0];
+		Vector3D v2 = positions[i2] - positions[i0];
+
+		Vector3D normal = Vector3D::Cross(v1, v2).GetNormalized();
+
+		normals[i0] += normal;
+		normals[i1] += normal;
+		normals[i2] += normal;
+	}
+
+	for (unsigned int i = 0; i < positions.size(); i++)
+		normals[i].Normalize();
+}
 
 Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
 	IndexedModel model;
 
-	//mDrawCount = numVertices;
 	mDrawCount = numIndices;
 
 	glGenVertexArrays(1, &mVertexArrayObject);
@@ -32,9 +52,9 @@ Mesh::Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, un
 	InitMesh(model);
 }
 
-Mesh::Mesh(const std::string& fileName)
+Mesh::Mesh(IndexedModel model)
 {
-	InitMesh(OBJModel(fileName).ToIndexedModel());
+	InitMesh(model);
 }
 
 
@@ -84,7 +104,6 @@ void Mesh::InitMesh(const IndexedModel & model)
 	//Indices--------------------------------------------------------------------------------------------
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mVertexArrayBuffers[INDEX_VB]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.indices.size() * sizeof(model.indices[0]), &model.indices[0], GL_STATIC_DRAW);
-	
 
 	glBindVertexArray(0);
 }

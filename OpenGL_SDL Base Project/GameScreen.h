@@ -28,6 +28,7 @@ public:
 protected:
 	SceneNode* Root;
 	std::vector<GameObject*>mGameObjects;
+	std::vector<PlayerController*>mPlayerControllers;
 };
 
 

@@ -19,7 +19,7 @@ void StateReturnToBaseline::During(AICharacter * agent, float deltaTime)
 	}
 	else
 	{
-		agent->MoveForward(deltaTime, -1.0f);
+		agent->MoveForward(-1.0f);
 	}
 	//Attach ball to character
 }

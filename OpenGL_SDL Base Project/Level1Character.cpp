@@ -28,24 +28,24 @@ bool Level1Character::CollisionEvent(GameObject * collidedWith)
 	return true;
 }
 
-void Level1Character::MoveRight(float deltaTime, float scale)
+void Level1Character::MoveRight(float scale)
 {
 	mPhysicsComponent->AddForce(mForward * scale  * mMovementSpeed);
 }
 
-void Level1Character::MoveForward(float deltaTime, float scale)
+void Level1Character::MoveForward(float scale)
 {
 	mPhysicsComponent->AddForce(mRight * scale  * mMovementSpeed * -1.0f);
 }
 
-void Level1Character::Yaw(float deltaTime, float scale)
+void Level1Character::Yaw(float scale)
 {
 }
 
-void Level1Character::Pitch(float deltaTime, float scale)
+void Level1Character::Pitch(float scale)
 {
 }
 
-void Level1Character::Roll(float deltaTime, float scale)
+void Level1Character::Roll(float scale)
 {
 }

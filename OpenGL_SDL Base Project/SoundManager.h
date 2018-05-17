@@ -38,12 +38,6 @@ private:
 
 	static SoundManager * instance;
 
-	struct soundEffect
-	{
-		std::string filename;
-		Mix_Chunk* sound;
-	};
-
 	std::map<std::string, Mix_Chunk* > mSoundEffects;
 
 	static void InitAudioDevice();
