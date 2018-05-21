@@ -74,12 +74,12 @@ void GameScreenMenu::Render()
 	mImages[2]->DrawImage(20, 170, 1600.0f, 900.0f);
 	mImages[0]->DrawImage(mHighlightLocation.x, mHighlightLocation.y, 400.0f, 100.0f);
 
-	for (int i = 0; i <= mInstructions.size() -1; i++)
+	for (int i = 0; i <= (int)mInstructions.size() -1; i++)
 	{
 		mInstructionsText->DisplayText(mInstructions[i].c_str(), SDL_Colour{ 40,10,125 }, 1500, 840 + (i * 20), RIGHT);
 	}
 
-	for (int i = 0; i <= mMenuItems.size() - 1; i++)
+	for (int i = 0; i <= (int)mMenuItems.size() - 1; i++)
 	{
 		mMenuText->DisplayText(mMenuItems[i].c_str(), SDL_Colour{ 40, 10, 125 }, 1700, 350 - (i * 100), CENTER);
 	}

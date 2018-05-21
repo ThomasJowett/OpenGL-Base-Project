@@ -4,6 +4,7 @@
 #include "Mesh.h"
 #include "Texture2D.h"
 #include "Transform.h"
+#include "Camera.h"
 
 class TestLevel :
 	public GameScreen
@@ -16,11 +17,10 @@ public:
 	void Render() override;
 
 private:
-	Mesh* mesh;
-	Mesh* mesh2;
-	Shader* shader;
-	Transform transform;
-	Transform transform2;
+	Shader* mShader;
+
+	PointLight light;
+
 	Camera camera;
 
 	float rotation;

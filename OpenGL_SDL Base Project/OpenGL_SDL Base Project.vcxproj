@@ -44,13 +44,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\OpenGL_SDL Base Project\glm;..\OpenGL_SDL Base Project\GL;..\OpenGL_SDL Base Project\SDL\mixer_include;..\OpenGL_SDL Base Project\SDL\include;..\OpenGL_SDL Base Project\SDL\image_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\OpenGL_SDL Base Project\ASSIMP\include;..\OpenGL_SDL Base Project\glm;..\OpenGL_SDL Base Project\GL;..\OpenGL_SDL Base Project\SDL\mixer_include;..\OpenGL_SDL Base Project\SDL\include;..\OpenGL_SDL Base Project\SDL\image_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(PROJECTDIR)\SDL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(PROJECTDIR)\ASSIMP;$(PROJECTDIR)\SDL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -59,14 +59,18 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\OpenGL_SDL Base Project\ASSIMP\include;..\OpenGL_SDL Base Project\GL;..\OpenGL_SDL Base Project\SDL\image_include;..\OpenGL_SDL Base Project\SDL\mixer_include;..\OpenGL_SDL Base Project\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Library Include="ASSIMP\assimp.lib" />
     <Library Include="GL\glew32.lib" />
     <Library Include="GL\glew32s.lib" />
     <Library Include="GL\glut32.lib" />
@@ -94,6 +98,7 @@
     <ClInclude Include="GameScreenManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScreenMenu.h" />
+    <ClInclude Include="GuiTexture.h" />
     <ClInclude Include="iInput.h" />
     <ClInclude Include="ImageRender.h" />
     <ClInclude Include="iRenderable.h" />
@@ -103,6 +108,7 @@
     <ClInclude Include="Level2Enemy.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="OBJLoader2.h" />
     <ClInclude Include="ParticleModel.h" />
@@ -139,12 +145,14 @@
     <ClCompile Include="GameScreenManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScreenMenu.cpp" />
+    <ClCompile Include="GuiTexture.cpp" />
     <ClCompile Include="ImageRender.cpp" />
     <ClCompile Include="Level1Character.cpp" />
     <ClCompile Include="Level2Character.cpp" />
     <ClCompile Include="Level2Enemy.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="OBJLoader2.cpp" />
     <ClCompile Include="ParticleModel.cpp" />

@@ -23,9 +23,9 @@ GameScreenLevel2::GameScreenLevel2()
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
 
-	MeshData floorGeometry = OBJLoader::LoadOBJ("Models/Floor.obj");
-	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Models/Dodgeball.obj");
-	MeshData characterGeometry = OBJLoader::LoadOBJ("Models/SpaceMan.obj");
+	//MeshData floorGeometry = OBJLoader::LoadOBJ("Models/Floor.obj");
+	//MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Models/Dodgeball.obj");
+	//MeshData characterGeometry = OBJLoader::LoadOBJ("Models/SpaceMan.obj");
 
 	//Load Textures
 	GLuint dodgeBallTextureID = Texture2D::LoadTexture2D("Textures/Dodgeball_Diffuse.png");
@@ -62,7 +62,7 @@ GameScreenLevel2::GameScreenLevel2()
 	GameObject * gameObject;
 	
 	//the floor
-	appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
+	appearance = new Appearance(nullptr, floorMaterial, courtTextureID, courtTextureID);
 	transform = new Transform({ 0.0f,0.0f,0.0f }, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	collider = new AABB(transform, 10.0f, 944.0f, 1700.0f);
 	gameObject = new GameObject("Floor", transform, appearance, nullptr, collider);
@@ -70,7 +70,7 @@ GameScreenLevel2::GameScreenLevel2()
 	
 	//the Character
 	position = { 0.0f, 100.0f, -800.0f };
-	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
+	appearance = new Appearance(nullptr, SpaceManMaterial, SpaceManTextureID, SpaceManTextureID);
 	transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
@@ -84,7 +84,7 @@ GameScreenLevel2::GameScreenLevel2()
 
 	//the oponent
 	position = { 0.0f, 100.0f, 800.0f };
-	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
+	appearance = new Appearance(nullptr, SpaceManMaterial, SpaceManTextureID, SpaceManTextureID);
 	transform = new Transform(position, { 0.0f, (float)M_PI, 0.0f}, { 1.0f, 1.0f, 1.0f });
 	PhysicsComponent = new ParticleModel(100.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
@@ -97,7 +97,7 @@ GameScreenLevel2::GameScreenLevel2()
 	for (int i = 0; i < 8; i++)
 	{
 		position.x = 200.0f + (-50.0f * i);
-		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
+		appearance = new Appearance(nullptr, dodgeballMaterial, dodgeBallTextureID, dodgeBallTextureID);
 		transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 		collider = new Sphere(transform, 10.0f);
 		PhysicsComponent = new ParticleModel(10, { 0.0f, 0.0f, 0.0f }, transform);
@@ -122,7 +122,7 @@ GameScreenLevel2::GameScreenLevel2()
 }
 
 void GameScreenLevel2::SetLight() {
-	Lighting light = {
+	PointLight light = {
 		{ 0.2f, 0.2f, 0.2f, 1.0f },
 		{ 0.7f, 0.7f, 0.7f, 1.0f },
 		{ 0.5f, 0.5f, 0.5f, 1.0f }
@@ -173,7 +173,7 @@ void GameScreenLevel2::Update(float deltaTime, std::vector<SDL_Event> events)
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 	int i = 0;
-	while (i < mGameObjects.size())
+	while (i < (int)mGameObjects.size())
 	{
 		if (mGameObjects.at(i)->GetWorldTransform().GetPosition().y < -10.0f)
 		{
@@ -185,8 +185,8 @@ void GameScreenLevel2::Update(float deltaTime, std::vector<SDL_Event> events)
 			i++;
 	}
 
-	sprintf(mPlayerScore, "%i", mCharacter->GetTimesHit());
-	sprintf(mEnemyScore, "%i", mEnemy->GetTimesHit());
+	sprintf_s(mPlayerScore, "%i", mCharacter->GetTimesHit());
+	sprintf_s(mEnemyScore, "%i", mEnemy->GetTimesHit());
 
 	if (!GetAllGameObjectsWithTag("Ball").size())
 	{

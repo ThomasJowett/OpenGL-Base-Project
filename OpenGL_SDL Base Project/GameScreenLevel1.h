@@ -27,6 +27,7 @@ public:
 	void		SetLight();
 //--------------------------------------------------------------------------------------------------
 private:
+	Shader* mShader;
 	Camera* mCamera;
 	PlayerController* mPlayerController;
 

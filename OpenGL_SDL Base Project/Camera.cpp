@@ -7,6 +7,7 @@ static float lookSpeed = 0.5f;
 
 Camera::Camera() 
 {
+	mTransform = new Transform();
 }
 
 Camera::~Camera()
@@ -23,13 +24,13 @@ void Camera::Initialise(Vector3D eyePosition, Vector3D forward, Vector3D up, flo
 	mProjection = Matrix4x4::Perspective((fovY), (float)SCREEN_WIDTH / SCREEN_HEIGHT, nearDepth, farDepth);
 }
 
-void Camera::Update()
+void Camera::Update(Shader* shader)
 {
-	Vector3D mEyePos = GetWorldTransform().GetPosition();
+	Vector3D eyePos = GetWorldTransform().GetPosition();
 
 	//mUp = { 0.0f, 1.0f, 0.0f };
 
-	Vector3D mLookAtPos = mEyePos + mForward;
+	Vector3D mLookAtPos = eyePos + mForward;
 
 	/*
 	//Calculate the Camera Position
@@ -38,7 +39,9 @@ void Camera::Update()
 		mLookatPos.z + mDistance * cos((mYaw)*(M_PI / 180)) * cos((mPitch)*(M_PI / 180)));
 	*/
 
-	mView = Matrix4x4::LookAt(mEyePos, mLookAtPos, mUp);
+	mView = Matrix4x4::LookAt(eyePos, mLookAtPos, mUp);
+
+	shader->UpdateViewProjection(mView, mProjection, eyePos);
 }
 
 void Camera::Interact()

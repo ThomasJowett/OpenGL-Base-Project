@@ -18,7 +18,7 @@ public:
 	~GameObject() {}
 
 	virtual void Update(float deltaTime);
-	void Render() override;
+	virtual void Render(Shader* shader) override;
 
 	
 

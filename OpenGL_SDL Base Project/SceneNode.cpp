@@ -3,10 +3,10 @@
 SceneNode::SceneNode()
 {
 	mKeepMatrix = false;
-	pParent = NULL;
-	pLeftChild = NULL;
-	pRightSibling = NULL;
-	pLeftSibling = NULL;
+	pParent = nullptr;
+	pLeftChild = nullptr;
+	pRightSibling = nullptr;
+	pLeftSibling = nullptr;
 
 	mTransform = new Transform();
 }
@@ -14,10 +14,10 @@ SceneNode::SceneNode()
 SceneNode::SceneNode(Transform* transform):mTransform(transform)
 {
 	mKeepMatrix = false;
-	pParent = NULL;
-	pLeftChild = NULL;
-	pRightSibling = NULL;
-	pLeftSibling = NULL;
+	pParent = nullptr;
+	pLeftChild = nullptr;
+	pRightSibling = nullptr;
+	pLeftSibling = nullptr;
 }
 
 SceneNode::~SceneNode()
@@ -28,18 +28,18 @@ SceneNode::~SceneNode()
 void SceneNode::AddChild(SceneNode *node)
 {
 	//if the node to be attached has a parent deal with the old reference
-	if (node->pParent != NULL)
+	if (node->pParent != nullptr)
 	{
 		if (node->pParent->pLeftChild == node)
 		{
 			node->pParent->pLeftChild = node->pRightSibling;
 		}
 
-		if (node->pLeftSibling != NULL)
+		if (node->pLeftSibling != nullptr)
 		{
 			node->pLeftSibling->pRightSibling = node->pRightSibling;
 
-			if (node->pRightSibling != NULL)
+			if (node->pRightSibling != nullptr)
 			{
 				node->pRightSibling->pLeftSibling = node->pLeftSibling;
 			}
@@ -47,13 +47,13 @@ void SceneNode::AddChild(SceneNode *node)
 	}
 
 	//if this node has children then move them down the list
-	if (pLeftChild != NULL)
+	if (pLeftChild != nullptr)
 	{
 		pLeftChild->pLeftSibling = node;
 	}
 
 	//setup the new nodes references
-	node->pLeftSibling = NULL;
+	node->pLeftSibling = nullptr;
 	node->pParent = this;
 	node->pRightSibling = pLeftChild;
 	pLeftChild = node;
@@ -62,18 +62,18 @@ void SceneNode::AddChild(SceneNode *node)
 void SceneNode::RemoveSelf()
 {
 	//Deal with parents and siblings
-	if (pParent != NULL)
+	if (pParent != nullptr)
 	{
 		if (pParent->pLeftChild == this)
 		{
 			pParent->pLeftChild = pRightSibling;
 		}
 
-		if (pLeftSibling != NULL)
+		if (pLeftSibling != nullptr)
 		{
 			pLeftSibling->pRightSibling = pRightSibling;
 
-			if (pRightSibling != NULL)
+			if (pRightSibling != nullptr)
 			{
 				pRightSibling->pLeftSibling = pLeftSibling;
 			}
@@ -81,7 +81,7 @@ void SceneNode::RemoveSelf()
 	}
 
 	//Deal with children
-	if (pLeftChild != NULL)
+	if (pLeftChild != nullptr)
 	{
 		pLeftChild->pParent = pParent;
 		SceneNode* rightSibling = pLeftChild->pRightSibling;
@@ -101,18 +101,18 @@ void SceneNode::RemoveSelf()
 void SceneNode::RemoveSelfAndChildren()
 {
 	//Deal with parents and siblings
-	if (pParent != NULL)
+	if (pParent != nullptr)
 	{
 		if (pParent->pLeftChild == this)
 		{
 			pParent->pLeftChild = pRightSibling;
 		}
 
-		if (pLeftSibling != NULL)
+		if (pLeftSibling != nullptr)
 		{
 			pLeftSibling->pRightSibling = pRightSibling;
 
-			if (pRightSibling != NULL)
+			if (pRightSibling != nullptr)
 			{
 				pRightSibling->pLeftSibling = pLeftSibling;
 			}
@@ -125,19 +125,29 @@ void SceneNode::RemoveSelfAndChildren()
 	pLeftSibling = nullptr;
 }
 
-void SceneNode::Traverse()
+void SceneNode::Render(Shader* shader)
+{
+	mTransform->UpdateWorldMatrix();
+	shader->UpdateWorld(mTransform);
+}
+
+void SceneNode::Traverse(Shader* shader)
 {
 	//TODO: use with buffers
 	if (!mKeepMatrix)
+	{
 		//glPushMatrix();
+	}
 
-	Render();
-	if (pLeftChild != NULL)
-		pLeftChild->Traverse();
+	Render(shader);
+	if (pLeftChild != nullptr)
+		pLeftChild->Traverse(shader);
 	if (!mKeepMatrix)
+	{
 		//glPopMatrix();
-	if (pRightSibling != NULL)
-		pRightSibling->Traverse();
+	}
+	if (pRightSibling != nullptr)
+		pRightSibling->Traverse(shader);
 }
 
 Transform SceneNode::GetWorldTransform() const

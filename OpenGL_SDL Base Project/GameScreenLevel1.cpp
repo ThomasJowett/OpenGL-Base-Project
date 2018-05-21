@@ -1,37 +1,34 @@
 #include "GameScreenLevel1.h"
+#include "OBJLoader2.h"
 
 using namespace::std;
 
 //--------------------------------------------------------------------------------------------------
 
-GameScreenLevel1::GameScreenLevel1() : GameScreen()
+GameScreenLevel1::GameScreenLevel1()
 {
+	mShader = new Shader("Shaders/BasicShader");
+
 	mWon = false;
-	std::cout << "GameScreenLevel1Constructor\n";
 	srand(time(NULL));
-
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	float aspect = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
-	gluPerspective(60.0f,aspect,0.1f,1000000.0f);
-
-	glMatrixMode(GL_MODELVIEW);
 
 	glEnable(GL_CULL_FACE);								//Stop calculation of inside faces
 	glEnable(GL_DEPTH_TEST);							//Hidden surface removal
 	glShadeModel(GL_SMOOTH);
 
-	//mCamera = new Camera(90.0f, -30.0f, 1300.0f);
+	mCamera = new Camera();
+
+	mCamera->Initialise(Vector3D(0, 1000, -1000), Vector3D(0, -1, 1), Vector3D(0, 1, 0), 90, 0.1f, 10000.0f);
 
 	//clear background colour.
 	glClearColor(0.7f, 0.8f, 1.0f, 1.0f);
+
+	OBJModel obj;
 	
 	//Load Models
-	MeshData floorGeometry = OBJLoader::LoadOBJ("Models/Floor.obj");
-	MeshData dodgeballGeometry = OBJLoader::LoadOBJ("Models/Dodgeball.obj");
-	MeshData characterGeometry = OBJLoader::LoadOBJ("Models/SpaceMan.obj");
+	Mesh* floorGeometry = new Mesh(obj.LoadOBJ("Models/Floor.obj", false));
+	Mesh* dodgeballGeometry = new Mesh(obj.LoadOBJ("Models/Dodgeball.obj", false));
+	Mesh* characterGeometry = new Mesh(obj.LoadOBJ("Models/SpaceMan.obj", false));
 
 	//Load Textures
 	GLuint dodgeBallTextureID = Texture2D::LoadTexture2D("Textures/Dodgeball_Diffuse.png");
@@ -64,7 +61,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	Vector3D position;
 	GameObject * gameObject;
 
-	Appearance * appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID);
+	Appearance * appearance = new Appearance(floorGeometry, floorMaterial, courtTextureID, courtTextureID);
 	transform = new Transform({ 0.0f,0.0f,0.0f }, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 
 	Collider * collider = new AABB(transform, 10.0f, 944.0f, 1700.0f);
@@ -73,7 +70,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	mGameObjects.push_back(gameObject);
 	position = { 0.0f, 100.0f, -800.0f };
 
-	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID);
+	appearance = new Appearance(characterGeometry, SpaceManMaterial, SpaceManTextureID, SpaceManTextureID);
 	transform = new Transform(position, {0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 	particle = new ParticleModel(10.0f, { 0.0f, 0.0f, 0.0f }, transform);
 	collider = new Sphere(transform, 62.0f);
@@ -88,7 +85,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 		position.x = 800 * (float)rand() / (RAND_MAX) -400;
 		position.y = 800 * (float)rand() / (RAND_MAX);
 		position.z = 1600 * (float)rand() / (RAND_MAX) -800;
-		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID);
+		appearance = new Appearance(dodgeballGeometry, dodgeballMaterial, dodgeBallTextureID, dodgeBallTextureID);
 		transform = new Transform(position, { 1.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f,1.0f });
 		collider = new Sphere(transform, 10.0f);
 		//particle = new ParticleModel(1000 * (float)rand() / (RAND_MAX), { 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f, 1 * (float)rand() / (RAND_MAX)-0.5f }, transform, 20.0f);
@@ -98,9 +95,6 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 
 		mGameObjects.push_back(gameObject);
 	}
-	
-	//Initialise Root Node
-	Root = new SceneNode;
 
 	//Set the Relationships
 	for (auto gameObject : mGameObjects)
@@ -112,17 +106,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 	//FPS Counter
 	mInitialTime = time(NULL);
 	mFrameCount = 0;
-
-	//glutTimerFunc();
-
-	//enable Lighting
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
 	
-
-	//Enable the Texture2D
-	glEnable(GL_TEXTURE_2D);
-
 	mText = new TextRender("Fonts/Calibri.ttf", 20);
 	
 	//pre-load the sound effects
@@ -136,7 +120,7 @@ GameScreenLevel1::GameScreenLevel1() : GameScreen()
 //--------------------------------------------------------------------------------------------------
 
 void GameScreenLevel1::SetLight() {
-	Lighting light = {
+	PointLight light = {
 		{ 0.2f, 0.2f, 0.2f, 1.0f },
 		{ 0.7f, 0.7f, 0.7f, 1.0f },
 		{ 0.5f, 0.5f, 0.5f, 1.0f }
@@ -153,27 +137,25 @@ void GameScreenLevel1::SetLight() {
 
 GameScreenLevel1::~GameScreenLevel1()
 {	
-	if (Root)  delete Root;
+	if (mShader) delete mShader;
 }
 
 //--------------------------------------------------------------------------------------------------
 
 void GameScreenLevel1::Render()
-{
-	glEnable(GL_LIGHTING);
-	glLoadIdentity();
-		
+{		
 	//mCamera->Render();
-	SetLight();
-
-	GameScreen::Render();
-
-	glDisable(GL_LIGHTING);
+	//SetLight();
+	mShader->Bind();
+	mCamera->Update(mShader);
+	//mShader->UpdateLight(Vector3D(0, 10000, 0));
+	Root->Traverse(mShader);
+	mShader->UnBind();
 
 	//Render text
-	mText->DisplayText(mTime, SDL_Colour{ 1,5,1 }, 1632, 1000, LEFT);
-	mText->DisplayText(FPS, SDL_Colour{ 1,1,1 }, 96, 1000, RIGHT);
-	mText->DisplayText(mBallsHit, SDL_Colour{ 1,1,1 }, 96, 20, RIGHT);
+	mText->DisplayText(mTime, SDL_Colour{ 255,255,255 }, 1632, 1000, LEFT);
+	mText->DisplayText(FPS, SDL_Colour{ 255,255,255 }, 96, 1000, RIGHT);
+	mText->DisplayText(mBallsHit, SDL_Colour{ 255,255,255 }, 96, 20, RIGHT);
 }
 //--------------------------------------------------------------------------------------------------
 void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> events)
@@ -215,23 +197,19 @@ void GameScreenLevel1::Update(float deltaTime, std::vector<SDL_Event> events)
 	// check for collisions
 	Collision::ResolveCollisions(Collision::DetectCollisions(mGameObjects));
 
-
-
-	mCamera->Update();
-	
 	//Update FPS
 	mFrameCount++;
 	mFinalTime = time(NULL);
 	if (mFinalTime - mInitialTime >= 1)
 	{
-		sprintf(FPS, "FPS: %i", mFrameCount / (mFinalTime - mInitialTime));
+		sprintf_s(FPS, "FPS: %i", mFrameCount / (mFinalTime - mInitialTime));
 		mFrameCount = 0;
 		mInitialTime = mFinalTime;
 	}
 
 	//update timer
 	mTimer += deltaTime;
-	sprintf(mTime, "Time: %fs", mTimer);
+	sprintf_s(mTime, "Time: %fs", mTimer);
 
 	//sprintf(mBallsHit, "%i", gBallsHit);
 	

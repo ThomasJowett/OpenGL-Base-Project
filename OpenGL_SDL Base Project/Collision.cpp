@@ -3,9 +3,9 @@
 std::vector<Contact> Collision::DetectCollisions(std::vector<GameObject*> gameObjects)
 {
 	std::vector<Contact>contacts;
-	for (int i = 0; i < gameObjects.size() - 1; i++)
+	for (int i = 0; i < (int)gameObjects.size() - 1; i++)
 	{
-		for (int j = i + 1; j < gameObjects.size(); j++)
+		for (int j = i + 1; j < (int)gameObjects.size(); j++)
 		{
 			 
 			if (gameObjects[i]->GetCollider() != nullptr && gameObjects[j]->GetCollider() != nullptr)
@@ -83,14 +83,14 @@ void Collision::ResolveCollisions(std::vector<Contact> contacts)
 			//move only first
 			contact.first->GetTransform()->SetPosition(contact.first->GetTransform()->GetPosition() + (contact.contactNormal*contact.penetrationDepth));
 
-			contact.first->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.first->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 0.8);
+			contact.first->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.first->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 0.8f);
 		}
 		else if (!moveFirst && moveSecond)
 		{
 			//move only second
 			contact.second->GetTransform()->SetPosition(contact.second->GetTransform()->GetPosition() + (contact.contactNormal*contact.penetrationDepth));
 
-			contact.second->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.second->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 0.8);
+			contact.second->GetPhysicsComponent()->SetVelocity(Vector3D::Reflect(contact.second->GetPhysicsComponent()->GetVelocity(), contact.contactNormal)* 0.8f);
 		}
 	}
 }

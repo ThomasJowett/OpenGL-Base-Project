@@ -1,10 +1,13 @@
 #pragma once
 
-#include <vector>
-#include "Commons.h"
-#include <iostream>
-#include <Windows.h>
-#include "Transform.h"
+//#include <vector>
+//#include "Commons.h"
+//#include <iostream>
+//#include <Windows.h>
+//#include "Transform.h"
+#include "Shader.h"
+
+//class Shader;
 
 class SceneNode {
 public:
@@ -14,8 +17,8 @@ public:
 	void AddChild(SceneNode *);
 	void RemoveSelf();
 	void RemoveSelfAndChildren();
-	virtual void Render() { mTransform->UpdateWorldMatrix(); }
-	void Traverse();
+	virtual void Render(Shader* shader);
+	void Traverse(Shader* shader);
 
 	void SetTransform(Transform * transform) { mTransform = transform; }
 	Transform * GetTransform() const { return mTransform; }

@@ -32,10 +32,18 @@ struct Vertex
 };
 
 
-struct Lighting {
+struct PointLight {
 	float ambient[4];
 	float diffuse[4];
 	float specular[4];
+	Vector3D position;
+};
+
+struct DirectionalLight {
+	float ambient[4];
+	float diffuse[4];
+	float specular[4];
+	Vector3D LightDirection;
 };
 
 struct Material {

@@ -12,8 +12,6 @@
 #include "GameScreenManager.h"
 #include "SoundManager.h"
 
-
-
 using namespace::std;
 
 //-----------------------------------------------------------------------------------------------------
@@ -174,7 +172,7 @@ void CloseSDL()
 
 void Render()
 {
-	glClearColor(0, 0, 0, 1);
+	glClearColor(0, 0, 0.4, 1);
 	GameScreenManager::GetInstance()->Render();
 
 	//Update the screen.

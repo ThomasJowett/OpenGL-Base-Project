@@ -1,0 +1,2 @@
+﻿Main.obj : error LNK2001: unresolved external symbol _aiImportFile
+F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Release\OpenGL_SDL Base Project.exe : fatal error LNK1120: 1 unresolved externals

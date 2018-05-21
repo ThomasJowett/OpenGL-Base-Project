@@ -16,7 +16,7 @@ public:
 	Camera();
 	~Camera();
 	void		Initialise(Vector3D eyePosition, Vector3D forward, Vector3D up, float fovY, float nearDepth, float farDepth);
-	void		Update();
+	void		Update(Shader* shader);
 
 	void MoveRight(float scale) override;
 	void MoveForward(float scale) override;

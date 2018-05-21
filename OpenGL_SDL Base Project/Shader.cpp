@@ -13,10 +13,6 @@ Shader::Shader(const std::string& fileName)
 		glAttachShader(mProgram, mShaders[i]);
 	}
 
-	//glBindAttribLocation(mProgram, 0, "position");
-	//glBindAttribLocation(mProgram, 1, "texCoord");
-	//glBindAttribLocation(mProgram, 2, "normal");
-
 	glLinkProgram(mProgram);
 	CheckShaderError(mProgram, GL_LINK_STATUS, true, "Error: Program linking failed: ");
 
@@ -35,43 +31,68 @@ Shader::Shader(const std::string& fileName)
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(2);
 
+	//Uniforms
 	mUniforms[MODEL_U] = glGetUniformLocation(mProgram, "model");
 	mUniforms[VIEW_U] = glGetUniformLocation(mProgram, "view");
 	mUniforms[PROJECTION_U] = glGetUniformLocation(mProgram, "projection");
 	mUniforms[EYEPOSW_U] = glGetUniformLocation(mProgram, "eyePosW");
-	mUniforms[LIGHTPOSW_U] = glGetUniformLocation(mProgram, "lightPosW");
+
+	//Texture Samplers
+	mUniforms[TEXTURE_DIFFUSE_U] = glGetUniformLocation(mProgram, "diffuseTexture");
+	glUniform1i(mUniforms[TEXTURE_DIFFUSE_U], 0);
+	mUniforms[TEXTURE_SPECULAR_U] = glGetUniformLocation(mProgram, "specularTexture");
+	glUniform1i(mUniforms[TEXTURE_SPECULAR_U], 1);
+
+	//UniformBlocks
+	glGenBuffers(1, &mUniformBlocks[MATERIAL_UB]);
+	glBindBuffer(GL_UNIFORM_BUFFER, mUniformBlocks[MATERIAL_UB]);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(Material), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, 1, mUniformBlocks[MATERIAL_UB], 0, sizeof(Material));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	GLuint MaterialIndex = glGetUniformBlockIndex(mProgram, "Material");
+	glUniformBlockBinding(mProgram, MaterialIndex, mUniformBlocks[MATERIAL_UB]);	
+	
+	glGenBuffers(1, &mUniformBlocks[LIGHT_UB]);
+	glBindBuffer(GL_UNIFORM_BUFFER, mUniformBlocks[LIGHT_UB]);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(PointLight), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, 2, mUniformBlocks[LIGHT_UB], 0, sizeof(PointLight));
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	GLuint LightIndex = glGetUniformBlockIndex(mProgram, "Light");
+	glUniformBlockBinding(mProgram, LightIndex, mUniformBlocks[LIGHT_UB]);
 }
 
-void Shader::Bind()
+void Shader::UpdateWorld(const Transform* transform)
 {
-	glUseProgram(mProgram);
-}
-
-void Shader::UpdateWorld(const Transform & transform)
-{
-	Matrix4x4 model = transform.GetWorldMatrix();
+	Matrix4x4 model = transform->GetWorldMatrix();
 	glUniformMatrix4fv(mUniforms[MODEL_U], 1, GL_TRUE, &model.m[0][0]);
 }
 
-void Shader::UpdateViewProjection(const Camera & camera)
+void Shader::UpdateViewProjection(const Matrix4x4& view, const Matrix4x4& projection, const Vector3D eyePosition)
 {
-	Matrix4x4 view = camera.GetView();
 	glUniformMatrix4fv(mUniforms[VIEW_U], 1, GL_FALSE, &view.m[0][0]);
 
-	Matrix4x4 projection = camera.GetProjection();
 	glUniformMatrix4fv(mUniforms[PROJECTION_U], 1, GL_FALSE, &projection.m[0][0]);
 
-	Vector3D eyePosW = camera.GetWorldTransform().GetPosition();
-	glUniform3f(mUniforms[EYEPOSW_U], eyePosW.x, eyePosW.y, eyePosW.z);
+	glUniform3f(mUniforms[EYEPOSW_U], eyePosition.x, eyePosition.y, eyePosition.z);
 }
 
-void Shader::UpdateLight(const Vector3D & lightPos)
+void Shader::UpdateLight(const PointLight& pointLight)
 {
-	glUniform4f(mUniforms[LIGHTPOSW_U], lightPos.x, lightPos.y, lightPos.z, 1.0f);
+	glBindBuffer(GL_UNIFORM_BUFFER, mUniformBlocks[LIGHT_UB]);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(PointLight), &pointLight);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void Shader::UpdateMaterial(const Material& material)
+{
+	glBindBuffer(GL_UNIFORM_BUFFER, mUniformBlocks[MATERIAL_UB]);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Material), &material);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 Shader::~Shader()
 {
+	UnBind();
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 	{
 		glDetachShader(mProgram, mShaders[i]);

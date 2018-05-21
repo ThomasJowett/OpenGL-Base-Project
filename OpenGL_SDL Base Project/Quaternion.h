@@ -147,8 +147,8 @@ public:
 		Quaternion q = quaternion;
 		if (q.r > 1)
 			q.Normalize();
-		angle = 2 * acos(q.r);
-		double s = sqrtf(1 - q.r*q.r);
+		angle = 2 * (float)acos(q.r);
+		float s = sqrtf(1 - q.r*q.r);
 
 		if (s < 0.001)
 		{
@@ -164,6 +164,6 @@ public:
 		}
 
 		//convert to degrees
-		angle *= (180 / M_PI);
+		angle *= (float)(180 / M_PI);
 	}
 };

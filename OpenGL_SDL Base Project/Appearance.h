@@ -3,29 +3,34 @@
 
 #include "iRenderable.h"
 #include "Commons.h"
+#include "Mesh.h"
+
 #include <gl\GLU.h>
 
 class Appearance : public IRenderable
 {
 public:
 	Appearance();
-	Appearance(MeshData geometry, Material material, GLuint textureID) : mGeometry(geometry), mMaterial(material), mTextureID(textureID) {}
-	~Appearance() {}
+	Appearance(Mesh* mesh, Material material, GLuint diffuseTexID, GLuint specularTexID) 
+		: mMesh(mesh), mMaterial(material), mDiffuseTexID(diffuseTexID), mSpecularTexID(specularTexID) {}
+	~Appearance() = default;
 
 	Material GetMaterial() const { return mMaterial; }
 	void SetMaterial(Material material) { mMaterial = material; }
 	void SetMaterial(float diffuse[4], float ambient[4], float specular[4], float specularPower);
 
-	MeshData GetGeometry() const { return mGeometry; }
-	void SetGeometry(MeshData geometry) { mGeometry = geometry; }
+	Mesh* GetMesh() const { return mMesh; }
+	void SetMesh(Mesh* mesh) { mMesh = mesh; }
 
-	GLuint GetTextureID() const { return mTextureID; }
+	GLuint GetDiffuseTextureID() const { return mDiffuseTexID; }
 
-	void Render();
+	void Render(Shader* shader) override;
 
 private:
-	MeshData mGeometry;
+	Mesh* mMesh;
 	Material mMaterial;
-	GLuint mTextureID;
+
+	GLuint mDiffuseTexID;
+	GLuint mSpecularTexID;
 };
 #endif // !_Appearance_H

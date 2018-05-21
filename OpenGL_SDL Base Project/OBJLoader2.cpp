@@ -14,8 +14,13 @@ OBJModel::OBJModel()
 {
 }
 
-IndexedModel OBJModel::LoadOBJ(const std::string & fileName)
+IndexedModel OBJModel::LoadOBJ(const std::string & fileName, bool invertTexCoords)
 {
+	OBJIndices.clear();
+	vertices.clear();
+	uvs.clear();
+	normals.clear();
+
 	hasUVs = false;
 	hasNormals = false;
 	std::ifstream file;
@@ -39,7 +44,12 @@ IndexedModel OBJModel::LoadOBJ(const std::string & fileName)
 			{
 			case 'v':
 				if (lineCStr[1] == 't')
-					this->uvs.push_back(ParseOBJVec2(line));
+				{
+					Vector2D texCoord = ParseOBJVec2(line);
+					if (invertTexCoords) texCoord.y = 1.0f - texCoord.y;
+
+					this->uvs.push_back(texCoord);
+				}
 				else if (lineCStr[1] == 'n')
 					this->normals.push_back(ParseOBJVec3(line));
 				else if (lineCStr[1] == ' ' || lineCStr[1] == '\t')

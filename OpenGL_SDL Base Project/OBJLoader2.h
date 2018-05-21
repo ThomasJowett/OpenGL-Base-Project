@@ -27,7 +27,7 @@ public:
 
 	OBJModel();
 
-	IndexedModel LoadOBJ(const std::string& fileName);
+	IndexedModel LoadOBJ(const std::string& fileName, bool invertTexCoords);
 
 	IndexedModel ToIndexedModel();
 private:

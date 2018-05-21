@@ -147,7 +147,7 @@ bool AABB::CheckCollision(Collider * otherCollider, Vector3D & normal, float & p
 			
 			//mtvAxis.z *= -1.0f;
 			normal = mtvAxis.GetNormalized()*-1.0f;
-			penetrationDepth = sqrt(mtvDistance);
+			penetrationDepth = (float)sqrt(mtvDistance);
 			mCollided = true;
 			otherCollider->SetCollided(true);
 			return true;

@@ -9,7 +9,8 @@ Appearance::Appearance()
 		20.0f
 	};
 
-	mTextureID = 0;
+	mDiffuseTexID = 0;
+	mSpecularTexID = 0;
 }
 
 void Appearance::SetMaterial(float diffuse[4], float ambient[4], float specular[4], float specularPower)
@@ -32,61 +33,27 @@ void Appearance::SetMaterial(float diffuse[4], float ambient[4], float specular[
 	mMaterial.specularPower = specularPower;
 }
 
-void Appearance::Render()
+void Appearance::Render(Shader* shader)
 {
 	//set the current material
-	glMaterialfv(GL_FRONT, GL_AMBIENT, mMaterial.ambient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, mMaterial.diffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, mMaterial.specular);
-	glMaterialf(GL_FRONT, GL_SHININESS, mMaterial.specularPower);
+	//glMaterialfv(GL_FRONT, GL_AMBIENT, mMaterial.ambient);
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, mMaterial.diffuse);
+	//glMaterialfv(GL_FRONT, GL_SPECULAR, mMaterial.specular);
+	//glMaterialf(GL_FRONT, GL_SHININESS, mMaterial.specularPower);
 
-	glBindTexture(GL_TEXTURE_2D, mTextureID); //Set the active texture
+	shader->UpdateMaterial(mMaterial);
 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, mDiffuseTexID); //Set the active diffuse texture
 
-	glBegin(GL_TRIANGLES); //glBegin and glEnd delimit the vertices that feine a primitive (triangles)
-	for (int l_index = 0; l_index < mGeometry.triangles_qty; l_index++)
-	{
-		//-----------------FIRST VERTEX ----------------//
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, mSpecularTexID); //Set the active specular texture
 
-		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].a].u,
-			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].a].v);
+	mMesh->Draw();
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0); //reset bound textures to zero
 
-		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].a].x,
-			mGeometry.normals[mGeometry.normalsIndices[l_index].a].y,
-			mGeometry.normals[mGeometry.normalsIndices[l_index].a].z);
-
-		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].a].x,
-			mGeometry.vertices[mGeometry.triangles[l_index].a].y,
-			mGeometry.vertices[mGeometry.triangles[l_index].a].z);
-
-		//-----------------SECOND VERTEX -----------------//
-
-
-		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].b].u,
-			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].b].v);
-
-		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].b].x,
-			mGeometry.normals[mGeometry.normalsIndices[l_index].b].y,
-			mGeometry.normals[mGeometry.normalsIndices[l_index].b].z);
-
-		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].b].x,
-			mGeometry.vertices[mGeometry.triangles[l_index].b].y,
-			mGeometry.vertices[mGeometry.triangles[l_index].b].z);
-
-		//-----------------THIRD VERTEX -----------------//
-
-		glTexCoord2f(mGeometry.texCoords[mGeometry.texCoordIndices[l_index].c].u, 
-			mGeometry.texCoords[mGeometry.texCoordIndices[l_index].c].v);
-
-		glNormal3f(mGeometry.normals[mGeometry.normalsIndices[l_index].c].x,
-			mGeometry.normals[mGeometry.normalsIndices[l_index].c].y,
-			mGeometry.normals[mGeometry.normalsIndices[l_index].c].z);
-
-		glVertex3f(mGeometry.vertices[mGeometry.triangles[l_index].c].x,
-			mGeometry.vertices[mGeometry.triangles[l_index].c].y,
-			mGeometry.vertices[mGeometry.triangles[l_index].c].z);
-	}
-	glEnd();
-
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

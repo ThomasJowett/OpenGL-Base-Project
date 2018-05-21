@@ -1,14 +1,37 @@
-﻿  Source.cpp
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(21): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(22): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(23): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(25): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(26): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(27): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(161): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(162): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(163): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\quaternion.h(167): warning C4305: '*=': truncation from 'double' to 'float'
-f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\source.cpp(42): warning C4305: 'initializing': truncation from 'double' to 'float'
-  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.exe
-  OpenGL_SDL Base Project.vcxproj -> F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.pdb (Full PDB)
+﻿  Main.cpp
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\main.cpp(175): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+  ModelLoader.cpp
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\modelloader.cpp(14): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  AIStateMachine.cpp
+  Generating Code...
+  Compiling...
+  TestLevel.cpp
+  StateThrowBall.cpp
+  StateReturnToBaseline.cpp
+  StateFindClosestBall.cpp
+  StateCelebrate.cpp
+  PlayerController.cpp
+  Level2Enemy.cpp
+  Level2Character.cpp
+  Level1Character.cpp
+  GameScreenMenu.cpp
+  GameObject.cpp
+  GameScreenManager.cpp
+  GameScreenLevel2.cpp
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel2.cpp(203): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+  GameScreenLevel1.cpp
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(216): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+f:\documents\onedrive - staffordshire university\university work\advanced games engine creation\opengl_sdl base project\opengl_sdl base project\gamescreenlevel1.cpp(221): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+  GameScreenHighScores.cpp
+  GameScreenGameOver.cpp
+  GameScreen.cpp
+  Collision.cpp
+  Character.cpp
+  Appearance.cpp
+  Generating Code...
+ModelLoader.obj : error LNK2019: unresolved external symbol _aiImportFile referenced in function "public: static struct IndexedModel __cdecl ModelLoader::LoadStaticMesh(char const *)" (?LoadStaticMesh@ModelLoader@@SA?AUIndexedModel@@PBD@Z)
+F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\OpenGL_SDL Base Project\\ASSIMP\assimp.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+ASSIMP\assimp.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+F:\Documents\OneDrive - Staffordshire University\University Work\Advanced Games Engine Creation\OpenGL_SDL Base Project\Debug\OpenGL_SDL Base Project.exe : fatal error LNK1120: 1 unresolved externals
